@@ -1,6 +1,5 @@
 {
   "name": "rooster",
-  "description": "",
   "version": "0.0.0",
   "main": "app.js",
   "private": true,
@@ -27,6 +26,19 @@
     "gulp": "^3.9.1",
     "gulp-browserify": "^0.5.1"
   },
+  "engine": {
+    "node": "*",
+    "npm": "*"
+  },
   "author": "Noah Loomans <noahloomans@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nloomans/rooster-mml.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nloomans/rooster-mml/issues"
+  },
+  "homepage": "https://github.com/nloomans/rooster-mml#readme",
+  "description": ""
 }
