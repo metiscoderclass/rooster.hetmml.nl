@@ -67,3 +67,7 @@ getUsers().then(function (users) {
 inputNode.addEventListener('click', function () {
   inputNode.select()
 })
+
+inputNode.addEventListener('blur', function () {
+  inputNode.selectionStart = inputNode.selectionEnd = -1
+})

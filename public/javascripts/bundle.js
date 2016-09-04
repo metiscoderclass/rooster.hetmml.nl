@@ -96965,4 +96965,8 @@ inputNode.addEventListener('click', function () {
   inputNode.select()
 })
 
+inputNode.addEventListener('blur', function () {
+  inputNode.selectionStart = inputNode.selectionEnd = -1
+})
+
 },{"./getURLOfUser":369,"./getUsers":370,"fuzzy":232}]},{},[371]);
