@@ -53,6 +53,11 @@ html, body {
    color:    #FFCDD2;
 }
 
+li:hover {
+  background-color: lightgray;
+  cursor: pointer;
+}
+
 .selected {
   background-color: lightgray;
 }

@@ -96837,7 +96837,9 @@ getUsers().then(function (users) {
     }
   })
 
-  searchNode.addEventListener('submit', function (e) {
+  searchNode.addEventListener('submit', submitForm)
+
+  function submitForm (e) {
     e.preventDefault()
     const indexInResult = selectedResult === -1 ? 0 : selectedResult
     const selectedUser = users[results[indexInResult].index]
@@ -96848,6 +96850,13 @@ getUsers().then(function (users) {
     inputNode.blur()
 
     scheduleIframe.src = getURLOfUser(0, selectedUser.type, selectedUser.index + 1)
+  }
+
+  autocompleteNode.addEventListener('click', function (e) {
+    if (e.target.tagName === 'LI' && e.target.parentElement === autocompleteNode) {
+      selectedResult = Array.prototype.indexOf.call(e.target.parentElement.childNodes, e.target)
+      submitForm({preventDefault: function () {}}) // HACK: this is horrible.
+    }
   })
 })
 
