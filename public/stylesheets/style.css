@@ -11,6 +11,12 @@ html, body {
   height: 100vh;
 }
 
+.other {
+  color: gray;
+  font-style: italic;
+  margin-left: 5px;
+}
+
 #search {
   background-color: #F44336;
   margin: 0 auto;

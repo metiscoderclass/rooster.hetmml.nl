@@ -13,6 +13,8 @@
     "cheerio": "^0.22.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
+    "diacritics": "^1.2.3",
+    "encoding": "^0.1.12",
     "express": "~4.13.4",
     "fuzzy": "^0.1.1",
     "jade": "~1.11.0",

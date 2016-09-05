@@ -5,6 +5,7 @@ const searchNode = document.querySelector('#search')
 const inputNode = searchNode.querySelector('input[type="text"]')
 const autocompleteNode = document.querySelector('.autocomplete')
 const scheduleIframe = document.querySelector('#schedule')
+const removeDiacritics = require('diacritics').remove
 
 let selectedResult = -1
 let results
@@ -35,16 +36,14 @@ getUsers().then(function (users) {
       if (inputNode.value.trim() === '') return
 
       selectedResult = -1
-      results = fuzzy.filter(inputNode.value, users, {
-        pre: '<strong>',
-        post: '</strong>',
-        extract: function (el) { return el.value }
+      results = fuzzy.filter(removeDiacritics(inputNode.value), users, {
+        extract: function (el) { return removeDiacritics(el.value) }
       }).slice(0, 7)
-      matches = results.map(function (el) { return el.string })
+      matches = results.map(function (el) { return users[el.index].value })
 
-      matches.forEach(function (match) {
+      results.forEach(function (result) {
         const resultNode = document.createElement('li')
-        resultNode.innerHTML = match
+        resultNode.innerHTML = `${result.original.value}<span class="other">${result.original.other}</span>`
         autocompleteNode.appendChild(resultNode)
       })
     }
