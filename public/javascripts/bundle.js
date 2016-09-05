@@ -96739,7 +96739,7 @@ const cheerio = require('cheerio')
 const request = Promise.promisify(require('request'))
 
 module.exports = function () {
-  return new Promise((resolve, reject) => {
+  return new Promise(function (resolve, reject) {
     request(`http://${window.location.host}/meetingpointProxy/Roosters-AL%2Fdoc%2Fdagroosters%2Fframes%2Fnavbar.htm`)
     .then(function (page) {
       page = page.body
@@ -96752,26 +96752,34 @@ module.exports = function () {
       const items = regexs.map(regex => scriptText.match(regex)[1].split(',').map(item => item.replace(/"/g, '')))
 
       resolve([]
-      .concat(items[0].map((item, index) => ({
-        type: 'c',
-        value: item,
-        index: index
+      .concat(items[0].map(function (item, index) {
+        return {
+          type: 'c',
+          value: item,
+          index: index
+        }
+      }))
+      .concat(items[1].map(function (item, index) {
+        return {
+          type: 't',
+          value: item,
+          index: index
+        }
+      }))
+      .concat(items[2].map(function (item, index) {
+        return {
+          type: 'r',
+          value: item,
+          index: index
+        }
+      }))
+      .concat(items[3].map(function (item, index) {
+        return {
+          type: 's',
+          value: item,
+          index: index
+        }
       })))
-      .concat(items[1].map((item, index) => ({
-        type: 't',
-        value: item,
-        index: index
-      })))
-      .concat(items[2].map((item, index) => ({
-        type: 'r',
-        value: item,
-        index: index
-      })))
-      .concat(items[3].map((item, index) => ({
-        type: 's',
-        value: item,
-        index: index
-      }))))
     })
   })
 }
