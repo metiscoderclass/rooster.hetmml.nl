@@ -38,7 +38,7 @@ getUsers().then(function (users) {
       results = fuzzy.filter(inputNode.value, users, {
         pre: '<strong>',
         post: '</strong>',
-        extract: el => el.value
+        extract: function (el) { return el.value }
       }).slice(0, 7)
       matches = results.map(function (el) { return el.string })
 

@@ -13,7 +13,11 @@ module.exports = function () {
       const scriptText = $script.text()
 
       const regexs = [/var classes = \[(.+)\];/, /var teachers = \[(.+)\];/, /var rooms = \[(.+)\];/, /var students = \[(.+)\];/]
-      const items = regexs.map(regex => scriptText.match(regex)[1].split(',').map(item => item.replace(/"/g, '')))
+      const items = regexs.map(function (regex) {
+        return scriptText.match(regex)[1].split(',').map(function (item) {
+          return item.replace(/"/g, '')
+        })
+      })
 
       resolve([]
       .concat(items[0].map(function (item, index) {
