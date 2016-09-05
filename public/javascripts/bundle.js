@@ -72634,51 +72634,6 @@ const request = Promise.promisify(require('request'))
 module.exports = function () {
   return request(`http://${window.location.host}/getUserIndex`)
     .then(data => JSON.parse(data.body))
-    // request(`http://${window.location.host}/meetingpointProxy/Roosters-AL%2Fdoc%2Fdagroosters%2Fframes%2Fnavbar.htm`)
-    // .then(function (page) {
-    //   page = page.body
-    //
-    //   const $ = cheerio.load(page)
-    //   const $script = $('script').eq(1)
-    //   const scriptText = $script.text()
-    //
-    //   const regexs = [/var classes = \[(.+)\];/, /var teachers = \[(.+)\];/, /var rooms = \[(.+)\];/, /var students = \[(.+)\];/]
-    //   const items = regexs.map(function (regex) {
-    //     return scriptText.match(regex)[1].split(',').map(function (item) {
-    //       return item.replace(/"/g, '')
-    //     })
-    //   })
-    //
-    //   resolve([]
-    //   .concat(items[0].map(function (item, index) {
-    //     return {
-    //       type: 'c',
-    //       value: item,
-    //       index: index
-    //     }
-    //   }))
-    //   .concat(items[1].map(function (item, index) {
-    //     return {
-    //       type: 't',
-    //       value: item,
-    //       index: index
-    //     }
-    //   }))
-    //   .concat(items[2].map(function (item, index) {
-    //     return {
-    //       type: 'r',
-    //       value: item,
-    //       index: index
-    //     }
-    //   }))
-    //   .concat(items[3].map(function (item, index) {
-    //     return {
-    //       type: 's',
-    //       value: item,
-    //       index: index
-    //     }
-    //   })))
-    // })
 }
 
 },{"bluebird":179,"request":255}],307:[function(require,module,exports){
@@ -72727,7 +72682,6 @@ getUsers().then(function (users) {
 
       results.forEach(function (result) {
         const resultNode = document.createElement('li')
-        console.log(result)
         resultNode.innerHTML = `${result.original.value}<span class="other">${result.original.other}</span>`
         autocompleteNode.appendChild(resultNode)
       })
