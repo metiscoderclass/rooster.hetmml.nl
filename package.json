@@ -25,7 +25,9 @@
     "then-yield": "0.0.1"
   },
   "devDependencies": {
+    "babel-preset-es2015": "^6.14.0",
     "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
     "gulp-browserify": "^0.5.1"
   },
   "engine": {
