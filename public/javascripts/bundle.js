@@ -72665,10 +72665,8 @@ function updateWeekText () {
   else currentWeekNode.innerHTML = `<strong>Week ${getWeek() + offset}</strong>`
 }
 
-updateWeekText()
-
 getUsers().then(function (users) {
-  // console.log(users)
+  updateWeekText()
 
   searchNode.addEventListener('keydown', function (e) {
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
@@ -72747,6 +72745,9 @@ inputNode.addEventListener('click', function () {
 
 inputNode.addEventListener('blur', function () {
   inputNode.selectionStart = inputNode.selectionEnd = -1
+})
+
+searchNode.addEventListener('blur', function (e) {
   autocompleteNode.innerHTML = ''
 })
 

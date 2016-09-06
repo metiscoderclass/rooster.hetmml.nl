@@ -102,5 +102,8 @@ inputNode.addEventListener('click', function () {
 
 inputNode.addEventListener('blur', function () {
   inputNode.selectionStart = inputNode.selectionEnd = -1
+})
+
+searchNode.addEventListener('blur', function (e) {
   autocompleteNode.innerHTML = ''
 })
