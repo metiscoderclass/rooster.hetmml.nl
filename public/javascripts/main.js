@@ -1,18 +1,29 @@
 const fuzzy = require('fuzzy')
 const getUsers = require('./getUsers')
 const getURLOfUser = require('./getURLOfUser')
+const removeDiacritics = require('diacritics').remove
+const getWeek = require('./getWeek')
+
 const searchNode = document.querySelector('#search')
 const inputNode = searchNode.querySelector('input[type="text"]')
 const autocompleteNode = document.querySelector('.autocomplete')
 const scheduleIframe = document.querySelector('#schedule')
-const removeDiacritics = require('diacritics').remove
+const prevButton = document.querySelectorAll('input[type="button"]')[0]
+const nextButton = document.querySelectorAll('input[type="button"]')[1]
+const currentWeekNode = document.querySelector('.current')
 
 let selectedResult = -1
 let results
 let matches
+let offset = 0
+
+function updateWeekText () {
+  if (offset === 0) currentWeekNode.innerHTML = `Week ${getWeek() + offset}`
+  else currentWeekNode.innerHTML = `<strong>Week ${getWeek() + offset}</strong>`
+}
 
 getUsers().then(function (users) {
-  // console.log(users)
+  updateWeekText()
 
   searchNode.addEventListener('keydown', function (e) {
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
@@ -52,7 +63,8 @@ getUsers().then(function (users) {
   searchNode.addEventListener('submit', submitForm)
 
   function submitForm (e) {
-    e.preventDefault()
+    if (results == null) return
+    if (e) e.preventDefault()
     const indexInResult = selectedResult === -1 ? 0 : selectedResult
     const selectedUser = users[results[indexInResult].index]
 
@@ -61,14 +73,26 @@ getUsers().then(function (users) {
 
     inputNode.blur()
 
-    scheduleIframe.src = getURLOfUser(0, selectedUser.type, selectedUser.index + 1)
+    scheduleIframe.src = getURLOfUser(offset, selectedUser.type, selectedUser.index + 1)
   }
 
   autocompleteNode.addEventListener('click', function (e) {
     if (e.target.tagName === 'LI' && e.target.parentElement === autocompleteNode) {
       selectedResult = Array.prototype.indexOf.call(e.target.parentElement.childNodes, e.target)
-      submitForm({preventDefault: function () {}}) // HACK: this is horrible.
+      submitForm()
     }
+  })
+
+  prevButton.addEventListener('click', function () {
+    offset--
+    updateWeekText()
+    submitForm()
+  })
+
+  nextButton.addEventListener('click', function () {
+    offset++
+    updateWeekText()
+    submitForm()
   })
 })
 
@@ -78,4 +102,5 @@ inputNode.addEventListener('click', function () {
 
 inputNode.addEventListener('blur', function () {
   inputNode.selectionStart = inputNode.selectionEnd = -1
+  autocompleteNode.innerHTML = ''
 })

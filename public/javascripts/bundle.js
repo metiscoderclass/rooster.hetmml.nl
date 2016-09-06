@@ -72581,7 +72581,31 @@ WError.prototype.cause = function we_cause(c)
 arguments[4][165][0].apply(exports,arguments)
 },{"dup":165}],305:[function(require,module,exports){
 const leftPad = require('left-pad')
+const getWeek = require('./getWeek')
 
+function getURLOfUsers (weekOffset, type, id) {
+  return `http://${window.location.host}/meetingpointProxy/Roosters-AL%2Fdoc%2Fdagroosters%2F` +
+      `${getWeek() + weekOffset}%2F${type}%2F${type}${leftPad(id, 5, '0')}.htm`
+}
+
+module.exports = getURLOfUsers
+
+module.exports.CLASS = 'c'
+module.exports.TEACHERS = 't'
+module.exports.ROOMS = 'r'
+module.exports.STUDENTS = 's'
+
+},{"./getWeek":307,"left-pad":238}],306:[function(require,module,exports){
+const Promise = require('bluebird')
+// const cheerio = require('cheerio')
+const request = Promise.promisify(require('request'))
+
+module.exports = function () {
+  return request(`http://${window.location.host}/getUserIndex`)
+    .then(data => JSON.parse(data.body))
+}
+
+},{"bluebird":179,"request":255}],307:[function(require,module,exports){
 // copied from http://www.meetingpointmco.nl/Roosters-AL/doc/dagroosters/untisscripts.js,
 // were using the same code as they do to be sure that we always get the same
 // week number.
@@ -72614,41 +72638,34 @@ function getWeek () {
   return 1 + Math.ceil((firstThursday - target) / 604800000) // 604800000 = 7 * 24 * 3600 * 1000
 }
 
-function getURLOfUsers (weekOffset, type, id) {
-  return `http://${window.location.host}/meetingpointProxy/Roosters-AL%2Fdoc%2Fdagroosters%2F` +
-      `${getWeek() + weekOffset}%2F${type}%2F${type}${leftPad(id, 5, '0')}.htm`
-}
+module.exports = getWeek
 
-module.exports = getURLOfUsers
-
-module.exports.CLASS = 'c'
-module.exports.TEACHERS = 't'
-module.exports.ROOMS = 'r'
-module.exports.STUDENTS = 's'
-
-},{"left-pad":238}],306:[function(require,module,exports){
-const Promise = require('bluebird')
-// const cheerio = require('cheerio')
-const request = Promise.promisify(require('request'))
-
-module.exports = function () {
-  return request(`http://${window.location.host}/getUserIndex`)
-    .then(data => JSON.parse(data.body))
-}
-
-},{"bluebird":179,"request":255}],307:[function(require,module,exports){
+},{}],308:[function(require,module,exports){
 const fuzzy = require('fuzzy')
 const getUsers = require('./getUsers')
 const getURLOfUser = require('./getURLOfUser')
+const removeDiacritics = require('diacritics').remove
+const getWeek = require('./getWeek')
+
 const searchNode = document.querySelector('#search')
 const inputNode = searchNode.querySelector('input[type="text"]')
 const autocompleteNode = document.querySelector('.autocomplete')
 const scheduleIframe = document.querySelector('#schedule')
-const removeDiacritics = require('diacritics').remove
+const prevButton = document.querySelectorAll('input[type="button"]')[0]
+const nextButton = document.querySelectorAll('input[type="button"]')[1]
+const currentWeekNode = document.querySelector('.current')
 
 let selectedResult = -1
 let results
 let matches
+let offset = 0
+
+function updateWeekText () {
+  if (offset === 0) currentWeekNode.innerHTML = `Week ${getWeek() + offset}`
+  else currentWeekNode.innerHTML = `<strong>Week ${getWeek() + offset}</strong>`
+}
+
+updateWeekText()
 
 getUsers().then(function (users) {
   // console.log(users)
@@ -72691,7 +72708,8 @@ getUsers().then(function (users) {
   searchNode.addEventListener('submit', submitForm)
 
   function submitForm (e) {
-    e.preventDefault()
+    if (results == null) return
+    if (e) e.preventDefault()
     const indexInResult = selectedResult === -1 ? 0 : selectedResult
     const selectedUser = users[results[indexInResult].index]
 
@@ -72700,14 +72718,26 @@ getUsers().then(function (users) {
 
     inputNode.blur()
 
-    scheduleIframe.src = getURLOfUser(0, selectedUser.type, selectedUser.index + 1)
+    scheduleIframe.src = getURLOfUser(offset, selectedUser.type, selectedUser.index + 1)
   }
 
   autocompleteNode.addEventListener('click', function (e) {
     if (e.target.tagName === 'LI' && e.target.parentElement === autocompleteNode) {
       selectedResult = Array.prototype.indexOf.call(e.target.parentElement.childNodes, e.target)
-      submitForm({preventDefault: function () {}}) // HACK: this is horrible.
+      submitForm()
     }
+  })
+
+  prevButton.addEventListener('click', function () {
+    offset--
+    updateWeekText()
+    submitForm()
+  })
+
+  nextButton.addEventListener('click', function () {
+    offset++
+    updateWeekText()
+    submitForm()
   })
 })
 
@@ -72717,6 +72747,7 @@ inputNode.addEventListener('click', function () {
 
 inputNode.addEventListener('blur', function () {
   inputNode.selectionStart = inputNode.selectionEnd = -1
+  autocompleteNode.innerHTML = ''
 })
 
-},{"./getURLOfUser":305,"./getUsers":306,"diacritics":184,"fuzzy":192}]},{},[307]);
+},{"./getURLOfUser":305,"./getUsers":306,"./getWeek":307,"diacritics":184,"fuzzy":192}]},{},[308]);
