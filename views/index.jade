@@ -1,15 +1,19 @@
 extends layout
 
+block head
+  link(rel='stylesheet', href='/stylesheets/style.css')
+  script(async, defer, src='/javascripts/dest/main.js')
+
 block content
   form#search
     .input-wrapper
       input(type='text', placeholder='Search', autofocus)
     .autocomplete-wrapper
       ul.autocomplete
-  #search-space-filler
   #week-selector
+    #search-space-filler
     .week-wrapper
       input(type='button', value='Vorige')
       span.current Loading...
       input(type='button', value='Volgende')
-  iframe#schedule
+  iframe(src='/hello')#schedule
