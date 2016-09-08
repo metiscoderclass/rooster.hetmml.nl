@@ -125,8 +125,12 @@ li:hover {
   border-radius: 2px;
 }
 
-input:hover,
+/*input:hover,*/
 input:focus {
   outline: none;
   background-color: #b71c1c !important;
+}
+
+input {
+  -webkit-appearance: none;
 }
