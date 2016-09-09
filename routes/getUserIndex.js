@@ -48,7 +48,8 @@ function getStandardUsers () {
           type: 'c',
           value: item,
           index: index,
-          other: ''
+          other: '',
+          isID: true
         }
       }))
       .concat(items[1].map(function (item, index) {
@@ -56,7 +57,8 @@ function getStandardUsers () {
           type: 't',
           value: item,
           index: index,
-          other: ''
+          other: '',
+          isID: true
         }
       }))
       .concat(items[2].map(function (item, index) {
@@ -64,7 +66,8 @@ function getStandardUsers () {
           type: 'r',
           value: item,
           index: index,
-          other: ''
+          other: '',
+          isID: true
         }
       }))
       .concat(items[3].map(function (item, index) {
@@ -72,7 +75,8 @@ function getStandardUsers () {
           type: 's',
           value: item,
           index: index,
-          other: ''
+          other: '',
+          isID: true
         }
       })))
     })
@@ -102,7 +106,8 @@ function addExtendedUsers (standardUsers) {
           type: standardUsers[i].type,
           index: standardUsers[i].index,
           value: extendedName,
-          other: standardUsers[i].value
+          other: standardUsers[i].value,
+          isID: false
         })
       }
     })

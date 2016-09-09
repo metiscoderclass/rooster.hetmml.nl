@@ -1,3 +1,5 @@
+/* global ga */
+
 const fuzzy = require('fuzzy')
 const getUsers = require('./getUsers')
 const getURLOfUser = require('./getURLOfUser')
@@ -74,6 +76,36 @@ getUsers().then(function (users) {
     inputNode.blur()
 
     scheduleIframe.src = getURLOfUser(offset, selectedUser.type, selectedUser.index + 1)
+
+    const hitType = 'event'
+    let eventCategory
+    switch (selectedUser.type) {
+      case 'c':
+        eventCategory = 'Class'
+        break
+      case 't':
+        eventCategory = 'Teacher'
+        break
+      case 'r':
+        eventCategory = 'Room'
+        break
+      case 's':
+        eventCategory = 'Student'
+        break
+    }
+    let eventAction
+    if (selectedUser.isID) {
+      eventAction = 'by id'
+    } else {
+      eventAction = 'by name'
+    }
+    const eventLabel = selectedUser.value
+
+    console.log({ hitType, eventCategory, eventAction, eventLabel })
+
+    ga(function () {
+      ga('send', { hitType, eventCategory, eventAction, eventLabel })
+    })
   }
 
   autocompleteNode.addEventListener('click', function (e) {
