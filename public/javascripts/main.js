@@ -1,7 +1,7 @@
 /* global ga */
 
 const fuzzy = require('fuzzy')
-const getUsers = require('./getUsers')
+// const getUsers = require('./getUsers')
 const getURLOfUser = require('./getURLOfUser')
 const removeDiacritics = require('diacritics').remove
 const getWeek = require('./getWeek')
@@ -24,108 +24,124 @@ function updateWeekText () {
   else currentWeekNode.innerHTML = `<strong>Week ${getWeek() + offset}</strong>`
 }
 
-getUsers().then(function (users) {
-  updateWeekText()
+updateWeekText()
 
-  searchNode.addEventListener('keydown', function (e) {
-    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-      e.preventDefault()
-
-      if (document.querySelector('.selected')) document.querySelector('.selected').classList.remove('selected')
-
-      const change = e.key === 'ArrowDown' ? 1 : -1
-      selectedResult += change
-      if (selectedResult < -1) selectedResult = matches.length - 1
-      else if (selectedResult > matches.length - 1) selectedResult = -1
-
-      if (selectedResult !== -1) autocompleteNode.children[selectedResult].classList.add('selected')
-    }
+function getUsers () {
+  const nodes = document.querySelector('#data')
+    .querySelectorAll('.data-user')
+  const elements = Array.prototype.slice.call(nodes)
+  const users = elements.map(userNode => {
+    const type = userNode.querySelector('.data-type').textContent
+    const value = userNode.querySelector('.data-value').textContent
+    const index = Number(userNode.querySelector('.data-index').textContent)
+    const other = userNode.querySelector('.data-other').textContent
+    const isID = userNode.querySelector('.data-isID').textContent === 'true'
+    return { type, value, index, other, isID }
   })
 
-  searchNode.addEventListener('keyup', function (e) {
-    // console.log(e)
-    if (!(e.key === 'Enter' || e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
-      autocompleteNode.innerHTML = ''
-      if (inputNode.value.trim() === '') return
+  document.querySelector('#data').remove()
 
-      selectedResult = -1
-      results = fuzzy.filter(removeDiacritics(inputNode.value), users, {
-        extract: function (el) { return removeDiacritics(el.value) }
-      }).slice(0, 7)
-      matches = results.map(function (el) { return users[el.index].value })
+  return users
+}
 
-      results.forEach(function (result) {
-        const resultNode = document.createElement('li')
-        resultNode.innerHTML = `${result.original.value}<span class="other">${result.original.other}</span>`
-        autocompleteNode.appendChild(resultNode)
-      })
-    }
-  })
+const users = getUsers()
 
-  searchNode.addEventListener('submit', submitForm)
+searchNode.addEventListener('keydown', function (e) {
+  if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+    e.preventDefault()
 
-  function submitForm (e) {
-    if (results == null) return
-    if (e) e.preventDefault()
-    const indexInResult = selectedResult === -1 ? 0 : selectedResult
-    const selectedUser = users[results[indexInResult].index]
+    if (document.querySelector('.selected')) document.querySelector('.selected').classList.remove('selected')
 
-    inputNode.value = selectedUser.value
+    const change = e.key === 'ArrowDown' ? 1 : -1
+    selectedResult += change
+    if (selectedResult < -1) selectedResult = matches.length - 1
+    else if (selectedResult > matches.length - 1) selectedResult = -1
+
+    if (selectedResult !== -1) autocompleteNode.children[selectedResult].classList.add('selected')
+  }
+})
+
+searchNode.addEventListener('keyup', function (e) {
+  // console.log(e)
+  if (!(e.key === 'Enter' || e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
     autocompleteNode.innerHTML = ''
+    if (inputNode.value.trim() === '') return
 
-    inputNode.blur()
+    selectedResult = -1
+    results = fuzzy.filter(removeDiacritics(inputNode.value), users, {
+      extract: function (el) { return removeDiacritics(el.value) }
+    }).slice(0, 7)
+    matches = results.map(function (el) { return users[el.index].value })
 
-    scheduleIframe.src = getURLOfUser(offset, selectedUser.type, selectedUser.index + 1)
-
-    const hitType = 'event'
-    let eventCategory
-    switch (selectedUser.type) {
-      case 'c':
-        eventCategory = 'Class'
-        break
-      case 't':
-        eventCategory = 'Teacher'
-        break
-      case 'r':
-        eventCategory = 'Room'
-        break
-      case 's':
-        eventCategory = 'Student'
-        break
-    }
-    let eventAction
-    if (selectedUser.isID) {
-      eventAction = 'by id'
-    } else {
-      eventAction = 'by name'
-    }
-    const eventLabel = selectedUser.value
-
-    console.log({ hitType, eventCategory, eventAction, eventLabel })
-
-    ga(function () {
-      ga('send', { hitType, eventCategory, eventAction, eventLabel })
+    results.forEach(function (result) {
+      const resultNode = document.createElement('li')
+      resultNode.innerHTML = `${result.original.value}<span class="other">${result.original.other}</span>`
+      autocompleteNode.appendChild(resultNode)
     })
   }
+})
 
-  autocompleteNode.addEventListener('click', function (e) {
-    if (e.target.tagName === 'LI' && e.target.parentElement === autocompleteNode) {
-      selectedResult = Array.prototype.indexOf.call(e.target.parentElement.childNodes, e.target)
-      submitForm()
-    }
+searchNode.addEventListener('submit', submitForm)
+
+function submitForm (e) {
+  if (results == null) return
+  if (e) e.preventDefault()
+  const indexInResult = selectedResult === -1 ? 0 : selectedResult
+  const selectedUser = users[results[indexInResult].index]
+
+  inputNode.value = selectedUser.value
+  autocompleteNode.innerHTML = ''
+
+  inputNode.blur()
+
+  scheduleIframe.src = getURLOfUser(offset, selectedUser.type, selectedUser.index + 1)
+
+  const hitType = 'event'
+  let eventCategory
+  switch (selectedUser.type) {
+    case 'c':
+      eventCategory = 'Class'
+      break
+    case 't':
+      eventCategory = 'Teacher'
+      break
+    case 'r':
+      eventCategory = 'Room'
+      break
+    case 's':
+      eventCategory = 'Student'
+      break
+  }
+  let eventAction
+  if (selectedUser.isID) {
+    eventAction = 'by id'
+  } else {
+    eventAction = 'by name'
+  }
+  const eventLabel = selectedUser.value
+
+  ga(function () {
+    ga('send', { hitType, eventCategory, eventAction, eventLabel })
   })
+}
 
-  prevButton.addEventListener('click', function () {
-    offset--
-    updateWeekText()
+autocompleteNode.addEventListener('click', function (e) {
+  if (e.target.tagName === 'LI' && e.target.parentElement === autocompleteNode) {
+    selectedResult = Array.prototype.indexOf.call(e.target.parentElement.childNodes, e.target)
     submitForm()
-  })
+  }
+})
 
-  nextButton.addEventListener('click', function () {
-    offset++
-    updateWeekText()
-    submitForm()
-  })
+prevButton.addEventListener('click', function () {
+  offset--
+  updateWeekText()
+  submitForm()
+})
+
+nextButton.addEventListener('click', function () {
+  offset++
+  updateWeekText()
+  submitForm()
 })
 
 inputNode.addEventListener('click', function () {

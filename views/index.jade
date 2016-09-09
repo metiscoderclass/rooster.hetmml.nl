@@ -5,6 +5,16 @@ block head
   script(async, defer, src='/javascripts/dest/main.js')
 
 block content
+  #data(style='display: none;')
+    each user in users
+      .data-user
+        .data-type= user.type
+        .data-value= user.value
+        .data-index= user.index
+        .data-other= user.other
+        .data-isID= user.isID
+      
+  
   form#search
     .input-wrapper
       input(type='text', placeholder='Search', autofocus)

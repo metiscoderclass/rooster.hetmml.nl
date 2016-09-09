@@ -6,7 +6,6 @@ const bodyParser = require('body-parser')
 
 const routes = require('./routes/index')
 const meetingpointProxy = require('./routes/meetingpointProxy')
-const getUserIndex = require('./routes/getUserIndex')
 const hello = require('./routes/hello')
 
 const app = express()
@@ -23,7 +22,6 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', routes)
 app.use('/meetingpointProxy', meetingpointProxy)
-app.use('/getUserIndex', getUserIndex)
 app.use('/hello', hello)
 
 // catch 404 and forward to error handler
