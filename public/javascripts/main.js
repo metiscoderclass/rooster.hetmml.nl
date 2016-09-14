@@ -58,8 +58,13 @@ function changeFav (isFav) {
   updateFavNode()
 }
 
+function usersEqual (user1, user2) {
+  if (user1 == null || user2 == null) return false
+  return user1.type === user2.type && user1.index === user2.index
+}
+
 function updateFavNode () {
-  if (getCurrentFav() === selectedUser) {
+  if (usersEqual(getCurrentFav(), selectedUser)) {
     favNode.innerHTML = '&#xE838;'
   } else {
     favNode.innerHTML = '&#xE83A'
@@ -108,8 +113,8 @@ searchNode.addEventListener('input', function (e) {
 searchNode.addEventListener('submit', submitForm)
 
 function submitForm (e) {
-  if (results == null) return
   if (e) e.preventDefault()
+  if (results == null) return
   const indexInResult = selectedResult === -1 ? 0 : selectedResult
   selectedUser = users[results[indexInResult].index]
 
@@ -186,7 +191,7 @@ searchNode.addEventListener('blur', function (e) {
 })
 
 favNode.addEventListener('click', function () {
-  if (getCurrentFav() === selectedUser) {
+  if (usersEqual(getCurrentFav(), selectedUser)) {
     changeFav(false)
   } else {
     changeFav(true)
