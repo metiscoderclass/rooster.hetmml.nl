@@ -31,8 +31,8 @@
     "gulp-browserify": "^0.5.1"
   },
   "engine": {
-    "node": "6.4.0",
-    "npm": "3.10.6"
+    "node": "*",
+    "npm": "*"
   },
   "author": "Noah Loomans <noahloomans@gmail.com>",
   "license": "MIT",
