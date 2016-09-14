@@ -44,8 +44,8 @@ const users = getUsers()
 function getCurrentFav () {
   if (!window.localStorage.getItem('fav')) return
   const favCode = window.localStorage.getItem('fav').split(':')
-  const fav = users.filter(user => user.type === favCode[0] && user.index === Number(favCode[1]))[0]
-  return fav
+  const fav = users.filter(user => user.type === favCode[0] && user.index === Number(favCode[1]))
+  return fav[fav.length - 1]
 }
 
 function changeFav (isFav) {
@@ -114,7 +114,7 @@ searchNode.addEventListener('submit', submitForm)
 
 function submitForm (e) {
   if (e) e.preventDefault()
-  if (results != null) {
+  if (results !== null) {
     const indexInResult = selectedResult === -1 ? 0 : selectedResult
     selectedUser = users[results[indexInResult].index]
   }
