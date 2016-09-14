@@ -15,7 +15,7 @@
     "debug": "~2.2.0",
     "diacritics": "^1.2.3",
     "encoding": "^0.1.12",
-    "express": "~4.13.4",
+    "express": "^4.13.4",
     "fuzzy": "^0.1.1",
     "jade": "~1.11.0",
     "left-pad": "^1.1.1",
