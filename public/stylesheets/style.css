@@ -29,6 +29,7 @@ html, body {
 }
 
 #search .input-wrapper {
+  position: relative;
   margin: 0 auto;
   max-width: 600px;
   padding: 10px;
@@ -133,4 +134,19 @@ input:focus {
 
 input {
   -webkit-appearance: none;
+}
+
+#search .material-icons {
+  position: absolute;
+  font-size: 1.8em;
+  color: #FFCDD2;
+  right: 22.5px;
+  top: 22.5px;
+  border: 0;
+  padding: 0;
+  background: none;
+}
+
+.hidden {
+  display: none !important;
 }

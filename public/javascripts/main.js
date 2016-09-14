@@ -13,18 +13,13 @@ const scheduleIframe = document.querySelector('#schedule')
 const prevButton = document.querySelectorAll('input[type="button"]')[0]
 const nextButton = document.querySelectorAll('input[type="button"]')[1]
 const currentWeekNode = document.querySelector('.current')
+const favNode = document.querySelector('.fav')
 
 let selectedResult = -1
+let selectedUser
 let results
 let matches
 let offset = 0
-
-function updateWeekText () {
-  if (offset === 0) currentWeekNode.innerHTML = `Week ${getWeek() + offset}`
-  else currentWeekNode.innerHTML = `<strong>Week ${getWeek() + offset}</strong>`
-}
-
-updateWeekText()
 
 function getUsers () {
   const nodes = document.querySelector('#data')
@@ -46,6 +41,38 @@ function getUsers () {
 
 const users = getUsers()
 
+function getCurrentFav () {
+  if (!window.localStorage.getItem('fav')) return
+  const favCode = window.localStorage.getItem('fav').split(':')
+  const fav = users.filter(user => user.type === favCode[0] && user.index === Number(favCode[1]))[0]
+  return fav
+}
+
+function changeFav (isFav) {
+  if (!selectedUser) return
+  if (isFav) {
+    window.localStorage.setItem('fav', selectedUser.type + ':' + selectedUser.index)
+  } else {
+    window.localStorage.removeItem('fav')
+  }
+  updateFavNode()
+}
+
+function updateFavNode () {
+  if (getCurrentFav() === selectedUser) {
+    favNode.innerHTML = '&#xE838;'
+  } else {
+    favNode.innerHTML = '&#xE83A'
+  }
+}
+
+function updateWeekText () {
+  if (offset === 0) currentWeekNode.innerHTML = `Week ${getWeek() + offset}`
+  else currentWeekNode.innerHTML = `<strong>Week ${getWeek() + offset}</strong>`
+}
+
+updateWeekText()
+
 searchNode.addEventListener('keydown', function (e) {
   if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
     e.preventDefault()
@@ -61,24 +88,21 @@ searchNode.addEventListener('keydown', function (e) {
   }
 })
 
-searchNode.addEventListener('keyup', function (e) {
-  // console.log(e)
-  if (!(e.key === 'Enter' || e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
-    autocompleteNode.innerHTML = ''
-    if (inputNode.value.trim() === '') return
+searchNode.addEventListener('input', function (e) {
+  autocompleteNode.innerHTML = ''
+  if (inputNode.value.trim() === '') return
 
-    selectedResult = -1
-    results = fuzzy.filter(removeDiacritics(inputNode.value), users, {
-      extract: function (el) { return removeDiacritics(el.value) }
-    }).slice(0, 7)
-    matches = results.map(function (el) { return users[el.index].value })
+  selectedResult = -1
+  results = fuzzy.filter(removeDiacritics(inputNode.value), users, {
+    extract: function (el) { return removeDiacritics(el.value) }
+  }).slice(0, 7)
+  matches = results.map(function (el) { return users[el.index].value })
 
-    results.forEach(function (result) {
-      const resultNode = document.createElement('li')
-      resultNode.innerHTML = `${result.original.value}<span class="other">${result.original.other}</span>`
-      autocompleteNode.appendChild(resultNode)
-    })
-  }
+  results.forEach(function (result) {
+    const resultNode = document.createElement('li')
+    resultNode.innerHTML = `${result.original.value}<span class="other">${result.original.other}</span>`
+    autocompleteNode.appendChild(resultNode)
+  })
 })
 
 searchNode.addEventListener('submit', submitForm)
@@ -87,7 +111,9 @@ function submitForm (e) {
   if (results == null) return
   if (e) e.preventDefault()
   const indexInResult = selectedResult === -1 ? 0 : selectedResult
-  const selectedUser = users[results[indexInResult].index]
+  selectedUser = users[results[indexInResult].index]
+
+  updateFavNode()
 
   inputNode.value = selectedUser.value
   autocompleteNode.innerHTML = ''
@@ -158,3 +184,24 @@ inputNode.addEventListener('blur', function () {
 searchNode.addEventListener('blur', function (e) {
   autocompleteNode.innerHTML = ''
 })
+
+favNode.addEventListener('click', function () {
+  if (getCurrentFav() === selectedUser) {
+    changeFav(false)
+  } else {
+    changeFav(true)
+  }
+})
+
+const currentFav = getCurrentFav()
+
+if (currentFav) {
+  selectedUser = currentFav
+  if (selectedUser.other !== '') {
+    inputNode.value = selectedUser.other
+  } else {
+    inputNode.value = selectedUser.value
+  }
+  scheduleIframe.src = getURLOfUser(offset, selectedUser.type, selectedUser.index + 1)
+  updateFavNode()
+}
