@@ -31,7 +31,7 @@
     "gulp-browserify": "^0.5.1"
   },
   "engine": {
-    "node": "random_change",
+    "node": "*",
     "npm": "*"
   },
   "author": "Noah Loomans <noahloomans@gmail.com>",
