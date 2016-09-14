@@ -114,9 +114,10 @@ searchNode.addEventListener('submit', submitForm)
 
 function submitForm (e) {
   if (e) e.preventDefault()
-  if (results == null) return
-  const indexInResult = selectedResult === -1 ? 0 : selectedResult
-  selectedUser = users[results[indexInResult].index]
+  if (results != null) {
+    const indexInResult = selectedResult === -1 ? 0 : selectedResult
+    selectedUser = users[results[indexInResult].index]
+  }
 
   updateFavNode()
 
@@ -202,11 +203,7 @@ const currentFav = getCurrentFav()
 
 if (currentFav) {
   selectedUser = currentFav
-  if (selectedUser.other !== '') {
-    inputNode.value = selectedUser.other
-  } else {
-    inputNode.value = selectedUser.value
-  }
+  inputNode.value = selectedUser.value
   scheduleIframe.src = getURLOfUser(offset, selectedUser.type, selectedUser.index + 1)
   updateFavNode()
 }
