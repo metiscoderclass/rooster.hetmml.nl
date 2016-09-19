@@ -114,10 +114,11 @@ searchNode.addEventListener('submit', submitForm)
 
 function submitForm (e) {
   if (e) e.preventDefault()
-  if (results !== null) {
+  if (results != null) {
     const indexInResult = selectedResult === -1 ? 0 : selectedResult
     selectedUser = users[results[indexInResult].index]
   }
+  if (selectedUser == null) return
 
   updateFavNode()
 
