@@ -36,7 +36,7 @@
   },
   "engine": {
     "node": "*",
-    "npm": "*this_is_random"
+    "npm": "*"
   },
   "author": "Noah Loomans <noahloomans@gmail.com>",
   "license": "MIT",
