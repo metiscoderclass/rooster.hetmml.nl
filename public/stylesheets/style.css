@@ -6,6 +6,7 @@ html, body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
   display: flex;
+  -js-display: flex;
   flex-direction: column;
   width: 100vw;
   height: 100vh;
@@ -74,8 +75,9 @@ li:hover {
 
 #schedule {
   flex-grow: 1;
-  width: 100%; /* IE fix */
+  width: 100vw;
   border: 0;
+  padding: 0;
 }
 
 #search-space-filler {
@@ -109,6 +111,7 @@ li:hover {
   padding: 10px !important;
   margin: 0 auto;
   display: flex;
+  -js-display: flex;
   padding: 10px 0;
 }
 

@@ -1,5 +1,7 @@
 /* global ga */
 
+require('flexibility')
+
 const fuzzy = require('fuzzy')
 // const getUsers = require('./getUsers')
 const getURLOfUser = require('./getURLOfUser')
@@ -18,7 +20,6 @@ const favNode = document.querySelector('.fav')
 let selectedResult = -1
 let selectedUser
 let results
-let matches
 let offset = 0
 
 function getUsers () {
@@ -34,7 +35,7 @@ function getUsers () {
     return { type, value, index, other, isID }
   })
 
-  document.querySelector('#data').remove()
+  document.querySelector('#data').outerHTML = ''
 
   return users
 }
@@ -79,15 +80,15 @@ function updateWeekText () {
 updateWeekText()
 
 searchNode.addEventListener('keydown', function (e) {
-  if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+  if (results && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) {
     e.preventDefault()
 
     if (document.querySelector('.selected')) document.querySelector('.selected').classList.remove('selected')
 
     const change = e.key === 'ArrowDown' ? 1 : -1
     selectedResult += change
-    if (selectedResult < -1) selectedResult = matches.length - 1
-    else if (selectedResult > matches.length - 1) selectedResult = -1
+    if (selectedResult < -1) selectedResult = results.length - 1
+    else if (selectedResult > results.length - 1) selectedResult = -1
 
     if (selectedResult !== -1) autocompleteNode.children[selectedResult].classList.add('selected')
   }
@@ -101,7 +102,6 @@ searchNode.addEventListener('input', function (e) {
   results = fuzzy.filter(removeDiacritics(inputNode.value), users, {
     extract: function (el) { return removeDiacritics(el.value) }
   }).slice(0, 7)
-  matches = results.map(function (el) { return users[el.index].value })
 
   results.forEach(function (result) {
     const resultNode = document.createElement('li')
@@ -159,7 +159,7 @@ function submitForm (e) {
 }
 
 autocompleteNode.addEventListener('click', function (e) {
-  if (e.target.tagName === 'LI' && e.target.parentElement === autocompleteNode) {
+  if (autocompleteNode.contains(e.target)) {
     selectedResult = Array.prototype.indexOf.call(e.target.parentElement.childNodes, e.target)
     submitForm()
   }

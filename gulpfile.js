@@ -1,21 +1,14 @@
 const gulp = require('gulp')
-const browserify = require('gulp-browserify')
-const babel = require('gulp-babel')
+const fs = require('fs')
+const browserify = require('browserify')
 
-// Basic usage
 gulp.task('scripts', function () {
-  // Single entry point to browserify
-  return gulp.src('public/javascripts/*.js')
-    .pipe(babel({
-      presets: ['es2015']
-    }))
-    .pipe(browserify({
-      insertGlobals: true,
-      debug: !gulp.env.production
-    }))
-    .pipe(gulp.dest('public/javascripts/dest'))
+  browserify({ entries: './public/javascripts/main.js', debug: true })
+    .transform('babelify', {presets: ['es2015']})
+    .bundle()
+    .pipe(fs.createWriteStream('./public/javascripts/bundle.js'))
 })
 
 gulp.task('scripts:watch', function () {
-  return gulp.watch('public/javascripts/**/*.js')
+  return gulp.watch(['./public/javascripts/**/*.js', '!./public/javascripts/bundle.js'], ['scripts'])
 })

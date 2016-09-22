@@ -3,11 +3,11 @@
 // week number.
 function getWeek () {
   // Create a copy of this date object
-  var target = new Date()
+  const target = new Date()
 
   // ISO week date weeks start on monday
   // so correct the day number
-  var dayNr = (target.getDay() + 6) % 7
+  const dayNr = (target.getDay() + 6) % 7
 
   // ISO 8601 states that week 1 is the week
   // with the first thursday of that year.
@@ -15,7 +15,7 @@ function getWeek () {
   target.setDate(target.getDate() - dayNr + 3)
 
   // Store the millisecond value of the target date
-  var firstThursday = target.valueOf()
+  const firstThursday = target.valueOf()
 
   // Set the target to the first thursday of the year
   // First set the target to january first

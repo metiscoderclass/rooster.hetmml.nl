@@ -13,8 +13,7 @@ block content
         .data-index= user.index
         .data-other= user.other
         .data-isID= user.isID
-      
-  
+
   form#search
     .input-wrapper
       input(type='text', placeholder='Search', autofocus)
@@ -27,6 +26,7 @@ block content
       input(type='button', value='Vorige')
       span.current Loading...
       input(type='button', value='Volgende')
-  iframe(src='/hello')#schedule
-  
-  script(src='/javascripts/dest/main.js')
+
+  iframe(src='/hello', scrolling='no')#schedule
+
+  script(src='/javascripts/bundle.js')
