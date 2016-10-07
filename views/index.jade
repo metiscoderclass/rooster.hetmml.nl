@@ -3,6 +3,8 @@ extends layout
 block head
   link(rel='stylesheet', href='/stylesheets/style.css')
   link(rel='stylesheet', href='https://fonts.googleapis.com/icon?family=Material+Icons')
+  link(rel='stylesheet', href='https://code.getmdl.io/1.2.1/material.indigo-pink.min.css')
+  script(defer='', src='https://code.getmdl.io/1.2.1/material.min.js')
 
 block content
   #data(style='display: none;')
@@ -15,9 +17,16 @@ block content
         .data-isID= user.isID
 
   form#search
-    .input-wrapper
-      input(type='text', placeholder='Search', autofocus)
-      button.material-icons.fav(tabindex='0', type='button') &#xE83A;
+    .top-bar
+      .input-wrapper
+        input(type='text', placeholder='Search')
+        button.material-icons.fav(tabindex='0', type='button') &#xE83A;
+      button#overflow-button(type='button')
+        i.material-icons &#xE5D4;
+        
+      ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='overflow-button')
+        a(href='http://www.meetingpointmco.nl/Roosters-AL/doc/')
+          li.mdl-menu__item Oud rooster gebruiken
     .autocomplete-wrapper
       ul.autocomplete
   #week-selector

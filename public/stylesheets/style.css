@@ -29,12 +29,17 @@ html, body {
   box-shadow: 0 0.5px 1.5px rgba(0,0,0,0.06), 0 0.5px 1px rgba(0,0,0,0.12);
 }
 
-#search .input-wrapper {
+#search .top-bar {
   position: relative;
   margin: 0 auto;
   max-width: 600px;
   padding: 10px;
-  flex-grow: 0;
+  display: flex;
+}
+
+#search .input-wrapper {
+  position: relative;
+  flex-grow: 1;
 }
 
 #search input[type='text'] {
@@ -139,17 +144,29 @@ input {
   -webkit-appearance: none;
 }
 
-#search .material-icons {
+#search .fav {
   position: absolute;
   font-size: 1.8em;
   color: #FFCDD2;
-  right: 22.5px;
-  top: 22.5px;
+  right: 12.5px;
+  top: 12.5px;
   border: 0;
   padding: 0;
   background: none;
 }
 
+#search #overflow-button {
+  background: none;
+  border: none;
+  padding: 3px 9px;
+  color: white;
+}
+
 .hidden {
   display: none !important;
+}
+
+ul a {
+  color: inherit;
+  text-decoration: none;
 }
