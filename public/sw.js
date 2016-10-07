@@ -1,7 +1,5 @@
 /* global importScripts toolbox self */
 
-// random string: CHfHo0GjMJAoOC
-
 (global => {
   'use strict'
 
@@ -21,11 +19,11 @@
     '/stylesheets/hello.css'
   ])
 
-  toolbox.router.get('/', toolbox.cacheFirst)
-  toolbox.router.get('/hello', toolbox.cacheFirst)
+  toolbox.router.get('/', toolbox.fastest)
+  toolbox.router.get('/hello', toolbox.fastest)
 
-  toolbox.router.get('/javascripts/bundle.js', toolbox.cacheFirst)
-  toolbox.router.get('/stylesheets/*', toolbox.cacheFirst)
-  toolbox.router.get('/untisinfo.css', toolbox.cacheFirst)
+  toolbox.router.get('/javascripts/bundle.js', toolbox.fastest)
+  toolbox.router.get('/stylesheets/*', toolbox.fastest)
+  toolbox.router.get('/untisinfo.css', toolbox.fastest)
   toolbox.router.get('/meetingpointProxy/*', toolbox.networkFirst)
 })(self)
