@@ -18,7 +18,7 @@ const currentWeekNode = document.querySelector('.current')
 const favNode = document.querySelector('.fav')
 
 if (window.location.href.split('?')[1] !== 'nfd') { // nfd = no feature detection
-  if (document.querySelector('#search').getClientRects()[0].height !== 70) {
+  if (document.querySelector('#schedule').getClientRects()[0].bottom !== document.body.offsetHeight) {
     window.location = 'http://www.meetingpointmco.nl/Roosters-AL/doc/'
   } else {
     window.onerror = function () {
