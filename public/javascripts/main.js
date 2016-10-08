@@ -17,6 +17,16 @@ const nextButton = document.querySelectorAll('input[type="button"]')[1]
 const currentWeekNode = document.querySelector('.current')
 const favNode = document.querySelector('.fav')
 
+if (window.location.href.split('?')[1] !== 'nfd') { // nfd = no feature detection
+  if (document.querySelector('#search').getClientRects()[0].height !== 70) {
+    window.location = 'http://www.meetingpointmco.nl/Roosters-AL/doc/'
+  } else {
+    window.onerror = function () {
+      window.location = 'http://www.meetingpointmco.nl/Roosters-AL/doc/'
+    }
+  }
+}
+
 let selectedResult = -1
 let selectedUser
 let results
