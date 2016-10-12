@@ -29,7 +29,7 @@ if (window.location.href.split('?')[1] !== 'nfd') { // nfd = no feature detectio
 
 let selectedResult = -1
 let selectedUser
-let results
+let results = []
 let offset = 0
 
 function getUsers () {
@@ -88,7 +88,7 @@ function updateWeekText () {
 updateWeekText()
 
 searchNode.addEventListener('keydown', function (e) {
-  if (results && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) {
+  if ((results.length !== 0) && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) {
     e.preventDefault()
 
     if (document.querySelector('.selected')) document.querySelector('.selected').classList.remove('selected')
@@ -122,7 +122,7 @@ searchNode.addEventListener('submit', submitForm)
 
 function submitForm (e) {
   if (e) e.preventDefault()
-  if (results != null) {
+  if (results.length !== 0) {
     const indexInResult = selectedResult === -1 ? 0 : selectedResult
     selectedUser = users[results[indexInResult].index]
   }
