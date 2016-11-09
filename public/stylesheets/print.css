@@ -1,0 +1,49 @@
+#search, #week-selector {
+  background-color: inherit;
+  box-shadow: inherit;
+}
+
+#search {
+  border-bottom: 1px solid black;
+}
+
+#search .top-bar, #week-selector .week-wrapper {
+  max-width: inherit;
+}
+
+#search input[type="text"] {
+  background-color: inherit;
+  color: black;
+  font-weight: bold;
+}
+
+#search .fav {
+  display: none;
+}
+
+#search #overflow-button {
+  display: none;
+}
+
+#week-selector .week-wrapper {
+  display: block;
+}
+
+#week-selector input[type='button'] {
+  display: none;
+}
+
+#week-selector .current {
+  color: black;
+  padding: 16px;
+  font-size: 1.1em;
+  float: right;
+}
+
+#search-space-filler {
+  display: none;
+}
+
+.mdl-menu__container {
+  display: none !important;
+}
