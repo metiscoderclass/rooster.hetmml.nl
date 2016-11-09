@@ -9,3 +9,17 @@ html, body {
 center {
   margin: 5px;
 }
+
+@media print {
+  html, body {
+    overflow: inherit;
+    width: inherit;
+    height: inherit;
+    margin: inherit;
+    -webkit-overflow-scrolling: inherit;
+  }
+
+  center {
+    margin: inherit;
+  }
+}
