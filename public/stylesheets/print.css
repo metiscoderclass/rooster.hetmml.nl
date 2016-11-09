@@ -43,3 +43,7 @@
 #search-space-filler {
   display: none;
 }
+
+.mdl-menu__container {
+  display: none !important;
+}
