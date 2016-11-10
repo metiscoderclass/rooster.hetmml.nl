@@ -1,7 +1,10 @@
 extends layout
 
 block head
-  link(rel='stylesheet', href='/stylesheets/style.css')
+  if version == 'new'
+    link(rel='stylesheet', href='/stylesheets/style_new.css')
+  else
+    link(rel='stylesheet', href='/stylesheets/style.css')
   link(rel='stylesheet', href='/stylesheets/print.css', media='print')
   link(rel='stylesheet', href='https://fonts.googleapis.com/icon?family=Material+Icons')
   link(rel='stylesheet', href='https://code.getmdl.io/1.2.1/material.indigo-pink.min.css')
@@ -20,7 +23,7 @@ block content
   form#search
     .top-bar
       .input-wrapper
-        input(type='text', placeholder='Search')
+        input(type='text', placeholder='Zoeken')
         button.material-icons.fav(tabindex='0', type='button') &#xE83A;
       button#overflow-button(type='button')
         i.material-icons &#xE5D4;
@@ -36,9 +39,14 @@ block content
   #week-selector
     #search-space-filler
     .week-wrapper
-      input(type='button', value='Vorige')
-      span.current Loading...
-      input(type='button', value='Volgende')
+      if version == 'new'
+        input(type='button', value='arrow_back').material-icons
+        span.current Loading...
+        input(type='button', value='arrow_forward').material-icons
+      else
+        input(type='button', value='Vorige')
+        span.current Loading...
+        input(type='button', value='Volgende')
 
   iframe(src='/hello', scrolling='no')#schedule
 
