@@ -7,6 +7,7 @@ const fuzzy = require('fuzzy')
 const getURLOfUser = require('./getURLOfUser')
 const removeDiacritics = require('diacritics').remove
 const getWeek = require('./getWeek')
+const easterEggs = require('./easterEggs')
 
 const searchNode = document.querySelector('#search')
 const inputNode = searchNode.querySelector('input[type="text"]')
@@ -209,6 +210,7 @@ const currentFav = getCurrentFav()
 
 if (currentFav) {
   selectedUser = currentFav
+  // console.log('not updating value')
   inputNode.value = selectedUser.value
   scheduleIframe.src = getURLOfUser(offset, selectedUser.type, selectedUser.index + 1)
   updateFavNode()
@@ -234,3 +236,5 @@ if (currentFav) {
     ga('send', { hitType: 'event', eventCategory: 'search fav', eventAction, eventLabel })
   })
 }
+
+easterEggs.sinterklaas()
