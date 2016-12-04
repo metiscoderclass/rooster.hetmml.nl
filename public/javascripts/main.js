@@ -210,7 +210,6 @@ const currentFav = getCurrentFav()
 
 if (currentFav) {
   selectedUser = currentFav
-  // console.log('not updating value')
   inputNode.value = selectedUser.value
   scheduleIframe.src = getURLOfUser(offset, selectedUser.type, selectedUser.index + 1)
   updateFavNode()

@@ -86,8 +86,6 @@ const sinterklaas = function () {
       window.location.href = 'https://www.youtube-nocookie.com/embed/jsOiKJ3kKXM?start=30'
     }
   })
-
-  // inputNode.placeholder = 'Hoor wie klopt daar kind\'ren'
 }
 
 module.exports = { sinterklaas }
