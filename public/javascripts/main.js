@@ -7,6 +7,7 @@ const fuzzy = require('fuzzy')
 const getURLOfUser = require('./getURLOfUser')
 const removeDiacritics = require('diacritics').remove
 const getWeek = require('./getWeek')
+const easterEggs = require('./easterEggs')
 
 const searchNode = document.querySelector('#search')
 const inputNode = searchNode.querySelector('input[type="text"]')
@@ -234,3 +235,5 @@ if (currentFav) {
     ga('send', { hitType: 'event', eventCategory: 'search fav', eventAction, eventLabel })
   })
 }
+
+easterEggs.sinterklaas()
