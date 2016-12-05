@@ -9,14 +9,8 @@ html
     link(rel='manifest', href='/manifest.webmanifest')
     script(src='//d2wy8f7a9ursnm.cloudfront.net/bugsnag-3.min.js', data-apikey='bd5c41bb376798642d7ae4701a09a8fb')
     block head
-  body
+  body(style='opacity: 0;')
     block content
     script.
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-      ga('create', 'UA-83684754-1', 'auto');
-      ga('send', 'pageview');
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create', 'UA-83684754-1', 'auto');ga('send', 'pageview');
     block scripts

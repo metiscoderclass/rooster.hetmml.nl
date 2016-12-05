@@ -1,4 +1,4 @@
-/* global ga */
+/* global ga FLAGS */
 
 require('flexibility')
 
@@ -18,8 +18,7 @@ const nextButton = document.querySelectorAll('input[type="button"]')[1]
 const currentWeekNode = document.querySelector('.current')
 const favNode = document.querySelector('.fav')
 
-if (!(window.location.href.split('?')[1] &&
-    window.location.href.split('?')[1].indexOf('nfd') >= 0)) { // nfd = no feature detection
+if (FLAGS.indexOf('NO_FEATURE_DETECT') === -1) {
   if (document.querySelector('#schedule').getClientRects()[0].bottom !==
       document.body.getClientRects()[0].bottom) {
     window.location = 'http://www.meetingpointmco.nl/Roosters-AL/doc/'
@@ -108,6 +107,7 @@ searchNode.addEventListener('keydown', function (e) {
 })
 
 searchNode.addEventListener('input', function (e) {
+  searchNode.className = ''
   autocompleteNode.innerHTML = ''
   if (inputNode.value.trim() === '') return
 
@@ -234,6 +234,11 @@ if (currentFav) {
   ga(function () {
     ga('send', { hitType: 'event', eventCategory: 'search fav', eventAction, eventLabel })
   })
+} else if (inputNode.value === '') {
+  searchNode.className = 'no-input'
+  inputNode.focus()
 }
 
-easterEggs.sinterklaas()
+document.body.style = ''
+
+window.easterEggs = easterEggs
