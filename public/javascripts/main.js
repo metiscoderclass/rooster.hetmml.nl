@@ -221,6 +221,10 @@ if (currentFav) {
   inputNode.focus()
 }
 
+window.addEventListener('native.showkeyboard', function (e) {
+  searchNode.className = ''
+})
+
 document.body.style.opacity = '1'
 
 window.easterEggs = easterEggs
