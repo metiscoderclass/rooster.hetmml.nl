@@ -89,7 +89,7 @@ searchNode.addEventListener('keydown', function (e) {
 })
 
 searchNode.addEventListener('input', function (e) {
-  document.body.className = ''
+  document.body.classList.remove('no-input')
   autocompleteNode.innerHTML = ''
   if (inputNode.value.trim() === '') return
 
@@ -114,6 +114,8 @@ function submitForm (e) {
     selectedUser = USERS[results[indexInResult].index]
   }
   if (selectedUser == null) return
+
+  document.body.classList.add('searched')
 
   updateFavNode()
 
@@ -217,7 +219,7 @@ if (currentFav) {
     ga('send', { hitType: 'event', eventCategory: 'search fav', eventAction, eventLabel })
   })
 } else if (inputNode.value === '') {
-  document.body.className = 'no-input'
+  document.body.classList.add('no-input')
   inputNode.focus()
 }
 

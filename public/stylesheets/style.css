@@ -117,8 +117,8 @@ li:hover {
   padding: 0;
 }
 
-#search-space-filler {
-  height: 73px;
+body.searched #search-space-filler {
+  height: 70px;
 }
 
 .autocomplete-wrapper {
@@ -208,11 +208,15 @@ ul a {
   display: none;
 }
 
+body.no-input #week-selector {
+  display: none;
+}
+
 @media screen and (min-height: 400px) {
   body.no-input {
     background-color: #ececec;
   }
-  
+
   body.no-input #search {
     height: 100%;
     background-color: #ececec;
