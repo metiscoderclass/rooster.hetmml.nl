@@ -171,11 +171,12 @@ inputNode.addEventListener('click', function () {
   inputNode.select()
 })
 
-inputNode.addEventListener('blur', function () {
-  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
-  if (!isSafari) {
-    inputNode.selectionStart = inputNode.selectionEnd = -1
-  }
+window.addEventListener('blur', function () {
+  // this will removed the selection without drawing focus on it (safari)
+  // this will removed selection even when focusing an iframe (chrome)
+  const oldValue = inputNode.value
+  inputNode.value = ''
+  inputNode.value = oldValue
 })
 
 searchNode.addEventListener('blur', function (e) {
