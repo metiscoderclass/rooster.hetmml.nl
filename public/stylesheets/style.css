@@ -158,7 +158,7 @@ li:hover {
   padding: 5px;
 }
 
-#week-selector input[type='button'] {
+#week-selector button {
   background: inherit;
   color: white;
   border: 0px;
@@ -182,7 +182,7 @@ input {
   background: none;
 }
 
-#week-selector input[type='button']:focus, #search #overflow-button:focus, #search .fav:focus {
+#week-selector button:focus, #search #overflow-button:focus, #search .fav:focus {
   outline: none;
   background-color: #D32F2F;
 }

@@ -13,8 +13,8 @@ const searchNode = document.querySelector('#search')
 const inputNode = searchNode.querySelector('input[type="text"]')
 const autocompleteNode = document.querySelector('.autocomplete')
 const scheduleIframe = document.querySelector('#schedule')
-const prevButton = document.querySelectorAll('input[type="button"]')[0]
-const nextButton = document.querySelectorAll('input[type="button"]')[1]
+const prevButton = document.querySelectorAll('#week-selector button')[0]
+const nextButton = document.querySelectorAll('#week-selector button')[1]
 const currentWeekNode = document.querySelector('.current')
 const favNode = document.querySelector('.fav')
 
