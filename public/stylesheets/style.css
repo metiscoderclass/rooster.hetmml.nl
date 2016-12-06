@@ -153,9 +153,10 @@ body.searched #search-space-filler {
 }
 
 #week-selector .current {
+  display: flex;
   flex-grow: 1;
-  text-align: center;
-  padding: 5px;
+  align-items: center;
+  justify-content: center;
 }
 
 #week-selector button {
