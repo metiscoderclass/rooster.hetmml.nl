@@ -11,8 +11,9 @@ router.get('/', function (req, res, next) {
     flags.push('NO_FEATURE_DETECT')
   }
 
-  const flagsStr = `var FLAGS = [${flags.map(flag => `"${flag}"`).toString(', ')}];`
-  res.render('index', { flagsStr, users: users.users })
+  const flagsStr = `var FLAGS = ${JSON.stringify(flags)};`
+  const usersStr = `var USERS = ${JSON.stringify(users.users)};`
+  res.render('index', { flagsStr, usersStr })
 })
 
 module.exports = router

@@ -1,4 +1,4 @@
-/* global ga FLAGS */
+/* global ga FLAGS USERS */
 
 require('flexibility')
 
@@ -36,28 +36,10 @@ let selectedUser
 let results = []
 let offset = 0
 
-function getUsers () {
-  const nodes = document.querySelector('#data')
-    .querySelectorAll('.data-user')
-  const elements = Array.prototype.slice.call(nodes)
-  const users = elements.map(userNode => {
-    const type = userNode.querySelector('.data-type').textContent
-    const value = userNode.querySelector('.data-value').textContent
-    const index = Number(userNode.querySelector('.data-index').textContent)
-    return { type, value, index }
-  })
-
-  document.querySelector('#data').outerHTML = ''
-
-  return users
-}
-
-const users = getUsers()
-
 function getCurrentFav () {
   if (!window.localStorage.getItem('fav')) return
   const favCode = window.localStorage.getItem('fav').split(':')
-  const fav = users.filter(user => user.type === favCode[0] && user.index === Number(favCode[1]))
+  const fav = USERS.filter(user => user.type === favCode[0] && user.index === Number(favCode[1]))
   return fav[0]
 }
 
@@ -112,7 +94,7 @@ searchNode.addEventListener('input', function (e) {
   if (inputNode.value.trim() === '') return
 
   selectedResult = -1
-  results = fuzzy.filter(removeDiacritics(inputNode.value), users, {
+  results = fuzzy.filter(removeDiacritics(inputNode.value), USERS, {
     extract: function (el) { return removeDiacritics(el.value) }
   }).slice(0, 7)
 
@@ -129,7 +111,7 @@ function submitForm (e) {
   if (e) e.preventDefault()
   if (results.length !== 0) {
     const indexInResult = selectedResult === -1 ? 0 : selectedResult
-    selectedUser = users[results[indexInResult].index]
+    selectedUser = USERS[results[indexInResult].index]
   }
   if (selectedUser == null) return
 

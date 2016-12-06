@@ -7,7 +7,7 @@
     "start": "node ./bin/www",
     "setup": "npm install && bower install",
     "build-dev": "browserify -d -t [ babelify --presets [ es2015 ] ] -e ./public/javascripts/main.js > ./public/javascripts/bundle.js",
-    "build": "browserify -t [ babelify --presets [ es2015 ] ] -e ./public/javascripts/bundle.js | uglifyjs > ./public/javascripts/bundle.js"
+    "build": "browserify -t [ babelify --presets [ es2015 ] ] -e ./public/javascripts/main.js | uglifyjs -cm > ./public/javascripts/bundle.js"
   },
   "dependencies": {
     "bluebird": "^3.4.6",
