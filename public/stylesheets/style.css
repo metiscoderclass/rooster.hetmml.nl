@@ -180,6 +180,12 @@ input {
   padding: 4px;
   border-radius: 2px;
   background: none;
+
+  display: none;
+}
+
+body.searched #search .fav {
+  display: block;
 }
 
 #week-selector button:focus, #search #overflow-button:focus, #search .fav:focus {
