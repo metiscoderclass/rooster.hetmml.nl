@@ -89,7 +89,7 @@ searchNode.addEventListener('keydown', function (e) {
 })
 
 searchNode.addEventListener('input', function (e) {
-  searchNode.className = ''
+  document.body.className = ''
   autocompleteNode.innerHTML = ''
   if (inputNode.value.trim() === '') return
 
@@ -217,7 +217,7 @@ if (currentFav) {
     ga('send', { hitType: 'event', eventCategory: 'search fav', eventAction, eventLabel })
   })
 } else if (inputNode.value === '') {
-  searchNode.className = 'no-input'
+  document.body.className = 'no-input'
   inputNode.focus()
 }
 

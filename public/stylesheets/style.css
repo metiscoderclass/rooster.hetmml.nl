@@ -209,16 +209,20 @@ ul a {
 }
 
 @media screen and (min-height: 400px) {
-  #search.no-input {
+  body.no-input {
+    background-color: #ececec;
+  }
+  
+  body.no-input #search {
     height: 100%;
     background-color: #ececec;
   }
 
-  #search.no-input button {
+  body.no-input #search button {
     display: none;
   }
 
-  #search.no-input #overflow-button {
+  body.no-input #search #overflow-button {
     position: absolute;
     display: block;
     top: 0;
@@ -226,16 +230,16 @@ ul a {
     color: #757575;
   }
 
-  #search.no-input .print-page {
+  body.no-input #search .print-page {
     display: none;
   }
 
-  #search.no-input #overflow-button:focus {
+  body.no-input #search #overflow-button:focus {
     background-color: inherit;
     color: #212121;
   }
 
-  #search.no-input .logo {
+  body.no-input #search .logo {
     background-image: url(/icons/mml-logo.png);
     background-position: center;
     background-repeat: no-repeat;
@@ -248,47 +252,47 @@ ul a {
     margin: 0 auto;
   }
 
-  #search.no-input .title {
+  body.no-input #search .title {
     display: block;
     font-size: 55px;
     padding-bottom: 32px;
   }
 
-  #search.no-input .title .text {
+  body.no-input #search .title .text {
     text-align: center;
     line-height: 55px;
   }
 
-  #search.no-input .top-bar {
+  body.no-input #search .top-bar {
     position: static;
     display: block;
     margin-top: 50vh;
     transform: translateY(-75%);
   }
 
-  #search.no-input input[type='text'] {
+  body.no-input #search input[type='text'] {
     background-color: #FFF;
   }
 
   /* WebKit, Blink, Edge */
-  #search.no-input input::-webkit-input-placeholder {
+  body.no-input #search input::-webkit-input-placeholder {
     color: #757575;
   }
 
   /* Mozilla Firefox 4 to 18 */
-  #search.no-input input:-moz-placeholder {
+  body.no-input #search input:-moz-placeholder {
     color: #757575;
     opacity: 1;
   }
 
   /* Mozilla Firefox 19+ */
-  #search.no-input input::-moz-placeholder {
+  body.no-input #search input::-moz-placeholder {
     color: #757575;
     opacity: 1;
   }
 
   /* Internet Explorer 10-11 */
-  #search.no-input input:-ms-input-placeholder {
+  body.no-input #search input:-ms-input-placeholder {
     color: #757575;
   }
 }
