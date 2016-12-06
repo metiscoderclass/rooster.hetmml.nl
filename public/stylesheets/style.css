@@ -53,7 +53,7 @@ html, body {
   outline: none;
   border: 0;
   padding: 16px;
-  font-size: 1.1em;
+  font-size: 16px;
   transition: box-shadow 200ms ease-in-out;
 }
 
