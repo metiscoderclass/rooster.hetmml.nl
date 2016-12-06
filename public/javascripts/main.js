@@ -221,6 +221,6 @@ if (currentFav) {
   inputNode.focus()
 }
 
-document.body.style = ''
+document.body.style.opacity = '1'
 
 window.easterEggs = easterEggs
