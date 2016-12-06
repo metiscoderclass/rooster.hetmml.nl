@@ -40,33 +40,65 @@ html, body {
 #search .input-wrapper {
   position: relative;
   flex-grow: 1;
+  color: #FFFFFF;
 }
 
 #search input[type='text'] {
   display: block;
-  background-color: #D32F2F;
-  color: #FFFFFF;
+  background-color: #f6695e;
+  color: inherit;
+  border-radius: 2px;
   width: 100%;
   display: block;
   outline: none;
   border: 0;
   padding: 16px;
   font-size: 1.1em;
+  transition: box-shadow 200ms ease-in-out;
 }
 
-::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-    color:    #FFCDD2;
+#search input[type='text']:focus {
+  background-color: #FFFFFF;
+  color: #212121;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
-:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-   color:    #FFCDD2;
-   opacity:  1;
+
+#search input[type='text']:focus + button {
+  color: #212121;
 }
-::-moz-placeholder { /* Mozilla Firefox 19+ */
-   color:    #FFCDD2;
-   opacity:  1;
+
+/* WebKit, Blink, Edge */
+input::-webkit-input-placeholder {
+  color: #FFCDD2;
 }
-:-ms-input-placeholder { /* Internet Explorer 10-11 */
-   color:    #FFCDD2;
+input:focus::-webkit-input-placeholder {
+  color: #757575;
+}
+
+/* Mozilla Firefox 4 to 18 */
+input:-moz-placeholder {
+ color: #FFCDD2;
+ opacity: 1;
+}
+input:focus:-moz-placeholder {
+ color: #757575;
+}
+
+/* Mozilla Firefox 19+ */
+input::-moz-placeholder {
+ color: #FFCDD2;
+ opacity: 1;
+}
+input:focus::-moz-placeholder {
+ color: #757575;
+}
+
+/* Internet Explorer 10-11 */
+input:-ms-input-placeholder {
+ color: #FFCDD2;
+}
+input:focus:-ms-input-placeholder {
+ color: #757575;
 }
 
 li:hover {
@@ -127,17 +159,11 @@ li:hover {
 }
 
 #week-selector input[type='button'] {
-  background: #D32F2F;
+  background: inherit;
   color: white;
   border: 0px;
   padding: 5px 10px;
   border-radius: 2px;
-}
-
-/*input:hover,*/
-input:focus {
-  outline: none;
-  background-color: #b71c1c !important;
 }
 
 input {
@@ -147,12 +173,18 @@ input {
 #search .fav {
   position: absolute;
   font-size: 1.8em;
-  color: #FFCDD2;
-  right: 12.5px;
-  top: 12.5px;
+  color: inherit;
+  right: 8.5px;
+  top: 8.5px;
   border: 0;
-  padding: 0;
+  padding: 4px;
+  border-radius: 2px;
   background: none;
+}
+
+#week-selector input[type='button']:focus, #search #overflow-button:focus, #search .fav:focus {
+  outline: none;
+  background-color: #D32F2F;
 }
 
 #search #overflow-button {
@@ -160,6 +192,7 @@ input {
   border: none;
   padding: 3px 9px;
   color: white;
+  border-radius: 2px;
 }
 
 .hidden {
@@ -169,4 +202,91 @@ input {
 ul a {
   color: inherit;
   text-decoration: none;
+}
+
+#search .title {
+  display: none;
+}
+
+#search.no-input {
+  height: 100%;
+  background-color: #ececec;
+}
+
+#search.no-input button {
+  display: none;
+}
+
+#search.no-input #overflow-button {
+  position: absolute;
+  display: block;
+  top: 0;
+  right: 0;
+  color: #757575;
+}
+
+#search.no-input .print-page {
+  display: none;
+}
+
+#search.no-input #overflow-button:focus {
+  background-color: inherit;
+  color: #212121;
+}
+
+#search.no-input .logo {
+  background-image: url(/icons/mml-logo.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 100px;
+  width: 100px;
+
+  /* virtual center: http://javier.xyz/visual-center/ */
+  transform: translate(-8%,-3%);
+  margin: 0 auto;
+}
+
+#search.no-input .title {
+  display: block;
+  font-size: 55px;
+  padding-bottom: 32px;
+}
+
+#search.no-input .title .text {
+  text-align: center;
+  line-height: 55px;
+}
+
+#search.no-input .top-bar {
+  position: static;
+  display: block;
+  margin-top: 50vh;
+  transform: translateY(-75%);
+}
+
+#search.no-input input[type='text'] {
+  background-color: #FFF;
+}
+
+/* WebKit, Blink, Edge */
+#search.no-input input::-webkit-input-placeholder {
+ color: #757575;
+}
+
+/* Mozilla Firefox 4 to 18 */
+#search.no-input input:-moz-placeholder {
+ color: #757575;
+ opacity: 1;
+}
+
+/* Mozilla Firefox 19+ */
+#search.no-input input::-moz-placeholder {
+ color: #757575;
+ opacity: 1;
+}
+
+/* Internet Explorer 10-11 */
+#search.no-input input:-ms-input-placeholder {
+ color: #757575;
 }
