@@ -224,6 +224,10 @@ if (currentFav) {
   inputNode.focus()
 }
 
+if (scheduleIframe.src !== '') {
+  document.body.classList.add('searched')
+}
+
 document.body.style.opacity = '1'
 
 window.easterEggs = easterEggs
