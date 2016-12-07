@@ -3,7 +3,7 @@
   "short_name": "Rooster",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FFF",
+  "background_color": "#ececec",
   "description": "Een verbeterde rooster pagina voor het metis",
   "icons": [{
     "src": "/icons/res/mipmap-mdpi/ic_launcher.png",

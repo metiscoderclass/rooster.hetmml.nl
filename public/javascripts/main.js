@@ -1,4 +1,4 @@
-/* global ga */
+/* global ga FLAGS USERS */
 
 require('flexibility')
 
@@ -10,16 +10,15 @@ const getWeek = require('./getWeek')
 const easterEggs = require('./easterEggs')
 
 const searchNode = document.querySelector('#search')
-const inputNode = searchNode.querySelector('input[type="text"]')
+const inputNode = searchNode.querySelector('input[type="search"]')
 const autocompleteNode = document.querySelector('.autocomplete')
 const scheduleIframe = document.querySelector('#schedule')
-const prevButton = document.querySelectorAll('input[type="button"]')[0]
-const nextButton = document.querySelectorAll('input[type="button"]')[1]
+const prevButton = document.querySelectorAll('#week-selector button')[0]
+const nextButton = document.querySelectorAll('#week-selector button')[1]
 const currentWeekNode = document.querySelector('.current')
 const favNode = document.querySelector('.fav')
 
-if (!(window.location.href.split('?')[1] &&
-    window.location.href.split('?')[1].indexOf('nfd') >= 0)) { // nfd = no feature detection
+if (FLAGS.indexOf('NO_FEATURE_DETECT') === -1) {
   if (document.querySelector('#schedule').getClientRects()[0].bottom !==
       document.body.getClientRects()[0].bottom) {
     window.location = 'http://www.meetingpointmco.nl/Roosters-AL/doc/'
@@ -37,28 +36,10 @@ let selectedUser
 let results = []
 let offset = 0
 
-function getUsers () {
-  const nodes = document.querySelector('#data')
-    .querySelectorAll('.data-user')
-  const elements = Array.prototype.slice.call(nodes)
-  const users = elements.map(userNode => {
-    const type = userNode.querySelector('.data-type').textContent
-    const value = userNode.querySelector('.data-value').textContent
-    const index = Number(userNode.querySelector('.data-index').textContent)
-    return { type, value, index }
-  })
-
-  document.querySelector('#data').outerHTML = ''
-
-  return users
-}
-
-const users = getUsers()
-
 function getCurrentFav () {
   if (!window.localStorage.getItem('fav')) return
   const favCode = window.localStorage.getItem('fav').split(':')
-  const fav = users.filter(user => user.type === favCode[0] && user.index === Number(favCode[1]))
+  const fav = USERS.filter(user => user.type === favCode[0] && user.index === Number(favCode[1]))
   return fav[0]
 }
 
@@ -107,12 +88,21 @@ searchNode.addEventListener('keydown', function (e) {
   }
 })
 
-searchNode.addEventListener('input', function (e) {
+let inputEventStr
+if (navigator.userAgent.indexOf('MSIE') !== -1 ||
+    navigator.appVersion.indexOf('Trident/') > 0) {
+  inputEventStr = 'textinput' // IE 6-11
+} else {
+  inputEventStr = 'input' // normal browsers
+}
+
+searchNode.addEventListener(inputEventStr, function (e) {
+  document.body.classList.remove('no-input')
   autocompleteNode.innerHTML = ''
   if (inputNode.value.trim() === '') return
 
   selectedResult = -1
-  results = fuzzy.filter(removeDiacritics(inputNode.value), users, {
+  results = fuzzy.filter(removeDiacritics(inputNode.value), USERS, {
     extract: function (el) { return removeDiacritics(el.value) }
   }).slice(0, 7)
 
@@ -129,9 +119,11 @@ function submitForm (e) {
   if (e) e.preventDefault()
   if (results.length !== 0) {
     const indexInResult = selectedResult === -1 ? 0 : selectedResult
-    selectedUser = users[results[indexInResult].index]
+    selectedUser = USERS[results[indexInResult].index]
   }
   if (selectedUser == null) return
+
+  document.body.classList.add('searched')
 
   updateFavNode()
 
@@ -187,11 +179,15 @@ inputNode.addEventListener('click', function () {
   inputNode.select()
 })
 
-inputNode.addEventListener('blur', function () {
-  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
-  if (!isSafari) {
-    inputNode.selectionStart = inputNode.selectionEnd = -1
-  }
+window.addEventListener('blur', function () {
+  // this will removed the selection without drawing focus on it (safari)
+  // this will removed selection even when focusing an iframe (chrome)
+  const oldValue = inputNode.value
+  inputNode.value = ''
+  inputNode.value = oldValue
+
+  // this will hide the keyboard (iOS safari)
+  document.activeElement.blur()
 })
 
 searchNode.addEventListener('blur', function (e) {
@@ -234,6 +230,15 @@ if (currentFav) {
   ga(function () {
     ga('send', { hitType: 'event', eventCategory: 'search fav', eventAction, eventLabel })
   })
+} else if (inputNode.value === '') {
+  document.body.classList.add('no-input')
+  inputNode.focus()
 }
 
-easterEggs.sinterklaas()
+if (scheduleIframe.src !== '') {
+  document.body.classList.add('searched')
+}
+
+document.body.style.opacity = '1'
+
+window.easterEggs = easterEggs

@@ -1,54 +1,30 @@
 extends layout
 
-block head_top
-  script.
-    function utmx_section(){}function utmx(){}(function(){var
-    k='129149775-1',d=document,l=d.location,c=d.cookie;
-    if(l.search.indexOf('utm_expid='+k)>0)return;
-    function f(n){if(c){var i=c.indexOf(n+'=');if(i>-1){var j=c.
-    indexOf(';',i);return escape(c.substring(i+n.length+1,j<0?c.
-    length:j))}}}var x=f('__utmx'),xx=f('__utmxx'),h=l.hash;d.write(
-    '<sc'+'ript src="'+'http'+(l.protocol=='https:'?'s://ssl':
-    '://www')+'.google-analytics.com/ga_exp.js?'+'utmxkey='+k+
-    '&utmx='+(x?x:'')+'&utmxx='+(xx?xx:'')+'&utmxtime='+new Date().
-    valueOf()+(h?'&utmxhash='+escape(h.substr(1)):'')+
-    '" type="text/javascript" charset="utf-8"><\/sc'+'ript>')})();
-  script.
-    utmx('url','A/B');
-
-
 block head
-  if version == 'new'
-    link(rel='stylesheet', href='/stylesheets/style_new.css')
-  else
-    link(rel='stylesheet', href='/stylesheets/style.css')
+  link(rel='stylesheet', href='/stylesheets/style.css')
   link(rel='stylesheet', href='/stylesheets/print.css', media='print')
   link(rel='stylesheet', href='https://fonts.googleapis.com/icon?family=Material+Icons')
   link(rel='stylesheet', href='https://code.getmdl.io/1.2.1/material.indigo-pink.min.css')
   script(defer='', src='https://code.getmdl.io/1.2.1/material.min.js')
 
 block content
-  #data(style='display: none;')
-    each user in users
-      .data-user
-        .data-type= user.type
-        .data-value= user.value
-        .data-index= user.index
-        .data-other= user.other
-        .data-isID= user.isID
-
   form#search
     .top-bar
+      .title
+        .logo
+        .text Rooster
       .input-wrapper
-        input(type='text', placeholder='Zoeken')
+        input(type='search', placeholder='Zoeken')
         button.material-icons.fav(tabindex='0', type='button') &#xE83A;
+      .tooltip
+        span Voer hier een <strong>docentafkorting</strong>, <strong>klas</strong>, <strong>leerlingnummer</strong> of <strong>lokaalnummer</strong> in.
       button#overflow-button(type='button')
         i.material-icons &#xE5D4;
         
       ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='overflow-button')
         a(href='http://www.meetingpointmco.nl/Roosters-AL/doc/')
           li.mdl-menu__item Oud rooster gebruiken
-        a(href='javascript:window.print()')
+        a(href='javascript:window.print()').print-page
           li.mdl-menu__item.mdl-menu__item--full-bleed-divider#print-page Pagina printen
         li.mdl-menu__item(disabled) Gemaakt door Noah Loomans
     .autocomplete-wrapper
@@ -56,16 +32,13 @@ block content
   #week-selector
     #search-space-filler
     .week-wrapper
-      if version == 'new'
-        input(type='button', value='arrow_back').material-icons
-        span.current Loading...
-        input(type='button', value='arrow_forward').material-icons
-      else
-        input(type='button', value='Vorige')
-        span.current Loading...
-        input(type='button', value='Volgende')
+      button(type='button').material-icons &#xE5C4;
+      span.current Loading...
+      button(type='button').material-icons &#xE5C8;
 
-  iframe(src='/hello', scrolling='no')#schedule
+  iframe(scrolling='no')#schedule
 
 block scripts
+  script.
+    !{flagsStr}!{usersStr}
   script(src='/javascripts/bundle.js')
