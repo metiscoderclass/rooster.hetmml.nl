@@ -185,6 +185,9 @@ window.addEventListener('blur', function () {
   const oldValue = inputNode.value
   inputNode.value = ''
   inputNode.value = oldValue
+
+  // this will hide the keyboard (iOS safari)
+  document.activeElement.blur()
 })
 
 searchNode.addEventListener('blur', function (e) {
