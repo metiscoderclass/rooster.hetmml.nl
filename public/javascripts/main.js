@@ -13,8 +13,8 @@ const searchNode = document.querySelector('#search')
 const inputNode = searchNode.querySelector('input[type="text"]')
 const autocompleteNode = document.querySelector('.autocomplete')
 const scheduleIframe = document.querySelector('#schedule')
-const prevButton = document.querySelectorAll('input[type="button"]')[0]
-const nextButton = document.querySelectorAll('input[type="button"]')[1]
+const prevButton = document.querySelectorAll('#week-selector button')[0]
+const nextButton = document.querySelectorAll('#week-selector button')[1]
 const currentWeekNode = document.querySelector('.current')
 const favNode = document.querySelector('.fav')
 
@@ -97,7 +97,7 @@ if (navigator.userAgent.indexOf('MSIE') !== -1 ||
 }
 
 searchNode.addEventListener(inputEventStr, function (e) {
-  document.body.className = ''
+  document.body.classList.remove('no-input')
   autocompleteNode.innerHTML = ''
   if (inputNode.value.trim() === '') return
 
@@ -122,6 +122,8 @@ function submitForm (e) {
     selectedUser = USERS[results[indexInResult].index]
   }
   if (selectedUser == null) return
+
+  document.body.classList.add('searched')
 
   updateFavNode()
 
@@ -177,11 +179,12 @@ inputNode.addEventListener('click', function () {
   inputNode.select()
 })
 
-inputNode.addEventListener('blur', function () {
-  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
-  if (!isSafari) {
-    inputNode.selectionStart = inputNode.selectionEnd = -1
-  }
+window.addEventListener('blur', function () {
+  // this will removed the selection without drawing focus on it (safari)
+  // this will removed selection even when focusing an iframe (chrome)
+  const oldValue = inputNode.value
+  inputNode.value = ''
+  inputNode.value = oldValue
 })
 
 searchNode.addEventListener('blur', function (e) {
@@ -225,8 +228,12 @@ if (currentFav) {
     ga('send', { hitType: 'event', eventCategory: 'search fav', eventAction, eventLabel })
   })
 } else if (inputNode.value === '') {
-  document.body.className = 'no-input'
+  document.body.classList.add('no-input')
   inputNode.focus()
+}
+
+if (scheduleIframe.src !== '') {
+  document.body.classList.add('searched')
 }
 
 document.body.style.opacity = '1'

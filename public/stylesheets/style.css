@@ -117,8 +117,8 @@ li:hover {
   padding: 0;
 }
 
-#search-space-filler {
-  height: 73px;
+body.searched #search-space-filler {
+  height: 70px;
 }
 
 .autocomplete-wrapper {
@@ -153,12 +153,13 @@ li:hover {
 }
 
 #week-selector .current {
+  display: flex;
   flex-grow: 1;
-  text-align: center;
-  padding: 5px;
+  align-items: center;
+  justify-content: center;
 }
 
-#week-selector input[type='button'] {
+#week-selector button {
   background: inherit;
   color: white;
   border: 0px;
@@ -180,9 +181,15 @@ input {
   padding: 4px;
   border-radius: 2px;
   background: none;
+
+  display: none;
 }
 
-#week-selector input[type='button']:focus, #search #overflow-button:focus, #search .fav:focus {
+body.searched #search .fav {
+  display: block;
+}
+
+#week-selector button:focus, #search #overflow-button:focus, #search .fav:focus {
   outline: none;
   background-color: #D32F2F;
 }
@@ -208,14 +215,19 @@ ul a {
   display: none;
 }
 
+body.no-input #week-selector {
+  display: none;
+}
+
 @media screen and (min-height: 400px) {
   body.no-input {
     background-color: #ececec;
   }
-  
+
   body.no-input #search {
     height: 100%;
     background-color: #ececec;
+    box-shadow: none;
   }
 
   body.no-input #search button {
