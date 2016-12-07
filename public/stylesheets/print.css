@@ -11,7 +11,7 @@
   max-width: inherit;
 }
 
-#search input[type="text"] {
+#search input[type="search"] {
   background-color: inherit;
   color: black;
   font-weight: bold;

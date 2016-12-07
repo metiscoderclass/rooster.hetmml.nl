@@ -10,7 +10,7 @@ const getWeek = require('./getWeek')
 const easterEggs = require('./easterEggs')
 
 const searchNode = document.querySelector('#search')
-const inputNode = searchNode.querySelector('input[type="text"]')
+const inputNode = searchNode.querySelector('input[type="search"]')
 const autocompleteNode = document.querySelector('.autocomplete')
 const scheduleIframe = document.querySelector('#schedule')
 const prevButton = document.querySelectorAll('#week-selector button')[0]

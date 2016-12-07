@@ -1,7 +1,7 @@
 const sinterklaas = function () {
   console.log('sinterklaas easter egg activated')
   const searchNode = document.querySelector('#search')
-  const inputNode = searchNode.querySelector('input[type="text"]')
+  const inputNode = searchNode.querySelector('input[type="search"]')
   const autocompleteNode = document.querySelector('.autocomplete')
   let autocomplete = false
   const lyrics = [
