@@ -88,7 +88,15 @@ searchNode.addEventListener('keydown', function (e) {
   }
 })
 
-searchNode.addEventListener('input', function (e) {
+let inputEventStr
+if (navigator.userAgent.indexOf('MSIE') !== -1 ||
+    navigator.appVersion.indexOf('Trident/') > 0) {
+  inputEventStr = 'textinput' // IE 6-11
+} else {
+  inputEventStr = 'input' // normal browsers
+}
+
+searchNode.addEventListener(inputEventStr, function (e) {
   document.body.className = ''
   autocompleteNode.innerHTML = ''
   if (inputNode.value.trim() === '') return
