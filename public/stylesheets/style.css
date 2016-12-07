@@ -325,3 +325,27 @@ body.no-input #week-selector {
     color: #757575;
   }
 }
+
+.tooltip {
+  display: none;
+}
+
+body.no-input .tooltip {
+  display: block;
+  position: absolute;
+  background-color: white;
+  padding: 15px;
+  margin: 32px 8px;
+  border-radius: 2px;
+}
+
+body.no-input .tooltip::before {
+  content: '';
+  width: 24px;
+  height: 24px;
+  background-color: white;
+  top: -12px;
+  position: absolute;
+  transform: rotate(45deg);
+  z-index: -1;
+}
