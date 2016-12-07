@@ -74,7 +74,7 @@ input[type="search"]::-webkit-search-results-decoration {
   display: none;
 }
 
-input[tupe="search"]::-ms-clear {
+input[type="search"]::-ms-clear {
   width: 0;
   height: 0;
 }
@@ -177,7 +177,7 @@ body.searched #search-space-filler {
 }
 
 #week-selector button {
-  background: inherit;
+  background: transparent;
   color: white;
   border: 0px;
   padding: 5px 10px;
