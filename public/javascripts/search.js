@@ -21,8 +21,12 @@ self._handleSubmit = function (event) {
   self.submit()
 }
 
-self._nodes.search.addEventListener('submit', self._handleSubmit)
+autocomplete.events.on('select', self.submit)
 
-console.log(self)
+self._nodes.search.addEventListener('submit', self._handleSubmit)
+self._nodes.input.addEventListener('focus', autocomplete.show)
+
+// TODO: hide on escape key press
+// self._nodes.input.addEventListener('blur', autocomplete.hide)
 
 module.exports = self

@@ -1,15 +1,17 @@
 /* global USERS */
 
 const fuzzy = require('fuzzy')
-const search = require('./search')
-
+const EventEmitter = require('events')
+const process = require('process')
 const self = {}
 
 self._items = []
 self._selectedItemIndex = -1
 
+self.events = new EventEmitter()
+
 self._nodes = {
-  form: document.querySelector('#search'),
+  search: document.querySelector('#search'),
   input: document.querySelector('input[type="search"]'),
   autocomplete: document.querySelector('.autocomplete')
 }
@@ -32,6 +34,14 @@ self.getItems = function () {
   return self._items
 }
 
+self.show = function () {
+  self._nodes.autocomplete.style.display = 'block'
+}
+
+self.hide = function () {
+  self._nodes.autocomplete.style.display = 'none'
+}
+
 self._removeAllItems = function () {
   while (self._nodes.autocomplete.firstChild) {
     self._nodes.autocomplete.removeChild(self._nodes.autocomplete.firstChild)
@@ -43,7 +53,6 @@ self._removeAllItems = function () {
 self._addItem = function (item) {
   const listItem = document.createElement('li')
   listItem.textContent = item.value
-  listItem.addEventListener('click', self._handleItemClick)
   self._nodes.autocomplete.appendChild(listItem)
   self._items.push(item)
 }
@@ -78,22 +87,11 @@ self._calculate = function (searchTerm) {
 }
 
 self._handleItemClick = function (event) {
+  if (!self._nodes.autocomplete.contains(event.target)) return
   const itemIndex = Array.prototype.indexOf
       .call(self._nodes.autocomplete.children, event.target)
-  console.log(itemIndex)
   self._selectedItemIndex = itemIndex
-  console.log(search)
-  search.submit()
-}
-
-self._handleFocus = function () {
-  self._nodes.autocomplete.style.display = 'block'
-}
-
-self._handleBlur = function (event) {
-  // console.log(document.querySelector(':focus'))
-  // if (event.target.parentNode === self._nodes.autocomplete) return
-  // self._nodes.autocomplete.style.display = 'none'
+  self.events.emit('select', self.getSelectedItem())
 }
 
 self._handleTextUpdate = function () {
@@ -116,8 +114,7 @@ self._handleKeydown = function (event) {
   }
 }
 
-self._nodes.input.addEventListener('focus', self._handleFocus)
-self._nodes.input.addEventListener('blur', self._handleBlur)
+self._nodes.autocomplete.addEventListener('click', self._handleItemClick)
 self._nodes.input.addEventListener('input', self._handleTextUpdate)
 self._nodes.input.addEventListener('keydown', self._handleKeydown)
 
