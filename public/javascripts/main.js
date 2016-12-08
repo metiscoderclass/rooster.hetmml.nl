@@ -1,4 +1,5 @@
 const frontpage = require('./frontpage')
+require('./search')
 
 frontpage.show()
 

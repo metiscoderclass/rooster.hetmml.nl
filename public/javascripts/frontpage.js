@@ -1,5 +1,4 @@
-const frontpage = {}
-const self = frontpage
+const self = {}
 
 self._nodes = {
   input: document.querySelector('input[type="search"]')
@@ -19,4 +18,4 @@ self.hide = function () {
 
 self._nodes.input.addEventListener('input', self.hide)
 
-module.exports = frontpage
+module.exports = self
