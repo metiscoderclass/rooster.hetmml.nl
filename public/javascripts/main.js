@@ -235,7 +235,8 @@ if (currentFav) {
   inputNode.focus()
 }
 
-if (scheduleIframe.src !== '') {
+if (inputNode.value !== '') {
+  document.body.classList.remove('no-input')
   document.body.classList.add('searched')
 }
 
