@@ -1,8 +1,4 @@
-/* global USERS */
-
-const fuzzy = require('fuzzy')
 const EventEmitter = require('events')
-const process = require('process')
 const self = {}
 
 self._items = []
@@ -42,7 +38,7 @@ self.hide = function () {
   self._nodes.autocomplete.style.display = 'none'
 }
 
-self._removeAllItems = function () {
+self.removeAllItems = function () {
   while (self._nodes.autocomplete.firstChild) {
     self._nodes.autocomplete.removeChild(self._nodes.autocomplete.firstChild)
   }
@@ -50,7 +46,7 @@ self._removeAllItems = function () {
   self._selectedItemIndex = -1
 }
 
-self._addItem = function (item) {
+self.addItem = function (item) {
   const listItem = document.createElement('li')
   listItem.textContent = item.value
   self._nodes.autocomplete.appendChild(listItem)
@@ -75,32 +71,12 @@ self._moveSelected = function (shift) {
   }
 }
 
-self._calculate = function (searchTerm) {
-  const allResults = fuzzy.filter(searchTerm, USERS, {
-    extract: item => item.value
-  })
-  const firstResults = allResults.slice(0, 7)
-
-  const originalResults = firstResults.map(result => result.original)
-
-  return originalResults
-}
-
 self._handleItemClick = function (event) {
   if (!self._nodes.autocomplete.contains(event.target)) return
   const itemIndex = Array.prototype.indexOf
       .call(self._nodes.autocomplete.children, event.target)
   self._selectedItemIndex = itemIndex
   self.events.emit('select', self.getSelectedItem())
-}
-
-self._handleTextUpdate = function () {
-  const results = self._calculate(self._nodes.input.value)
-
-  self._removeAllItems()
-  for (let i = 0; i < results.length; i++) {
-    self._addItem(results[i])
-  }
 }
 
 self._handleKeydown = function (event) {
@@ -115,7 +91,6 @@ self._handleKeydown = function (event) {
 }
 
 self._nodes.autocomplete.addEventListener('click', self._handleItemClick)
-self._nodes.input.addEventListener('input', self._handleTextUpdate)
 self._nodes.input.addEventListener('keydown', self._handleKeydown)
 
 module.exports = self
