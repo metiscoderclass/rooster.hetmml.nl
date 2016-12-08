@@ -17,6 +17,8 @@ self.submit = function () {
   const selectedItem = autocomplete.getSelectedItem()
   console.log(selectedItem)
   iframe.viewItem(0, selectedItem)
+
+  autocomplete.hide()
 }
 
 self._handleSubmit = function (event) {
