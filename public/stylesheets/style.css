@@ -132,6 +132,7 @@ li:hover {
   width: 100vw;
   border: 0;
   padding: 0;
+  overflow: auto;
 }
 
 body.searched #search-space-filler {

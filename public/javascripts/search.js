@@ -2,7 +2,7 @@
 
 const fuzzy = require('fuzzy')
 const autocomplete = require('./autocomplete')
-const iframe = require('./iframe')
+const schedule = require('./schedule')
 
 const self = {}
 
@@ -16,7 +16,7 @@ self.submit = function () {
 
   const selectedItem = autocomplete.getSelectedItem()
   self._nodes.input.value = selectedItem.value
-  iframe.viewItem(0, selectedItem)
+  schedule.viewItem(0, selectedItem)
 
   autocomplete.removeAllItems()
 }
