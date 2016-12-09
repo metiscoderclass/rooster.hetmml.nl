@@ -177,6 +177,10 @@ body.searched #search-space-filler {
   justify-content: center;
 }
 
+#week-selector .current.changed {
+  font-weight: bold;
+}
+
 #week-selector button {
   background: transparent;
   color: white;

@@ -1,4 +1,4 @@
-const getURLOfUser = require('./getURLOfUser')
+const leftPad = require('left-pad')
 
 const self = {}
 
@@ -28,8 +28,15 @@ self._handleError = function (event) {
   console.error(request)
 }
 
-self.viewItem = function (offset, selectedUser) {
-  const url = getURLOfUser(offset, selectedUser.type, selectedUser.index + 1)
+self._getURLOfUsers = function (week, type, index) {
+  const id = index + 1
+  return `//${window.location.host}/meetingpointProxy/Roosters-AL%2Fdoc%2Fdagroosters%2F` +
+      `${(week)}%2F${type}%2F${type}${leftPad(id, 5, '0')}.htm`
+}
+
+self.viewItem = function (week, selectedUser) {
+  console.log(selectedUser)
+  const url = self._getURLOfUsers(week, selectedUser.type, selectedUser.index)
 
   while (self._nodes.schedule.firstChild) {
     self._nodes.schedule.removeChild(self._nodes.schedule.firstChild)
