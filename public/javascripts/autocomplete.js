@@ -30,14 +30,6 @@ self.getItems = function () {
   return self._items
 }
 
-self.show = function () {
-  self._nodes.autocomplete.style.display = 'block'
-}
-
-self.hide = function () {
-  self._nodes.autocomplete.style.display = 'none'
-}
-
 self.removeAllItems = function () {
   while (self._nodes.autocomplete.firstChild) {
     self._nodes.autocomplete.removeChild(self._nodes.autocomplete.firstChild)

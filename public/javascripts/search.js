@@ -15,10 +15,10 @@ self.submit = function () {
   self._nodes.input.blur()
 
   const selectedItem = autocomplete.getSelectedItem()
-  console.log(selectedItem)
+  self._nodes.input.value = selectedItem.value
   iframe.viewItem(0, selectedItem)
 
-  autocomplete.hide()
+  autocomplete.removeAllItems()
 }
 
 self._handleSubmit = function (event) {
@@ -50,9 +50,5 @@ autocomplete.events.on('select', self.submit)
 
 self._nodes.search.addEventListener('submit', self._handleSubmit)
 self._nodes.input.addEventListener('input', self._handleTextUpdate)
-self._nodes.input.addEventListener('focus', autocomplete.show)
-
-// TODO: hide on escape key press
-// self._nodes.input.addEventListener('blur', autocomplete.hide)
 
 module.exports = self
