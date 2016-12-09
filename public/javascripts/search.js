@@ -19,6 +19,7 @@ self.submit = function () {
   schedule.viewItem(0, selectedItem)
 
   autocomplete.removeAllItems()
+  document.body.classList.add('searched')
 }
 
 self._handleSubmit = function (event) {
