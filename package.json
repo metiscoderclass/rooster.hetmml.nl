@@ -7,6 +7,7 @@
     "start": "node ./bin/www",
     "setup": "npm install && bower install",
     "build-dev": "browserify -d -t [ babelify --presets [ es2016 ] ] -e ./public/javascripts/main.js > ./public/javascripts/bundle.js",
+    "watch": "watchify -v -d -t [ babelify --presets [ es2016 ] ] -e ./public/javascripts/main.js -o ./public/javascripts/bundle.js",
     "build": "browserify -t [ babelify --presets [ es2016 ] ] -e ./public/javascripts/main.js | uglifyjs -cm > ./public/javascripts/bundle.js"
   },
   "dependencies": {
@@ -33,7 +34,8 @@
     "babelify": "^7.3.0",
     "bower": "^1.7.9",
     "browserify": "^13.1.0",
-    "gulp": "^3.9.1"
+    "gulp": "^3.9.1",
+    "watchify": "^3.7.0"
   },
   "author": "Noah Loomans <noahloomans@gmail.com>",
   "license": "MIT",
