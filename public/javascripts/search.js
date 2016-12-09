@@ -1,10 +1,12 @@
 /* global USERS */
 
+const EventEmitter = require('events')
 const fuzzy = require('fuzzy')
 const autocomplete = require('./autocomplete')
-const schedule = require('./schedule')
 
 const self = {}
+
+self.events = new EventEmitter()
 
 self._nodes = {
   search: document.querySelector('#search'),
@@ -16,10 +18,11 @@ self.submit = function () {
 
   const selectedItem = autocomplete.getSelectedItem()
   self._nodes.input.value = selectedItem.value
-  schedule.viewItem(0, selectedItem)
 
   autocomplete.removeAllItems()
   document.body.classList.add('searched')
+
+  self.events.emit('search', selectedItem)
 }
 
 self._handleSubmit = function (event) {
