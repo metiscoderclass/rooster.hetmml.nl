@@ -9,13 +9,18 @@ self._nodes = {
 }
 
 self.get = function () {
-  const localStorageUser = JSON.parse(window.localStorage.getItem('fav'))
-  if (localStorageUser == null) return
+  try {
+    const localStorageUser = JSON.parse(window.localStorage.getItem('fav'))
+    if (localStorageUser == null) return
 
-  const correctedUser = USERS.filter(user =>
-      user.type === localStorageUser.type &&
-      user.value === localStorageUser.value)[0]
-  return correctedUser
+    const correctedUser = USERS.filter(user =>
+        user.type === localStorageUser.type &&
+        user.value === localStorageUser.value)[0]
+    return correctedUser
+  } catch (e) {
+    self.delete()
+    return
+  }
 }
 
 self.set = function (user) {
