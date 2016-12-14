@@ -16,6 +16,8 @@ if (favorite.get() != null) {
   state.selectedItem = favorite.get()
   favorite.update(state.selectedItem)
   schedule.viewItem(weekSelector.getSelectedWeek(), state.selectedItem)
+} else {
+  search.focus()
 }
 
 search.on('search', function (selectedItem) {

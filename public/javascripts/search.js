@@ -29,6 +29,10 @@ self.updateDom = function (selectedItem) {
   document.body.classList.add('searched')
 }
 
+self.focus = function () {
+  self._nodes.input.focus()
+}
+
 self._handleSubmit = function (event) {
   event.preventDefault()
   self.submit()
