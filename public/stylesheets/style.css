@@ -370,3 +370,16 @@ body.no-input #week-selector {
 .tooltip {
   display: none;
 }
+
+@media screen and (max-width: 580px) {
+  table table tr {
+    display: flex;
+    flex-direction: column;
+  }
+
+  table * {
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 13px;
+  }
+}
