@@ -4,9 +4,7 @@ const EventEmitter = require('events')
 const fuzzy = require('fuzzy')
 const autocomplete = require('./autocomplete')
 
-const self = {}
-
-self.events = new EventEmitter()
+const self = new EventEmitter()
 
 self._nodes = {
   search: document.querySelector('#search'),
@@ -22,7 +20,7 @@ self.submit = function () {
   autocomplete.removeAllItems()
   document.body.classList.add('searched')
 
-  self.events.emit('search', selectedItem)
+  self.emit('search', selectedItem)
 }
 
 self._handleSubmit = function (event) {
@@ -50,7 +48,7 @@ self._handleTextUpdate = function () {
   }
 }
 
-autocomplete.events.on('select', self.submit)
+autocomplete.on('select', self.submit)
 
 self._nodes.search.addEventListener('submit', self._handleSubmit)
 self._nodes.input.addEventListener('input', self._handleTextUpdate)

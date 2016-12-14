@@ -1,8 +1,6 @@
 const EventEmitter = require('events')
 
-const self = {}
-
-self.events = new EventEmitter()
+const self = new EventEmitter()
 
 self._nodes = {
   prevButton: document.querySelectorAll('#week-selector button')[0],
@@ -41,7 +39,7 @@ self.updateCurrentWeek = function () {
   } else {
     self._nodes.currentWeekText.classList.remove('changed')
   }
-  self.events.emit('weekChanged', selectedWeekNumber)
+  self.emit('weekChanged', selectedWeekNumber)
 }
 
 self._handlePrevButtonClick = function () {

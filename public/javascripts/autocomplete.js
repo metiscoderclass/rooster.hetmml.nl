@@ -1,10 +1,9 @@
 const EventEmitter = require('events')
-const self = {}
+
+const self = new EventEmitter()
 
 self._items = []
 self._selectedItemIndex = -1
-
-self.events = new EventEmitter()
 
 self._nodes = {
   search: document.querySelector('#search'),
@@ -68,7 +67,7 @@ self._handleItemClick = function (event) {
   const itemIndex = Array.prototype.indexOf
       .call(self._nodes.autocomplete.children, event.target)
   self._selectedItemIndex = itemIndex
-  self.events.emit('select', self.getSelectedItem())
+  self.emit('select', self.getSelectedItem())
 }
 
 self._handleKeydown = function (event) {

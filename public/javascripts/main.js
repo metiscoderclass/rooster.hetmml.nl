@@ -8,12 +8,12 @@ const state = {}
 frontpage.show()
 weekSelector.updateCurrentWeek()
 
-search.events.on('search', function (selectedItem) {
+search.on('search', function (selectedItem) {
   state.selectedItem = selectedItem
   schedule.viewItem(weekSelector.getSelectedWeek(), state.selectedItem)
 })
 
-weekSelector.events.on('weekChanged', function (newWeek) {
+weekSelector.on('weekChanged', function (newWeek) {
   schedule.viewItem(newWeek, state.selectedItem)
 })
 
