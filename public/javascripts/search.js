@@ -15,12 +15,17 @@ self.submit = function () {
   self._nodes.input.blur()
 
   const selectedItem = autocomplete.getSelectedItem()
-  self._nodes.input.value = selectedItem.value
 
-  autocomplete.removeAllItems()
-  document.body.classList.add('searched')
+  console.log(selectedItem)
 
   self.emit('search', selectedItem)
+}
+
+self.updateDom = function (selectedItem) {
+  self._nodes.input.value = selectedItem.value
+  autocomplete.removeAllItems()
+  document.body.classList.remove('no-input')
+  document.body.classList.add('searched')
 }
 
 self._handleSubmit = function (event) {

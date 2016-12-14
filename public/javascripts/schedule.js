@@ -1,4 +1,6 @@
 const leftPad = require('left-pad')
+const autocomplete = require('./autocomplete')
+const search = require('./search')
 
 const self = {}
 
@@ -46,6 +48,8 @@ self.viewItem = function (week, selectedUser) {
   request.addEventListener('error', self._handleError)
   request.open('GET', url, true)
   request.send()
+
+  search.updateDom(selectedUser)
 }
 
 module.exports = self
