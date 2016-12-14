@@ -35,7 +35,6 @@ self._getURLOfUsers = function (week, type, index) {
 }
 
 self.viewItem = function (week, selectedUser) {
-  console.log(selectedUser)
   const url = self._getURLOfUsers(week, selectedUser.type, selectedUser.index)
 
   while (self._nodes.schedule.firstChild) {
