@@ -53,9 +53,26 @@ self._handleTextUpdate = function () {
   }
 }
 
+self._handleFocus = function () {
+  self._nodes.input.select()
+}
+
+self._handleBlur = function () {
+  // this will removed the selection without drawing focus on it (safari)
+  // this will removed selection even when focusing an iframe (chrome)
+  const oldValue = self._nodes.value
+  self._nodes.value = ''
+  self._nodes.value = oldValue
+
+  // this will hide the keyboard (iOS safari)
+  document.activeElement.blur()
+}
+
 autocomplete.on('select', self.submit)
 
 self._nodes.search.addEventListener('submit', self._handleSubmit)
+self._nodes.input.addEventListener('focus', self._handleFocus)
+self._nodes.input.addEventListener('blur', self._handleBlur)
 self._nodes.input.addEventListener('input', self._handleTextUpdate)
 
 module.exports = self
