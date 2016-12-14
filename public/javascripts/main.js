@@ -34,6 +34,4 @@ favorite.on('click', function () {
   favorite.toggle(state.selectedItem)
 })
 
-window.weekSelector = weekSelector
-
 document.body.style.opacity = 1
