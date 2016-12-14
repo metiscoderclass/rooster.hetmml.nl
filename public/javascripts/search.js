@@ -3,6 +3,7 @@
 const EventEmitter = require('events')
 const fuzzy = require('fuzzy')
 const autocomplete = require('./autocomplete')
+const browserFixToolkit = require('./browserFixToolkit')
 
 const self = new EventEmitter()
 
@@ -73,6 +74,7 @@ autocomplete.on('select', self.submit)
 self._nodes.search.addEventListener('submit', self._handleSubmit)
 self._nodes.input.addEventListener('focus', self._handleFocus)
 self._nodes.input.addEventListener('blur', self._handleBlur)
-self._nodes.input.addEventListener('input', self._handleTextUpdate)
+self._nodes.input.addEventListener(browserFixToolkit.inputEvent,
+                                   self._handleTextUpdate)
 
 module.exports = self

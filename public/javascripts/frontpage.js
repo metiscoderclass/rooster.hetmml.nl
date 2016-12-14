@@ -1,3 +1,5 @@
+const browserFixToolkit = require('./browserFixToolkit')
+
 const self = {}
 
 self._nodes = {
@@ -16,6 +18,6 @@ self.hide = function () {
   self.isShown = false
 }
 
-self._nodes.input.addEventListener('input', self.hide)
+self._nodes.input.addEventListener(browserFixToolkit.inputEvent, self.hide)
 
 module.exports = self
