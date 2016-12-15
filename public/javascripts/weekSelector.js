@@ -33,13 +33,34 @@ self.getSelectedWeek = function () {
 
 self.updateCurrentWeek = function () {
   const selectedWeekNumber = self.getSelectedWeek()
-  self._nodes.currentWeekText.textContent = `Week ${selectedWeekNumber}`
   if (self.getCurrentWeek(new Date()) !== selectedWeekNumber) {
     self._nodes.currentWeekText.classList.add('changed')
   } else {
     self._nodes.currentWeekText.classList.remove('changed')
   }
+  self.updateDom()
   self.emit('weekChanged', selectedWeekNumber)
+}
+
+self.updateDom = function () {
+  const selectedWeekNumber = self.getSelectedWeek()
+  let humanReadableWeek = null
+  switch (self._weekOffset) {
+    case 0:
+      humanReadableWeek = 'Huidige week'
+      break
+    case 1:
+      humanReadableWeek = 'Volgende week'
+      break
+    case -1:
+      humanReadableWeek = 'Vorige week'
+      break
+  }
+  if (humanReadableWeek != null) {
+    self._nodes.currentWeekText.textContent = `${humanReadableWeek} • ${selectedWeekNumber}`
+  } else {
+    self._nodes.currentWeekText.textContent = `Week ${selectedWeekNumber}`
+  }
 }
 
 self._handlePrevButtonClick = function () {
