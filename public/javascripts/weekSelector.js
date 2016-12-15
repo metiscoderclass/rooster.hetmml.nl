@@ -27,7 +27,8 @@ self.getCurrentWeek = function (target) {
 
 self.getSelectedWeek = function () {
   const now = new Date()
-  const targetDate = new Date(now.getTime() + self._weekOffset * 604800 * 1000)
+  const targetDate = new Date(now.getTime() +
+      self._weekOffset * 604800 * 1000 + 86400 * 1000)
   return self.getCurrentWeek(targetDate)
 }
 
@@ -44,17 +45,32 @@ self.updateCurrentWeek = function () {
 
 self.updateDom = function () {
   const selectedWeekNumber = self.getSelectedWeek()
+  const isSunday = new Date().getDay() === 0
   let humanReadableWeek = null
-  switch (self._weekOffset) {
-    case 0:
-      humanReadableWeek = 'Huidige week'
-      break
-    case 1:
-      humanReadableWeek = 'Volgende week'
-      break
-    case -1:
-      humanReadableWeek = 'Vorige week'
-      break
+  if (isSunday) {
+    switch (self._weekOffset) {
+      case 0:
+        humanReadableWeek = 'Aanstaande week'
+        break
+      case 1:
+        humanReadableWeek = 'Volgende week'
+        break
+      case -1:
+        humanReadableWeek = 'Afgelopen week'
+        break
+    }
+  } else {
+    switch (self._weekOffset) {
+      case 0:
+        humanReadableWeek = 'Huidige week'
+        break
+      case 1:
+        humanReadableWeek = 'Volgende week'
+        break
+      case -1:
+        humanReadableWeek = 'Vorige week'
+        break
+    }
   }
   if (humanReadableWeek != null) {
     self._nodes.currentWeekText.textContent = `${humanReadableWeek} • ${selectedWeekNumber}`
