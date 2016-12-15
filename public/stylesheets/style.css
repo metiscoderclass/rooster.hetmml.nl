@@ -383,3 +383,10 @@ body.no-input #week-selector {
     font-size: 13px;
   }
 }
+
+.error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ececec;
+}

@@ -1,5 +1,4 @@
 const leftPad = require('left-pad')
-const autocomplete = require('./autocomplete')
 const search = require('./search')
 
 const self = {}
@@ -23,11 +22,19 @@ self._handleLoad = function (event) {
   }
   const document = self._parseMeetingpointHTML(request.response)
   self._nodes.schedule.appendChild(document)
+  self._nodes.schedule.classList.remove('error')
 }
 
 self._handleError = function (event) {
   const request = event.target
-  console.error(request)
+  let error
+  if (request.status === 404) {
+    error = 'Sorry, er is (nog) geen rooster voor deze week.'
+  } else {
+    error = 'Sorry, er is iets mis gegaan tijdens het laden van deze week.'
+  }
+  self._nodes.schedule.textContent = error
+  self._nodes.schedule.classList.add('error')
 }
 
 self._getURLOfUsers = function (week, type, index) {
