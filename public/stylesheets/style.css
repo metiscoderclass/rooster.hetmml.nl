@@ -371,15 +371,15 @@ body.no-input #week-selector {
   display: none;
 }
 
-@media screen and (max-width: 580px) {
+@media screen and (max-width: 600px) {
   table table tr {
     display: flex;
     flex-direction: column;
   }
 
   table * {
-    margin: 0 !important;
-    padding: 0 !important;
+    padding: 0;
     line-height: 13px;
+    font-size: 13px;
   }
 }
