@@ -11,7 +11,6 @@ self._nodes = {
 self._timeoutID = null
 
 self._handleDoneScrolling = function () {
-  console.log('done scrolling!')
   const scrollPosition = document.body.scrollTop
   const weekSelectorHeight = self._nodes.weekSelector.clientHeight - self._nodes.search.clientHeight
   if (scrollPosition < weekSelectorHeight && scrollPosition > 0) {
