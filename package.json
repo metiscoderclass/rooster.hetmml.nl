@@ -27,6 +27,7 @@
     "lodash": "^4.15.0",
     "morgan": "~1.7.0",
     "request": "^2.74.0",
+    "smoothscroll-polyfill": "^0.3.4",
     "then-yield": "0.0.1"
   },
   "devDependencies": {

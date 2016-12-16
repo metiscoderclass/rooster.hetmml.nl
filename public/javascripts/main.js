@@ -3,6 +3,7 @@ const search = require('./search')
 const schedule = require('./schedule')
 const weekSelector = require('./weekSelector')
 const favorite = require('./favorite')
+const scrollSnap = require('./scrollSnap')
 
 const state = {}
 
@@ -11,6 +12,7 @@ window.require = require
 
 frontpage.show()
 weekSelector.updateCurrentWeek()
+scrollSnap.startListening()
 
 if (favorite.get() != null) {
   state.selectedItem = favorite.get()

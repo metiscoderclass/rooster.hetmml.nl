@@ -1,7 +1,8 @@
+const EventEmitter = require('events')
 const leftPad = require('left-pad')
 const search = require('./search')
 
-const self = {}
+const self = new EventEmitter()
 
 self._nodes = {
   schedule: document.querySelector('#schedule')
@@ -23,6 +24,7 @@ self._handleLoad = function (event) {
   const document = self._parseMeetingpointHTML(request.response)
   self._nodes.schedule.appendChild(document)
   self._nodes.schedule.classList.remove('error')
+  self.emit('load')
 }
 
 self._handleError = function (event) {
@@ -35,6 +37,7 @@ self._handleError = function (event) {
   }
   self._nodes.schedule.textContent = error
   self._nodes.schedule.classList.add('error')
+  self.emit('load')
 }
 
 self._getURLOfUsers = function (week, type, index) {
