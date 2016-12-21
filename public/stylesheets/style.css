@@ -226,6 +226,10 @@ ul a {
   display: none;
 }
 
+body:not(.no-input) {
+  overflow-y: scroll;
+}
+
 body.no-input #week-selector {
   display: none;
 }
