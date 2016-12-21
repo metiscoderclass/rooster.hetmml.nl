@@ -22,6 +22,7 @@ self._handleLoad = function (event) {
     return
   }
   const document = self._parseMeetingpointHTML(request.response)
+  self._removeChilds()
   self._nodes.schedule.appendChild(document)
   self._nodes.schedule.classList.remove('error')
   self.emit('load')
@@ -35,6 +36,7 @@ self._handleError = function (event) {
   } else {
     error = 'Sorry, er is iets mis gegaan tijdens het laden van deze week.'
   }
+  self._removeChilds()
   self._nodes.schedule.textContent = error
   self._nodes.schedule.classList.add('error')
   self.emit('load')
@@ -46,12 +48,16 @@ self._getURLOfUsers = function (week, type, index) {
       week + '%2F' + type + '%2F' + type + leftPad(id, 5, '0') + '.htm'
 }
 
-self.viewItem = function (week, selectedUser) {
-  const url = self._getURLOfUsers(week, selectedUser.type, selectedUser.index)
-
+self._removeChilds = function () {
   while (self._nodes.schedule.firstChild) {
     self._nodes.schedule.removeChild(self._nodes.schedule.firstChild)
   }
+}
+
+self.viewItem = function (week, selectedUser) {
+  const url = self._getURLOfUsers(week, selectedUser.type, selectedUser.index)
+
+  self._removeChilds()
 
   const request = new window.XMLHttpRequest()
   request.addEventListener('load', self._handleLoad)
