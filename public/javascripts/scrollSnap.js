@@ -16,7 +16,6 @@ self._getScrollPosition = function () {
 }
 
 self._handleDoneScrolling = function () {
-  console.log('done scrolling')
   const scrollPosition = self._getScrollPosition()
   const weekSelectorHeight = self._nodes.weekSelector.clientHeight - self._nodes.search.clientHeight
   if (scrollPosition < weekSelectorHeight && scrollPosition > 0) {
@@ -30,7 +29,6 @@ self._handleScroll = function () {
 
   const scrollPosition = self._getScrollPosition()
   const weekSelectorHeight = self._nodes.weekSelector.clientHeight - self._nodes.search.clientHeight
-  console.log(scrollPosition, weekSelectorHeight)
   if (scrollPosition >= weekSelectorHeight) {
     document.body.classList.add('week-selector-not-visible')
   } else {
