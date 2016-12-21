@@ -40,11 +40,13 @@ self._handleSubmit = function (event) {
 
 self._calculate = function (searchTerm) {
   const allResults = fuzzy.filter(searchTerm, USERS, {
-    extract: item => item.value
+    extract: function (item) { return item.value }
   })
   const firstResults = allResults.slice(0, 7)
 
-  const originalResults = firstResults.map(result => result.original)
+  const originalResults = firstResults.map(function (result) {
+    return result.original
+  })
 
   return originalResults
 }

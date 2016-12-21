@@ -73,9 +73,9 @@ self.updateDom = function () {
     }
   }
   if (humanReadableWeek != null) {
-    self._nodes.currentWeekText.textContent = `${humanReadableWeek} • ${selectedWeekNumber}`
+    self._nodes.currentWeekText.textContent = humanReadableWeek + ' • ' + selectedWeekNumber
   } else {
-    self._nodes.currentWeekText.textContent = `Week ${selectedWeekNumber}`
+    self._nodes.currentWeekText.textContent = 'Week ' + selectedWeekNumber
   }
 }
 
