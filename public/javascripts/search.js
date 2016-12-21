@@ -14,6 +14,7 @@ self._nodes = {
 
 self.submit = function () {
   self._nodes.input.blur()
+  document.body.classList.remove('week-selector-not-visible') // Safari bug
 
   const selectedItem = autocomplete.getSelectedItem()
 
