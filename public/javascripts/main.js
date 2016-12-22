@@ -1,3 +1,5 @@
+require('./featureDetect').check()
+
 const frontpage = require('./frontpage')
 const search = require('./search')
 const schedule = require('./schedule')
