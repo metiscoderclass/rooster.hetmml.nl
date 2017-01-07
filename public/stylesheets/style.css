@@ -345,19 +345,6 @@ body.no-input #week-selector {
     transform: rotate(45deg);
     z-index: -1;
   }
-
-  body.no-input .logo::before {
-    content: '';
-    background-image: url(/images/santa-hat.svg);
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 50px;
-    height: 100px;
-    position: absolute;
-    top: -23px;
-    right: 0px;
-    transform: rotate(15deg);
-  }
 }
 
 .tooltip {
