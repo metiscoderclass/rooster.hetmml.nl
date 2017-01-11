@@ -23,7 +23,7 @@ var credentials = {}
 
 if (shouldUseHTTPS) {
   privateKey = fs.readFileSync('/etc/letsencrypt/live/rooster.hetmml.nl/privkey.pem', 'utf8')
-  certificate = fs.readFileSync('/etc/letsencrypt/live/rooster.hetmml.nl/cert.pem', 'utf8')
+  certificate = fs.readFileSync('/etc/letsencrypt/live/rooster.hetmml.nl/fullchain.pem', 'utf8')
   credentials = {key: privateKey, cert: certificate}
 }
 
