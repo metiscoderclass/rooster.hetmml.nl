@@ -45,7 +45,7 @@ self._handleError = function (event) {
 self._getURLOfUsers = function (week, type, index) {
   const id = index + 1
   return '//' + window.location.host + '/meetingpointProxy/Roosters-AL%2Fdoc%2Fdagroosters%2F' +
-      week + '%2F' + type + '%2F' + type + leftPad(id, 5, '0') + '.htm'
+      leftPad(week, 2, '0') + '%2F' + type + '%2F' + type + leftPad(id, 5, '0') + '.htm'
 }
 
 self._removeChilds = function () {
