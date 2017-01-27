@@ -5,7 +5,9 @@ const self = new EventEmitter()
 self._nodes = {
   prevButton: document.querySelectorAll('#week-selector button')[0],
   nextButton: document.querySelectorAll('#week-selector button')[1],
-  currentWeekText: document.querySelector('#week-selector .current')
+  currentWeekNode: document.querySelector('#week-selector .current'),
+  currentWeekNormalText: document.querySelector('#week-selector .current .no-print'),
+  currentWeekPrintText: document.querySelector('#week-selector .current .print')
 }
 
 self._weekOffset = 0
@@ -35,9 +37,9 @@ self.getSelectedWeek = function () {
 self.updateCurrentWeek = function () {
   const selectedWeekNumber = self.getSelectedWeek()
   if (self.getCurrentWeek(new Date()) !== selectedWeekNumber) {
-    self._nodes.currentWeekText.classList.add('changed')
+    self._nodes.currentWeekNode.classList.add('changed')
   } else {
-    self._nodes.currentWeekText.classList.remove('changed')
+    self._nodes.currentWeekNode.classList.remove('changed')
   }
   self.updateDom()
   self.emit('weekChanged', selectedWeekNumber)
@@ -73,9 +75,11 @@ self.updateDom = function () {
     }
   }
   if (humanReadableWeek != null) {
-    self._nodes.currentWeekText.textContent = humanReadableWeek + ' • ' + selectedWeekNumber
+    self._nodes.currentWeekNormalText.textContent = humanReadableWeek + ' • ' + selectedWeekNumber
+    self._nodes.currentWeekPrintText.textContent = 'Week ' + selectedWeekNumber
   } else {
-    self._nodes.currentWeekText.textContent = 'Week ' + selectedWeekNumber
+    self._nodes.currentWeekNormalText.textContent = 'Week ' + selectedWeekNumber
+    self._nodes.currentWeekPrintText.textContent = 'Week ' + selectedWeekNumber
   }
 }
 

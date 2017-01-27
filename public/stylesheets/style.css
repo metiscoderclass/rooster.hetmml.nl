@@ -377,3 +377,7 @@ body.week-selector-not-visible #search {
 body.week-selector-not-visible #week-selector {
   box-shadow: inherit;
 }
+
+.print {
+  display: none;
+}
