@@ -12,12 +12,12 @@
   },
   "dependencies": {
     "bluebird": "^3.4.6",
-    "body-parser": "~1.15.1",
+    "body-parser": "^1.16.0",
     "browser-request": "^0.3.3",
     "cheerio": "^0.22.0",
     "compression": "^1.6.2",
     "cookie-parser": "~1.4.3",
-    "debug": "~2.2.0",
+    "debug": "^2.6.0",
     "diacritics": "^1.2.3",
     "encoding": "^0.1.12",
     "express": "^4.13.4",
@@ -35,7 +35,7 @@
     "babel-preset-es2016": "^6.16.0",
     "babelify": "^7.3.0",
     "bower": "^1.7.9",
-    "browserify": "^13.1.0",
+    "browserify": "^14.0.0",
     "gulp": "^3.9.1",
     "watchify": "^3.7.0"
   },
