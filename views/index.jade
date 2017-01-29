@@ -22,6 +22,8 @@ block content
         i.material-icons &#xE5D4;
         
       ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='overflow-button')
+        a(href='http://www.meetingpointmco.nl/Roosters-AL/doc/basisroosters/default.htm')
+          li.mdl-menu__item Basis rooster gebruiken
         a(href='http://www.meetingpointmco.nl/Roosters-AL/doc/')
           li.mdl-menu__item Oud rooster gebruiken
         a(href='javascript:window.print()').print-page
@@ -33,7 +35,9 @@ block content
     #search-space-filler
     .week-wrapper
       button(type='button').material-icons &#xE5C4;
-      span.current Loading...
+      span.current 
+        span.no-print Loading...
+        span.print
       button(type='button').material-icons &#xE5C8;
 
   #schedule

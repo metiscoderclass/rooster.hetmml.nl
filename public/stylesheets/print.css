@@ -5,6 +5,7 @@
 
 #search {
   border-bottom: 1px solid black;
+  position: absolute;
 }
 
 #search .top-bar, #week-selector .week-wrapper {
@@ -18,7 +19,7 @@
 }
 
 #search .fav {
-  display: none;
+  display: none !important;
 }
 
 #search #overflow-button {
@@ -29,7 +30,7 @@
   display: block;
 }
 
-#week-selector input[type='button'] {
+#week-selector button {
   display: none;
 }
 
@@ -46,4 +47,17 @@
 
 .mdl-menu__container {
   display: none !important;
+}
+
+#schedule {
+  padding-top: 16px;
+  width: 100%;
+}
+
+.no-print {
+  display: none;
+}
+
+.print {
+  display: initial;
 }
