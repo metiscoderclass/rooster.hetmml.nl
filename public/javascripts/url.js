@@ -4,10 +4,31 @@ const EventEmitter = require('events')
 
 const self = new EventEmitter()
 
+self._getPageTitle = function (selectedItem) {
+  if (selectedItem == null) {
+    return `Metis Rooster`
+  } else {
+    return `Metis Rooster - ${selectedItem.value}`
+  }
+}
+
+self._getPageURL = function (selectedItem) {
+  return `/${selectedItem.type}/${selectedItem.value}`
+}
+
+self.push = function (selectedItem, push) {
+  if (push == null) push = true
+  const pageTitle = self._getPageTitle(selectedItem)
+  const pageURL = self._getPageURL(selectedItem)
+  if (push) {
+    window.history.pushState(selectedItem, pageTitle, pageURL)
+  } else {
+    window.history.replaceState(selectedItem, pageTitle, pageURL)
+  }
+}
+
 self.update = function (selectedItem) {
-  const pageTitle = `Metis Rooster - ${selectedItem.value}`
-  const pageUrl = `/${selectedItem.type}/${selectedItem.value}`
-  window.history.pushState(selectedItem, pageTitle, pageUrl)
+  document.title = self._getPageTitle(selectedItem)
 }
 
 self.hasSelectedItem = function () {

@@ -25,10 +25,17 @@ self.submit = function () {
 }
 
 self.updateDom = function (selectedItem) {
-  self._nodes.input.value = selectedItem.value
-  autocomplete.removeAllItems()
-  document.body.classList.remove('no-input')
-  document.body.classList.add('searched')
+  if (selectedItem == null) {
+    self._nodes.input.value = ''
+    autocomplete.removeAllItems()
+    document.body.classList.add('no-input')
+    document.body.classList.remove('searched')
+  } else {
+    self._nodes.input.value = selectedItem.value
+    autocomplete.removeAllItems()
+    document.body.classList.remove('no-input')
+    document.body.classList.add('searched')
+  }
 }
 
 self.focus = function () {

@@ -20,14 +20,20 @@ scrollSnap.startListening()
 
 if (url.hasSelectedItem()) {
   state.selectedItem = url.getSelectedItem()
+
   favorite.update(state.selectedItem)
+  url.update(state.selectedItem)
   analytics.send.search(state.selectedItem)
+
   schedule.viewItem(weekSelector.getSelectedWeek(), state.selectedItem)
 } else if (favorite.get() != null) {
   state.selectedItem = favorite.get()
+
   favorite.update(state.selectedItem)
+  url.push(state.selectedItem, false)
   url.update(state.selectedItem)
   analytics.send.search(state.selectedItem, true)
+
   schedule.viewItem(weekSelector.getSelectedWeek(), state.selectedItem)
 } else {
   search.focus()
@@ -35,9 +41,21 @@ if (url.hasSelectedItem()) {
 
 search.on('search', function (selectedItem) {
   state.selectedItem = selectedItem
+
   favorite.update(state.selectedItem)
+  url.push(state.selectedItem)
   url.update(state.selectedItem)
   analytics.send.search(state.selectedItem)
+
+  schedule.viewItem(weekSelector.getSelectedWeek(), state.selectedItem)
+})
+
+url.on('update', function (selectedItem) {
+  state.selectedItem = selectedItem
+
+  favorite.update(state.selectedItem)
+  url.update(state.selectedItem)
+
   schedule.viewItem(weekSelector.getSelectedWeek(), state.selectedItem)
 })
 
@@ -48,12 +66,6 @@ weekSelector.on('weekChanged', function (newWeek) {
 
 favorite.on('click', function () {
   favorite.toggle(state.selectedItem)
-})
-
-url.on('update', function (selectedItem) {
-  state.selectedItem = selectedItem
-  favorite.update(state.selectedItem)
-  schedule.viewItem(weekSelector.getSelectedWeek(), state.selectedItem)
 })
 
 document.body.style.opacity = 1

@@ -55,17 +55,22 @@ self._removeChilds = function () {
 }
 
 self.viewItem = function (week, selectedUser) {
-  const url = self._getURLOfUsers(week, selectedUser.type, selectedUser.index)
+  if (selectedUser == null) {
+    self._removeChilds()
+    search.updateDom(selectedUser)
+  } else {
+    const url = self._getURLOfUsers(week, selectedUser.type, selectedUser.index)
 
-  self._removeChilds()
+    self._removeChilds()
 
-  const request = new window.XMLHttpRequest()
-  request.addEventListener('load', self._handleLoad)
-  request.addEventListener('error', self._handleError)
-  request.open('GET', url, true)
-  request.send()
+    const request = new window.XMLHttpRequest()
+    request.addEventListener('load', self._handleLoad)
+    request.addEventListener('error', self._handleError)
+    request.open('GET', url, true)
+    request.send()
 
-  search.updateDom(selectedUser)
+    search.updateDom(selectedUser)
+  }
 }
 
 module.exports = self
