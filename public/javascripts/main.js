@@ -7,6 +7,7 @@ const weekSelector = require('./weekSelector')
 const favorite = require('./favorite')
 const scrollSnap = require('./scrollSnap')
 const analytics = require('./analytics')
+const url = require('./url')
 
 const state = {}
 
@@ -17,10 +18,22 @@ frontpage.show()
 weekSelector.updateCurrentWeek()
 scrollSnap.startListening()
 
-if (favorite.get() != null) {
-  state.selectedItem = favorite.get()
+if (url.hasSelectedItem()) {
+  state.selectedItem = url.getSelectedItem()
+
   favorite.update(state.selectedItem)
+  url.update(state.selectedItem)
+  analytics.send.search(state.selectedItem)
+
+  schedule.viewItem(weekSelector.getSelectedWeek(), state.selectedItem)
+} else if (favorite.get() != null) {
+  state.selectedItem = favorite.get()
+
+  favorite.update(state.selectedItem)
+  url.push(state.selectedItem, false)
+  url.update(state.selectedItem)
   analytics.send.search(state.selectedItem, true)
+
   schedule.viewItem(weekSelector.getSelectedWeek(), state.selectedItem)
 } else {
   search.focus()
@@ -28,8 +41,21 @@ if (favorite.get() != null) {
 
 search.on('search', function (selectedItem) {
   state.selectedItem = selectedItem
+
   favorite.update(state.selectedItem)
+  url.push(state.selectedItem)
+  url.update(state.selectedItem)
   analytics.send.search(state.selectedItem)
+
+  schedule.viewItem(weekSelector.getSelectedWeek(), state.selectedItem)
+})
+
+url.on('update', function (selectedItem) {
+  state.selectedItem = selectedItem
+
+  favorite.update(state.selectedItem)
+  url.update(state.selectedItem)
+
   schedule.viewItem(weekSelector.getSelectedWeek(), state.selectedItem)
 })
 
