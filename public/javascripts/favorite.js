@@ -44,7 +44,7 @@ self.updateDom = function (isFavorite) {
 self.update = function (selectedUser) {
   const currentUser = self.get()
 
-  if (currentUser == null) {
+  if (currentUser == null || selectedUser == null) {
     self.updateDom(false)
     return
   }
