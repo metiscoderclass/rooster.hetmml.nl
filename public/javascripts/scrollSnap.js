@@ -12,12 +12,13 @@ self._timeoutID = null
 
 self._getScrollPosition = function () {
   return (document.documentElement && document.documentElement.scrollTop) ||
-          document.body.scrollTop
+         document.body.scrollTop
 }
 
 self._handleDoneScrolling = function () {
   const scrollPosition = self._getScrollPosition()
-  const weekSelectorHeight = self._nodes.weekSelector.clientHeight - self._nodes.search.clientHeight
+  const weekSelectorHeight =
+      self._nodes.weekSelector.clientHeight - self._nodes.search.clientHeight
   if (scrollPosition < weekSelectorHeight && scrollPosition > 0) {
     window.scroll({ top: weekSelectorHeight, left: 0, behavior: 'smooth' })
   }
@@ -28,7 +29,8 @@ self._handleScroll = function () {
   self._timeoutID = window.setTimeout(self._handleDoneScrolling, 500)
 
   const scrollPosition = self._getScrollPosition()
-  const weekSelectorHeight = self._nodes.weekSelector.clientHeight - self._nodes.search.clientHeight
+  const weekSelectorHeight =
+      self._nodes.weekSelector.clientHeight - self._nodes.search.clientHeight
   if (scrollPosition >= weekSelectorHeight) {
     document.body.classList.add('week-selector-not-visible')
   } else {
@@ -37,8 +39,10 @@ self._handleScroll = function () {
 }
 
 self._handleWindowResize = function () {
-  const weekSelectorHeight = self._nodes.weekSelector.clientHeight - self._nodes.search.clientHeight
-  const extraPixelsNeeded = weekSelectorHeight - (document.body.clientHeight - window.innerHeight)
+  const weekSelectorHeight =
+      self._nodes.weekSelector.clientHeight - self._nodes.search.clientHeight
+  const extraPixelsNeeded =
+      weekSelectorHeight - (document.body.clientHeight - window.innerHeight)
   if (extraPixelsNeeded > 0) {
     document.body.style.marginBottom = extraPixelsNeeded + 'px'
   } else {
