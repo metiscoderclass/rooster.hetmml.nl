@@ -2,8 +2,8 @@ const EventEmitter = require('events')
 
 const self = new EventEmitter()
 
-self._items = []
-self._selectedItemIndex = -1
+self._users = []
+self._selectedUserIndex = -1
 
 self._nodes = {
   search: document.querySelector('#search'),
@@ -11,63 +11,63 @@ self._nodes = {
   autocomplete: document.querySelector('.autocomplete')
 }
 
-self.getSelectedItem = function () {
+self.getSelectedUser = function () {
   if (self.getItems() === []) return
 
-  if (self.getSelectedItemIndex() === -1) {
+  if (self.getSelectedUserIndex() === -1) {
     return self.getItems()[0]
   } else {
-    return self.getItems()[self.getSelectedItemIndex()]
+    return self.getItems()[self.getSelectedUserIndex()]
   }
 }
 
-self.getSelectedItemIndex = function () {
-  return self._selectedItemIndex
+self.getSelectedUserIndex = function () {
+  return self._selectedUserIndex
 }
 
 self.getItems = function () {
-  return self._items
+  return self._users
 }
 
 self.removeAllItems = function () {
   while (self._nodes.autocomplete.firstChild) {
     self._nodes.autocomplete.removeChild(self._nodes.autocomplete.firstChild)
   }
-  self._items = []
-  self._selectedItemIndex = -1
+  self._users = []
+  self._selectedUserIndex = -1
 }
 
-self.addItem = function (item) {
+self.addItem = function (user) {
   const listItem = document.createElement('li')
-  listItem.textContent = item.value
+  listItem.textContent = user.value
   self._nodes.autocomplete.appendChild(listItem)
-  self._items.push(item)
+  self._users.push(user)
 }
 
 self._moveSelected = function (shift) {
-  if (self._selectedItemIndex + shift >= self.getItems().length) {
-    self._selectedItemIndex = -1
-  } else if (self._selectedItemIndex + shift < -1) {
-    self._selectedItemIndex = self.getItems().length - 1
+  if (self._selectedUserIndex + shift >= self.getItems().length) {
+    self._selectedUserIndex = -1
+  } else if (self._selectedUserIndex + shift < -1) {
+    self._selectedUserIndex = self.getItems().length - 1
   } else {
-    self._selectedItemIndex += shift
+    self._selectedUserIndex += shift
   }
 
   for (let i = 0; i < self.getItems().length; i++) {
     self._nodes.autocomplete.children[i].classList.remove('selected')
   }
-  if (self._selectedItemIndex >= 0) {
+  if (self._selectedUserIndex >= 0) {
     self._nodes.autocomplete
-        .children[self._selectedItemIndex].classList.add('selected')
+        .children[self._selectedUserIndex].classList.add('selected')
   }
 }
 
 self._handleItemClick = function (event) {
   if (!self._nodes.autocomplete.contains(event.target)) return
-  const itemIndex = Array.prototype.indexOf
+  const userIndex = Array.prototype.indexOf
       .call(self._nodes.autocomplete.children, event.target)
-  self._selectedItemIndex = itemIndex
-  self.emit('select', self.getSelectedItem())
+  self._selectedUserIndex = userIndex
+  self.emit('select', self.getSelectedUser())
 }
 
 self._handleKeydown = function (event) {

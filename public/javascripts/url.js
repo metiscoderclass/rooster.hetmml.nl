@@ -4,39 +4,39 @@ const EventEmitter = require('events')
 
 const self = new EventEmitter()
 
-self._getPageTitle = function (selectedItem) {
-  if (selectedItem == null) {
+self._getPageTitle = function (selectedUser) {
+  if (selectedUser == null) {
     return `Metis Rooster`
   } else {
-    return `Metis Rooster - ${selectedItem.value}`
+    return `Metis Rooster - ${selectedUser.value}`
   }
 }
 
-self._getPageURL = function (selectedItem) {
-  return `/${selectedItem.type}/${selectedItem.value}`
+self._getPageURL = function (selectedUser) {
+  return `/${selectedUser.type}/${selectedUser.value}`
 }
 
-self.push = function (selectedItem, push) {
+self.push = function (selectedUser, push) {
   if (push == null) push = true
-  const pageTitle = self._getPageTitle(selectedItem)
-  const pageURL = self._getPageURL(selectedItem)
+  const pageTitle = self._getPageTitle(selectedUser)
+  const pageURL = self._getPageURL(selectedUser)
   if (push) {
-    window.history.pushState(selectedItem, pageTitle, pageURL)
+    window.history.pushState(selectedUser, pageTitle, pageURL)
   } else {
-    window.history.replaceState(selectedItem, pageTitle, pageURL)
+    window.history.replaceState(selectedUser, pageTitle, pageURL)
   }
 }
 
-self.update = function (selectedItem) {
-  document.title = self._getPageTitle(selectedItem)
+self.update = function (selectedUser) {
+  document.title = self._getPageTitle(selectedUser)
 }
 
-self.hasSelectedItem = function () {
+self.hasSelectedUser = function () {
   const pageUrl = window.location.pathname
   return /^\/s\/|^\/t\/|^\/r\/|^\/c\//.test(pageUrl)
 }
 
-self.getSelectedItem = function () {
+self.getSelectedUser = function () {
   const pageUrl = window.location.pathname
   const pageUrlData = pageUrl.split('/')
   const type = pageUrlData[1]

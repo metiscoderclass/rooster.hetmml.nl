@@ -13,25 +13,25 @@ self._nodes = {
 }
 
 self.submit = function () {
-  const selectedItem = autocomplete.getSelectedItem()
-  if (selectedItem == null) return
+  const selectedUser = autocomplete.getSelectedUser()
+  if (selectedUser == null) return
 
-  console.log(selectedItem)
+  console.log(selectedUser)
 
   self._nodes.input.blur()
   document.body.classList.remove('week-selector-not-visible') // Safari bug
 
-  self.emit('search', selectedItem)
+  self.emit('search', selectedUser)
 }
 
-self.updateDom = function (selectedItem) {
-  if (selectedItem == null) {
+self.updateDom = function (selectedUser) {
+  if (selectedUser == null) {
     self._nodes.input.value = ''
     autocomplete.removeAllItems()
     document.body.classList.add('no-input')
     document.body.classList.remove('searched')
   } else {
-    self._nodes.input.value = selectedItem.value
+    self._nodes.input.value = selectedUser.value
     autocomplete.removeAllItems()
     document.body.classList.remove('no-input')
     document.body.classList.add('searched')
@@ -49,7 +49,7 @@ self._handleSubmit = function (event) {
 
 self._calculate = function (searchTerm) {
   const allResults = fuzzy.filter(searchTerm, USERS, {
-    extract: function (item) { return item.value }
+    extract: function (user) { return user.value }
   })
   const firstResults = allResults.slice(0, 7)
 

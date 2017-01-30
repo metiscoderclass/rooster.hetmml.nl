@@ -18,54 +18,54 @@ frontpage.show()
 weekSelector.updateCurrentWeek()
 scrollSnap.startListening()
 
-if (url.hasSelectedItem()) {
-  state.selectedItem = url.getSelectedItem()
+if (url.hasSelectedUser()) {
+  state.selectedUser = url.getSelectedUser()
 
-  favorite.update(state.selectedItem)
-  url.update(state.selectedItem)
-  analytics.send.search(state.selectedItem)
+  favorite.update(state.selectedUser)
+  url.update(state.selectedUser)
+  analytics.send.search(state.selectedUser)
 
-  schedule.viewItem(weekSelector.getSelectedWeek(), state.selectedItem)
+  schedule.viewItem(weekSelector.getSelectedWeek(), state.selectedUser)
 } else if (favorite.get() != null) {
-  state.selectedItem = favorite.get()
+  state.selectedUser = favorite.get()
 
-  favorite.update(state.selectedItem)
-  url.push(state.selectedItem, false)
-  url.update(state.selectedItem)
-  analytics.send.search(state.selectedItem, true)
+  favorite.update(state.selectedUser)
+  url.push(state.selectedUser, false)
+  url.update(state.selectedUser)
+  analytics.send.search(state.selectedUser, true)
 
-  schedule.viewItem(weekSelector.getSelectedWeek(), state.selectedItem)
+  schedule.viewItem(weekSelector.getSelectedWeek(), state.selectedUser)
 } else {
   search.focus()
 }
 
-search.on('search', function (selectedItem) {
-  state.selectedItem = selectedItem
+search.on('search', function (selectedUser) {
+  state.selectedUser = selectedUser
 
-  favorite.update(state.selectedItem)
-  url.push(state.selectedItem)
-  url.update(state.selectedItem)
-  analytics.send.search(state.selectedItem)
+  favorite.update(state.selectedUser)
+  url.push(state.selectedUser)
+  url.update(state.selectedUser)
+  analytics.send.search(state.selectedUser)
 
-  schedule.viewItem(weekSelector.getSelectedWeek(), state.selectedItem)
+  schedule.viewItem(weekSelector.getSelectedWeek(), state.selectedUser)
 })
 
-url.on('update', function (selectedItem) {
-  state.selectedItem = selectedItem
+url.on('update', function (selectedUser) {
+  state.selectedUser = selectedUser
 
-  favorite.update(state.selectedItem)
-  url.update(state.selectedItem)
+  favorite.update(state.selectedUser)
+  url.update(state.selectedUser)
 
-  schedule.viewItem(weekSelector.getSelectedWeek(), state.selectedItem)
+  schedule.viewItem(weekSelector.getSelectedWeek(), state.selectedUser)
 })
 
 weekSelector.on('weekChanged', function (newWeek) {
-  analytics.send.search(state.selectedItem)
-  schedule.viewItem(newWeek, state.selectedItem)
+  analytics.send.search(state.selectedUser)
+  schedule.viewItem(newWeek, state.selectedUser)
 })
 
 favorite.on('click', function () {
-  favorite.toggle(state.selectedItem)
+  favorite.toggle(state.selectedUser)
 })
 
 document.body.style.opacity = 1
