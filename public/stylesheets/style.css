@@ -245,7 +245,7 @@ body.no-input #week-selector {
     box-shadow: none;
   }
 
-  body.no-input #search button {
+  body.no-input #search .input-wrapper button {
     display: none;
   }
 
@@ -323,6 +323,11 @@ body.no-input #week-selector {
     color: #757575;
   }
 
+  body.no-input #search .menu {
+    top: 44px;
+    right: -2px;
+  }
+
   body.no-input .tooltip {
     display: block;
     position: absolute;
@@ -380,4 +385,56 @@ body.week-selector-not-visible #week-selector {
 
 .print {
   display: none;
+}
+
+.menu {
+  position: absolute;
+  right: 8px;
+  top: 70px;
+  background-color: white;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  border-radius: 2px;
+}
+
+.menu::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  right: 15px;
+  z-index: -1;
+  transform: rotate(45deg);
+  width: 15px;
+  height: 15px;
+  background: white;
+}
+
+.menu button.selected {
+  background-color: #cecece;
+}
+
+.menu .item {
+  padding: 16px;
+  border: none;
+  border-bottom: 1px solid rgba(0,0,0,.12);
+  color: rgba(0,0,0,.87);
+  display: block;
+  background-color: initial;
+  font: inherit;
+  text-align: left;
+  width: 100%;
+}
+
+.menu button.item:hover, .menu button.item:focus {
+  background-color: #eee;
+  outline: none;
+}
+
+.menu .item:last-child {
+  border-bottom: none;
+}
+
+.menu .item .material-icons {
+  float: right;
+  color: rgba(0, 0, 0, 0.66);
+  margin-top: -2px
 }

@@ -20,22 +20,23 @@ block content
         span Voer hier een <strong>docentafkorting</strong>, <strong>klas</strong>, <strong>leerlingnummer</strong> of <strong>lokaalnummer</strong> in.
       button#overflow-button(type='button')
         i.material-icons &#xE5D4;
-        
-      ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='overflow-button')
-        a(href='http://www.meetingpointmco.nl/Roosters-AL/doc/basisroosters/default.htm')
-          li.mdl-menu__item Basis rooster gebruiken
-        a(href='http://www.meetingpointmco.nl/Roosters-AL/doc/')
-          li.mdl-menu__item Oud rooster gebruiken
-        a(href='javascript:window.print()').print-page
-          li.mdl-menu__item.mdl-menu__item--full-bleed-divider#print-page Pagina printen
-        li.mdl-menu__item(disabled) Gemaakt door Noah Loomans
+
+      .menu
+        .item
+          button.mdl-button.selected Dagrooster
+          button.mdl-button Basisrooster
+        button.item
+          span Naar legacy rooster
+          i.material-icons launch
+        button.item(onclick='window.print()') Pagina printen
+        button.item Over
     .autocomplete-wrapper
       ul.autocomplete
   #week-selector
     #search-space-filler
     .week-wrapper
       button(type='button').material-icons &#xE5C4;
-      span.current 
+      span.current
         span.no-print Loading...
         span.print
       button(type='button').material-icons &#xE5C8;

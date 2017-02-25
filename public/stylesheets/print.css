@@ -45,8 +45,8 @@
   display: none;
 }
 
-.mdl-menu__container {
-  display: none !important;
+.menu {
+  display: none;
 }
 
 #schedule {
