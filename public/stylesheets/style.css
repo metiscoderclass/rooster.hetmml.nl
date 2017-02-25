@@ -390,7 +390,7 @@ body.week-selector-not-visible #week-selector {
 .menu {
   position: absolute;
   right: 8px;
-  top: 70px;
+  top: 64px;
   background-color: white;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   border-radius: 2px;
@@ -399,9 +399,9 @@ body.week-selector-not-visible #week-selector {
 .menu::before {
   content: '';
   position: absolute;
-  top: -5px;
+  top: -7px;
   right: 15px;
-  z-index: -1;
+  z-index: 1;
   transform: rotate(45deg);
   width: 15px;
   height: 15px;
@@ -427,6 +427,7 @@ body.week-selector-not-visible #week-selector {
 .menu button.item:hover, .menu button.item:focus {
   background-color: #eee;
   outline: none;
+  cursor: pointer;
 }
 
 .menu .item:last-child {
