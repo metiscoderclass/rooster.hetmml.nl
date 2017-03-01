@@ -1,68 +1,45 @@
 #!/usr/bin/env node
 
-/**
- * Module dependencies.
- */
+const fs = require('fs')
+const app = require('../app')
+const http = require('http')
+const https = require('https')
 
-var fs = require('fs')
-var app = require('../app')
-var debug = require('debug')('rooster:server')
-var http = require('http')
-var https = require('https')
+function setupHTTPS () {
+  const certificate = fs.readFileSync('/etc/letsencrypt/live/rooster.hetmml.nl/fullchain.pem', 'utf8')
+  const privateKey = fs.readFileSync('/etc/letsencrypt/live/rooster.hetmml.nl/privkey.pem', 'utf8')
+  const credentials = { key: privateKey, cert: certificate }
 
-var shouldUseHTTPS = true
-try {
-  fs.accessSync('/etc/letsencrypt/live/rooster.hetmml.nl/privkey.pem')
-} catch (e) {
-  shouldUseHTTPS = false
-}
+  const httpsPort = normalizePort(process.env.PORT_HTTPS || '3001')
+  const httpsServer = https.createServer(credentials, app)
 
-var privateKey = ''
-var certificate = ''
-var credentials = {}
-
-if (shouldUseHTTPS) {
-  privateKey = fs.readFileSync('/etc/letsencrypt/live/rooster.hetmml.nl/privkey.pem', 'utf8')
-  certificate = fs.readFileSync('/etc/letsencrypt/live/rooster.hetmml.nl/fullchain.pem', 'utf8')
-  credentials = {key: privateKey, cert: certificate}
-}
-
-/**
- * Get port from environment and store in Express.
- */
-
-var port = normalizePort(process.env.PORT || '3000')
-var httpsPort
-if (shouldUseHTTPS) httpsPort = normalizePort(process.env.PORT_HTTPS || '3001')
-app.set('port', port)
-
-/**
- * Create HTTP server.
- */
-
-var server = http.createServer(app)
-var httpsServer
-if (shouldUseHTTPS) httpsServer = https.createServer(credentials, app)
-
-/**
- * Listen on provided port, on all network interfaces.
- */
-
-server.listen(port)
-server.on('error', onError)
-server.on('listening', onListening)
-if (shouldUseHTTPS) {
   httpsServer.listen(httpsPort)
-  httpsServer.on('error', onError)
-  httpsServer.on('listening', onListening)
+  httpsServer.on('error', error => onError(error, httpsPort))
+  httpsServer.on('listening', _ => onListening(httpsServer))
+
+  app.set('port', httpsPort)
 }
 
-/**
- * Normalize a port into a number, string, or false.
- */
+function setupHTTPSRedirect () {
+  const httpPort = normalizePort(process.env.PORT || '3000')
+  const httpServer = http.createServer(redirectToHTTPS)
+
+  httpServer.listen(httpPort)
+  httpServer.on('error', error => onError(error, httpPort))
+  httpServer.on('listening', _ => onListening(httpServer))
+}
+
+function setupHTTP () {
+  const httpPort = normalizePort(process.env.PORT || '3000')
+  const httpServer = http.createServer(app)
+
+  httpServer.listen(httpPort)
+  httpServer.on('error', error => onError(error, httpPort))
+  httpServer.on('listening', _ => onListening(httpServer))
+}
 
 function normalizePort (val) {
-  var port = parseInt(val, 10)
+  const port = parseInt(val, 10)
 
   if (isNaN(port)) {
     // named pipe
@@ -77,16 +54,12 @@ function normalizePort (val) {
   return false
 }
 
-/**
- * Event listener for HTTP server "error" event.
- */
-
-function onError (error) {
+function onError (error, port) {
   if (error.syscall !== 'listen') {
     throw error
   }
 
-  var bind = typeof port === 'string'
+  const bind = typeof port === 'string'
     ? 'Pipe ' + port
     : 'Port ' + port
 
@@ -105,14 +78,35 @@ function onError (error) {
   }
 }
 
-/**
- * Event listener for HTTP server "listening" event.
- */
-
-function onListening () {
-  var addr = server.address()
-  var bind = typeof addr === 'string'
+function onListening (server) {
+  const addr = server.address()
+  const bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port
-  debug('Listening on ' + bind)
+  console.log('Listening on ' + bind)
+}
+
+let useHTTPS = true
+try {
+  fs.accessSync('/etc/letsencrypt/live/rooster.hetmml.nl/privkey.pem')
+} catch (e) {
+  useHTTPS = false
+}
+
+if (useHTTPS) {
+  try {
+    setupHTTPS()
+    setupHTTPSRedirect()
+  } catch (e) {
+    console.warn('NOT USING HTTPS! Error occured while setting up HTTPS')
+    setupHTTP()
+  }
+} else {
+  console.warn('NOT USING HTTPS! Could not read /etc/letsencrypt/live/rooster.hetmml.nl/privkey.pem')
+  setupHTTP()
+}
+
+function redirectToHTTPS (req, res) {
+  res.writeHead(302, { 'Location': 'https://' + req.headers['host'] + req.url })
+  res.end()
 }
