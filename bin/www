@@ -25,6 +25,11 @@ function setupHTTPS () {
   app.set('port', httpsPort)
 }
 
+function redirectToHTTPS (req, res) {
+  res.writeHead(301, { 'Location': 'https://' + req.headers['host'] + req.url })
+  res.end()
+}
+
 function setupHTTPSRedirect () {
   const httpPort = normalizePort(process.env.PORT || '3000')
   const httpServer = http.createServer(redirectToHTTPS)
@@ -109,9 +114,4 @@ if (useHTTPS) {
 } else {
   console.warn(`NOT USING HTTPS! Could not read ${fileLocations.privkey}`)
   setupHTTP()
-}
-
-function redirectToHTTPS (req, res) {
-  res.writeHead(302, { 'Location': 'https://' + req.headers['host'] + req.url })
-  res.end()
 }
