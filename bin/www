@@ -3,11 +3,16 @@
 const fs = require('fs')
 const app = require('../app')
 const http = require('http')
-const https = require('https')
+const https = require('spdy')
+
+const fileLocations = {
+  cert: '/etc/letsencrypt/live/rooster.hetmml.nl/fullchain.pem',
+  privkey: '/etc/letsencrypt/live/rooster.hetmml.nl/privkey.pem'
+}
 
 function setupHTTPS () {
-  const certificate = fs.readFileSync('/etc/letsencrypt/live/rooster.hetmml.nl/fullchain.pem', 'utf8')
-  const privateKey = fs.readFileSync('/etc/letsencrypt/live/rooster.hetmml.nl/privkey.pem', 'utf8')
+  const certificate = fs.readFileSync(fileLocations.cert, 'utf8')
+  const privateKey = fs.readFileSync(fileLocations.privkey, 'utf8')
   const credentials = { key: privateKey, cert: certificate }
 
   const httpsPort = normalizePort(process.env.PORT_HTTPS || '3001')
@@ -18,6 +23,11 @@ function setupHTTPS () {
   httpsServer.on('listening', _ => onListening(httpsServer))
 
   app.set('port', httpsPort)
+}
+
+function redirectToHTTPS (req, res) {
+  res.writeHead(301, { 'Location': 'https://' + req.headers['host'] + req.url })
+  res.end()
 }
 
 function setupHTTPSRedirect () {
@@ -88,7 +98,7 @@ function onListening (server) {
 
 let useHTTPS = true
 try {
-  fs.accessSync('/etc/letsencrypt/live/rooster.hetmml.nl/privkey.pem')
+  fs.accessSync(fileLocations.privkey)
 } catch (e) {
   useHTTPS = false
 }
@@ -102,11 +112,6 @@ if (useHTTPS) {
     setupHTTP()
   }
 } else {
-  console.warn('NOT USING HTTPS! Could not read /etc/letsencrypt/live/rooster.hetmml.nl/privkey.pem')
+  console.warn(`NOT USING HTTPS! Could not read ${fileLocations.privkey}`)
   setupHTTP()
-}
-
-function redirectToHTTPS (req, res) {
-  res.writeHead(302, { 'Location': 'https://' + req.headers['host'] + req.url })
-  res.end()
 }
