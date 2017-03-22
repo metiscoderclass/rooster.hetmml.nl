@@ -1,15 +1,23 @@
-/* global USERS */
+/* global USERS FLAGS */
 
 const EventEmitter = require('events')
 
 const self = new EventEmitter()
 
 self._getPageTitle = function (selectedUser) {
+  let ret
+
   if (selectedUser == null) {
-    return `Metis Rooster`
+    ret = `Metis Rooster`
   } else {
-    return `Metis Rooster - ${selectedUser.value}`
+    ret = `Metis Rooster - ${selectedUser.value}`
   }
+
+  if (FLAGS.indexOf('BETA') !== -1) {
+    ret = `BETA ${ret}`
+  }
+
+  return ret
 }
 
 self._getPageURL = function (selectedUser) {
