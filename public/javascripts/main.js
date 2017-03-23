@@ -1,4 +1,5 @@
 require('./featureDetect').check()
+require('./zoom')
 
 const frontpage = require('./frontpage')
 const search = require('./search')

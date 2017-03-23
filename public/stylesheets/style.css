@@ -351,19 +351,6 @@ body.no-input #week-selector {
   display: none;
 }
 
-@media screen and (max-width: 600px) {
-  table table tr {
-    display: flex;
-    flex-direction: column;
-  }
-
-  table * {
-    padding: 0;
-    line-height: 13px;
-    font-size: 13px;
-  }
-}
-
 .error {
   text-align: center;
   margin-top: 100px;
