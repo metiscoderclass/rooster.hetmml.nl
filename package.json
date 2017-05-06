@@ -23,6 +23,7 @@
     "express": "^4.13.4",
     "flexibility": "^2.0.1",
     "fuzzy": "^0.1.1",
+    "iconv-lite": "^0.4.17",
     "jade": "~1.11.0",
     "left-pad": "^1.1.1",
     "lodash": "^4.15.0",
