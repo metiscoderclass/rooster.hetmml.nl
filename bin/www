@@ -1,52 +1,14 @@
 #!/usr/bin/env node
 
-const fs = require('fs')
 const app = require('../app')
 const http = require('http')
-const https = require('spdy')
 
-const fileLocations = {
-  cert: '/etc/letsencrypt/live/rooster.hetmml.nl/fullchain.pem',
-  privkey: '/etc/letsencrypt/live/rooster.hetmml.nl/privkey.pem'
-}
+const port = normalizePort(process.env.PORT || '3000')
+const server = http.createServer(app)
 
-function setupHTTPS () {
-  const certificate = fs.readFileSync(fileLocations.cert, 'utf8')
-  const privateKey = fs.readFileSync(fileLocations.privkey, 'utf8')
-  const credentials = { key: privateKey, cert: certificate }
-
-  const httpsPort = normalizePort(process.env.PORT_HTTPS || '3001')
-  const httpsServer = https.createServer(credentials, app)
-
-  httpsServer.listen(httpsPort)
-  httpsServer.on('error', error => onError(error, httpsPort))
-  httpsServer.on('listening', _ => onListening(httpsServer))
-
-  app.set('port', httpsPort)
-}
-
-function redirectToHTTPS (req, res) {
-  res.writeHead(301, { 'Location': 'https://' + req.headers['host'] + req.url })
-  res.end()
-}
-
-function setupHTTPSRedirect () {
-  const httpPort = normalizePort(process.env.PORT || '3000')
-  const httpServer = http.createServer(redirectToHTTPS)
-
-  httpServer.listen(httpPort)
-  httpServer.on('error', error => onError(error, httpPort))
-  httpServer.on('listening', _ => onListening(httpServer))
-}
-
-function setupHTTP () {
-  const httpPort = normalizePort(process.env.PORT || '3000')
-  const httpServer = http.createServer(app)
-
-  httpServer.listen(httpPort)
-  httpServer.on('error', error => onError(error, httpPort))
-  httpServer.on('listening', _ => onListening(httpServer))
-}
+server.listen(port)
+server.on('error', error => onError(error, port))
+server.on('listening', _ => onListening(server))
 
 function normalizePort (val) {
   const port = parseInt(val, 10)
@@ -90,28 +52,9 @@ function onError (error, port) {
 
 function onListening (server) {
   const addr = server.address()
-  const bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port
-  console.log('Listening on ' + bind)
-}
-
-let useHTTPS = true
-try {
-  fs.accessSync(fileLocations.privkey)
-} catch (e) {
-  useHTTPS = false
-}
-
-if (useHTTPS) {
-  try {
-    setupHTTPS()
-    setupHTTPSRedirect()
-  } catch (e) {
-    console.warn('NOT USING HTTPS! Error occured while setting up HTTPS')
-    setupHTTP()
+  if (typeof addr === 'string') {
+    console.log(`Listening on pipe ${addr}`)
+  } else {
+    console.log(`Listening on http://localhost:${addr.port}/`)
   }
-} else {
-  console.warn(`NOT USING HTTPS! Could not read ${fileLocations.privkey}`)
-  setupHTTP()
 }
