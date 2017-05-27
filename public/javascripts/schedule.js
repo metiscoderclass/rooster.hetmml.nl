@@ -1,5 +1,4 @@
 const EventEmitter = require('events')
-const leftPad = require('left-pad')
 const search = require('./search')
 
 const self = new EventEmitter()
@@ -42,12 +41,8 @@ self._handleError = function (event) {
   self.emit('load')
 }
 
-self._getURLOfUsers = function (week, type, index) {
-  const id = index + 1
-  const meetingpointURL =
-      `Roosters-AL/doc/dagroosters/${leftPad(week, 2, '0')}/${type}/` +
-      `${type}${leftPad(id, 5, '0')}.htm`
-  return `/meetingpointProxy/${window.encodeURIComponent(meetingpointURL)}`
+self._getURLOfUser = function (week, user) {
+  return `/get/${user.type}/${user.value}?week=${week}`
 }
 
 self._removeChilds = function () {
@@ -61,8 +56,7 @@ self.viewItem = function (week, selectedUser) {
     self._removeChilds()
     search.updateDom(selectedUser)
   } else {
-    const url = self._getURLOfUsers(week, selectedUser.type,
-                                    selectedUser.index)
+    const url = self._getURLOfUser(week, selectedUser)
 
     self._removeChilds()
 

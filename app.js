@@ -6,7 +6,7 @@ const bodyParser = require('body-parser')
 const compression = require('compression')
 
 const routes = require('./routes/index')
-const meetingpointProxy = require('./routes/meetingpointProxy')
+const getSchedule = require('./routes/getSchedule')
 const manifest = require('./routes/manifest')
 
 const app = express()
@@ -26,7 +26,7 @@ app.use('/manifest.webmanifest', manifest)
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', routes)
-app.use('/meetingpointProxy', meetingpointProxy)
+app.use('/get', getSchedule)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
