@@ -381,3 +381,25 @@ body.week-selector-not-visible #week-selector {
 .print {
   display: none;
 }
+
+#notification {
+  max-width: 600px;
+  padding: 10px;
+  margin: 0 auto;
+}
+
+#notification .box {
+  display: flex;
+  background-color: #e0e0e0;
+  padding: 8px;
+  border-radius: 2px;
+  align-items: center;
+}
+
+#notification .text {
+  padding-left: 8px;
+}
+
+.grow {
+  flex-grow: 1;
+}
