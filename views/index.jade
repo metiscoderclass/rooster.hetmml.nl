@@ -7,8 +7,8 @@ block head
   link(rel='stylesheet', href='/stylesheets/style.css')
   link(rel='stylesheet', href='/stylesheets/print.css', media='print')
   link(rel='stylesheet', href='https://fonts.googleapis.com/icon?family=Material+Icons')
-  link(rel='stylesheet', href='https://code.getmdl.io/1.2.1/material.indigo-pink.min.css')
-  script(defer='', src='https://code.getmdl.io/1.2.1/material.min.js')
+  link(rel='stylesheet', href='/components/material-design-lite/material.min.css')
+  script(defer='', src='/components/material-design-lite/material.min.js')
 
 block content
   form#search
@@ -43,6 +43,14 @@ block content
         span.print
       button(type='button').material-icons &#xE5C8;
 
+  #notification
+    .box
+      .text
+        strong Het rooster is ingekort&nbsp;
+        span in verband met de warmte.&nbsp;
+      .grow
+      a(href='http://hetmml.nl/', class='mdl-button mdl-js-button mdl-js-ripple-effect') Meer info
+  
   #schedule
 
 block scripts
