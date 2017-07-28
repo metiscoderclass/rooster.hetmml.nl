@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "setup": "npm install && bower install",
+    "setup": "npm install && bower install --allow-root",
     "build-dev": "browserify -d -t [ babelify --presets [ es2015 ] ] -e ./public/javascripts/main.js > ./public/javascripts/bundle.js",
     "watch": "watchify -v -d -t [ babelify --presets [ es2015 ] ] -e ./public/javascripts/main.js -o ./public/javascripts/bundle.js",
     "build": "browserify -t [ babelify --presets [ es2015 ] ] -e ./public/javascripts/main.js | uglifyjs -cm > ./public/javascripts/bundle.js"
