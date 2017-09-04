@@ -2,7 +2,7 @@
 
 const express = require('express')
 const router = express.Router()
-const users = require('../lib/getUserIndex')
+const data = require('../lib/getUserIndex')
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -12,8 +12,9 @@ router.get('/', function (req, res, next) {
   }
 
   const flagsStr = `var FLAGS = ${JSON.stringify(flags)};`
-  const usersStr = `var USERS = ${JSON.stringify(users.users)};`
-  res.render('index', { flagsStr, usersStr })
+  const usersStr = `var USERS = ${JSON.stringify(data.users)};`
+  const validWeekNumbersStr = `var VALID_WEEK_NUMBERS = ${JSON.stringify(data.validWeekNumbers)}`
+  res.render('index', { flagsStr, usersStr, validWeekNumbersStr })
 })
 
 module.exports = router

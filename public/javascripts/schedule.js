@@ -1,3 +1,5 @@
+/* global VALID_WEEK_NUMBERS */
+
 const EventEmitter = require('events')
 const leftPad = require('left-pad')
 const search = require('./search')
@@ -55,6 +57,10 @@ self._removeChilds = function () {
 }
 
 self.viewItem = function (week, selectedUser) {
+  if (VALID_WEEK_NUMBERS.indexOf(week) === -1) {
+    self._handleError({ target: { status: 404 } });
+    return
+  }
   const url = self._getURLOfUsers(week, selectedUser.type, selectedUser.index)
 
   self._removeChilds()
