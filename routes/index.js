@@ -18,7 +18,8 @@ router.get('/', function (req, res, next) {
     res.render('index', { flagsStr, usersStr, validWeekNumbersStr })
   }).catch(function () {
     console.error('Unable to get user info, emergency redirect!')
-    res.redirect('http://www.meetingpointmco.nl/Roosters-AL/doc/')
+    // res.redirect('http://www.meetingpointmco.nl/Roosters-AL/doc/')
+    res.render('redirect')
   })
 })
 
