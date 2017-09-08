@@ -13,7 +13,6 @@ const url = require('./url')
 const state = {}
 
 window.state = state
-window.require = require
 
 frontpage.show()
 weekSelector.updateCurrentWeek()
