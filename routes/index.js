@@ -2,11 +2,11 @@
 
 const express = require('express')
 const router = express.Router()
-const getUserIndex = require('../lib/getUserIndex')
+const getMeetingpointData = require('../lib/getMeetingpointData')
 
 /* GET home page. */
 router.get(['/', '/s/*', '/t/*', '/r/*', '/c/*'], function (req, res, next) {
-  getUserIndex().then(users => {
+  getMeetingpointData().then(data => {
     const isBeta = process.env.BETA === '1'
 
     let flags = []
@@ -18,12 +18,13 @@ router.get(['/', '/s/*', '/t/*', '/r/*', '/c/*'], function (req, res, next) {
     }
 
     const flagsStr = `var FLAGS = ${JSON.stringify(flags)};`
-    const usersStr = `var USERS = ${JSON.stringify(users)};`
+    const usersStr = `var USERS = ${JSON.stringify(data.users)};`
+    const validWeekNumbersStr = `var VALID_WEEK_NUMBERS = ${JSON.stringify(data.validWeekNumbers)}`
 
-    res.render('index', { flagsStr, usersStr, isBeta })
+    res.render('index', { flagsStr, usersStr, validWeekNumbersStr })
   }).catch(function () {
     console.error('Unable to get user info, emergency redirect!')
-    res.redirect('http://www.meetingpointmco.nl/Roosters-AL/doc/')
+    res.render('redirect')
   })
 })
 
