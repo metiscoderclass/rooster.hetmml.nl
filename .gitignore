@@ -1,6 +1,5 @@
-/public/components
+src/client/static/components
 bundle.js
-
 # Created by https://www.gitignore.io/api/node,bower,vagrant
 
 ### Bower ###

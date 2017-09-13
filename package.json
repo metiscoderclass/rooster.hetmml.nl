@@ -4,7 +4,7 @@
   "main": "app.js",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "node ./src/server/bin/www",
     "setup": "npm install && bower install",
     "dev": "webpack -wd"
   },
