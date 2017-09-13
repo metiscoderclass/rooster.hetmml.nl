@@ -1,12 +1,19 @@
 src/client/static/components
 bundle.js
-# Created by https://www.gitignore.io/api/node,bower,vagrant
+
+# Created by https://www.gitignore.io/api/node,bower,vagrant,elm
 
 ### Bower ###
 bower_components
 .bower-cache
 .bower-registry
 .bower-tmp
+
+### Elm ###
+# elm-package generated files
+elm-stuff
+# elm-repl generated files
+repl-temp-*
 
 ### Node ###
 # Logs
@@ -71,4 +78,4 @@ typings/
 ### Vagrant ###
 .vagrant/
 
-# End of https://www.gitignore.io/api/node,bower,vagrant
+# End of https://www.gitignore.io/api/node,bower,vagrant,elm
