@@ -1,5 +1,5 @@
 src/client/static/components
-bundle.js
+src/client/static/elm.js
 
 # Created by https://www.gitignore.io/api/node,bower,vagrant,elm
 
