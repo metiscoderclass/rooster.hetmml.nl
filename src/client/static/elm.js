@@ -7909,16 +7909,16 @@ var _user$project$DecodeFlags$decodeUserType = A2(
 		}
 	},
 	_elm_lang$core$Json_Decode$string);
-var _user$project$DecodeFlags$decodeUser = A3(
-	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-	'value',
-	_elm_lang$core$Json_Decode$string,
+var _user$project$DecodeFlags$decodeUsers = _elm_lang$core$Json_Decode$list(
 	A3(
 		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-		'type',
-		_user$project$DecodeFlags$decodeUserType,
-		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Model$User)));
-var _user$project$DecodeFlags$decodeUsers = _elm_lang$core$Json_Decode$list(_user$project$DecodeFlags$decodeUser);
+		'value',
+		_elm_lang$core$Json_Decode$string,
+		A3(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+			'type',
+			_user$project$DecodeFlags$decodeUserType,
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Model$User))));
 var _user$project$DecodeFlags$init = function (flags) {
 	var _p1 = A2(_elm_lang$core$Json_Decode$decodeValue, _user$project$DecodeFlags$decodeUsers, flags);
 	if (_p1.ctor === 'Ok') {

@@ -1,6 +1,6 @@
 module DecodeFlags exposing (Flags, init)
 
-import Json.Decode exposing (Decoder, andThen, fail, string, succeed)
+import Json.Decode exposing (Decoder, andThen, decodeValue, fail, list, string, succeed)
 import Json.Decode.Pipeline exposing (decode, required)
 import Model exposing (..)
 
@@ -11,7 +11,7 @@ type alias Flags =
 
 init : Flags -> ( Model, Cmd msg )
 init flags =
-    case Json.Decode.decodeValue decodeUsers flags of
+    case decodeValue decodeUsers flags of
         Ok user ->
             ( Model user, Cmd.none )
 
@@ -21,17 +21,14 @@ init flags =
 
 decodeUsers : Decoder (List User)
 decodeUsers =
-    Json.Decode.list decodeUser
+    list
+        (decode User
+            |> required "type" decodeUserType
+            |> required "value" string
+        )
 
 
-decodeUser : Decoder User
-decodeUser =
-    decode User
-        |> required "type" decodeUserType
-        |> required "value" string
-
-
-decodeUserType : Json.Decode.Decoder UserType
+decodeUserType : Decoder UserType
 decodeUserType =
     string
         |> andThen
