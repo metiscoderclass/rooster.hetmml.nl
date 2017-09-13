@@ -7893,6 +7893,32 @@ var _user$project$Main$User = F2(
 	function (a, b) {
 		return {type_: a, value: b};
 	});
+var _user$project$Main$Student = {ctor: 'Student'};
+var _user$project$Main$Room = {ctor: 'Room'};
+var _user$project$Main$Teacher = {ctor: 'Teacher'};
+var _user$project$Main$Class = {ctor: 'Class'};
+var _user$project$Main$decodeUserType = A2(
+	_elm_lang$core$Json_Decode$andThen,
+	function (s) {
+		var _p0 = s;
+		switch (_p0) {
+			case 's':
+				return _elm_lang$core$Json_Decode$succeed(_user$project$Main$Student);
+			case 'c':
+				return _elm_lang$core$Json_Decode$succeed(_user$project$Main$Class);
+			case 't':
+				return _elm_lang$core$Json_Decode$succeed(_user$project$Main$Teacher);
+			case 'r':
+				return _elm_lang$core$Json_Decode$succeed(_user$project$Main$Room);
+			default:
+				return _elm_lang$core$Json_Decode$fail(
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						'What the f*ck is ',
+						A2(_elm_lang$core$Basics_ops['++'], s, '?')));
+		}
+	},
+	_elm_lang$core$Json_Decode$string);
 var _user$project$Main$decodeUser = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 	'value',
@@ -7900,33 +7926,29 @@ var _user$project$Main$decodeUser = A3(
 	A3(
 		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 		'type',
-		_elm_lang$core$Json_Decode$string,
+		_user$project$Main$decodeUserType,
 		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Main$User)));
 var _user$project$Main$decodeUsers = _elm_lang$core$Json_Decode$list(_user$project$Main$decodeUser);
 var _user$project$Main$init = function (flags) {
-	var _p0 = A2(_elm_lang$core$Json_Decode$decodeValue, _user$project$Main$decodeUsers, flags);
-	if (_p0.ctor === 'Ok') {
+	var _p1 = A2(_elm_lang$core$Json_Decode$decodeValue, _user$project$Main$decodeUsers, flags);
+	if (_p1.ctor === 'Ok') {
 		return {
 			ctor: '_Tuple2',
-			_0: _user$project$Main$Model(_p0._0),
+			_0: _user$project$Main$Model(_p1._0),
 			_1: _elm_lang$core$Platform_Cmd$none
 		};
 	} else {
 		return _elm_lang$core$Native_Utils.crashCase(
 			'Main',
 			{
-				start: {line: 40, column: 5},
-				end: {line: 45, column: 28}
+				start: {line: 44, column: 5},
+				end: {line: 49, column: 28}
 			},
-			_p0)(_p0._0);
+			_p1)(_p1._0);
 	}
 };
 var _user$project$Main$main = _elm_lang$html$Html$programWithFlags(
 	{init: _user$project$Main$init, update: _user$project$Main$update, view: _user$project$Main$view, subscriptions: _user$project$Main$subscriptions})(_elm_lang$core$Json_Decode$value);
-var _user$project$Main$Student = {ctor: 'Student'};
-var _user$project$Main$Room = {ctor: 'Room'};
-var _user$project$Main$Teacher = {ctor: 'Teacher'};
-var _user$project$Main$Class = {ctor: 'Class'};
 
 var Elm = {};
 Elm['Main'] = Elm['Main'] || {};
