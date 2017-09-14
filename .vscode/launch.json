@@ -15,7 +15,7 @@
             "type": "node",
             "request": "launch",
             "name": "Server",
-            "program": "${workspaceRoot}/bin/www"
+            "program": "${workspaceRoot}/src/server/bin/www"
         }
     ],
     "compounds": [
