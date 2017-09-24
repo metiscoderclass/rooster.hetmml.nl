@@ -57,6 +57,8 @@ self._removeChilds = function () {
 }
 
 self.viewItem = function (week, selectedUser) {
+  search.updateDom(selectedUser)
+  
   if (VALID_WEEK_NUMBERS.indexOf(week) === -1) {
     self._handleError({ target: { status: 404 } });
     return
@@ -70,8 +72,6 @@ self.viewItem = function (week, selectedUser) {
   request.addEventListener('error', self._handleError)
   request.open('GET', url, true)
   request.send()
-
-  search.updateDom(selectedUser)
 }
 
 module.exports = self
