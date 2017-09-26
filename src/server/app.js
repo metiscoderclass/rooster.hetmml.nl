@@ -8,6 +8,7 @@ const compression = require('compression')
 const routes = require('./routes/index')
 const getSchedule = require('./routes/getSchedule')
 const manifest = require('./routes/manifest')
+const slack = require('./routes/slack')
 
 const app = express()
 
@@ -27,6 +28,7 @@ app.use(express.static(path.join(__dirname, '../client/static')))
 
 app.use('/', routes)
 app.use('/get', getSchedule)
+app.use('/slack', slack)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
