@@ -30,7 +30,8 @@
     "request": "^2.74.0",
     "smoothscroll-polyfill": "^0.3.4",
     "spdy": "^3.4.4",
-    "then-yield": "0.0.1"
+    "then-yield": "0.0.1",
+    "webshot": "^0.18.0"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.24.1",

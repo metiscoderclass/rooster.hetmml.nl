@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const request = require('request')
 const iconv = require('iconv-lite')
+const webshot = require('webshot')
 
 const getUserIndex = require('../lib/getUserIndex')
 const getURLOfUser = require('../lib/getURLOfUser')
@@ -20,6 +21,16 @@ function getWeekNumber (target) {
 
   return 1 + Math.ceil((firstThursday - target) / 604800000)
 }
+
+router.get('/:type/:value.png', function (req, res, next) {
+  port = process.env.PORT || 3000;
+  const { type, value } = req.params
+  const stream = webshot(
+    `http://localhost:${port}/get/${type}/${value}`,
+    { customCSS: "body { background-color: white; }" }
+  )
+  stream.pipe(res)
+})
 
 router.get('/:type/:value', function (req, res, next) {
   getUserIndex().then(users => {
