@@ -32,6 +32,16 @@ router.get('/:type/:value.png', function (req, res, next) {
   stream.pipe(res)
 })
 
+router.get('/:type/:value.jpg', function (req, res, next) {
+  port = process.env.PORT || 3000;
+  const { type, value } = req.params
+  const stream = webshot(
+    `http://localhost:${port}/get/${type}/${value}`,
+    { customCSS: "body { background-color: white; }", streamType: 'jpg' }
+  )
+  stream.pipe(res)
+})
+
 router.get('/:type/:value', function (req, res, next) {
   getUserIndex().then(users => {
     const { type, value } = req.params
