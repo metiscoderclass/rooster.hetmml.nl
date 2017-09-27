@@ -5,7 +5,7 @@ const getUserIndex = require('../lib/getUserIndex')
 
 router.all('/', function (req, res, next) {
   getUserIndex().then(users => {
-    const query = req.query.text
+    const query = req.body.text
     const user =
       users.filter(user => user.value === query)[0]
 
