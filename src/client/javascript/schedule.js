@@ -56,23 +56,20 @@ self._removeChilds = function () {
 self.viewItem = function (week, selectedUser) {
   if (selectedUser == null) {
     self._removeChilds()
-    search.updateDom(selectedUser)
   } else if (VALID_WEEK_NUMBERS.indexOf(week) === -1) {
     self._handleError({ target: { status: 404 } });
-    return
   } else {
     const url = self._getURLOfUser(week, selectedUser)
 
     self._removeChilds()
-
     const request = new window.XMLHttpRequest()
     request.addEventListener('load', self._handleLoad)
     request.addEventListener('error', self._handleError)
     request.open('GET', url, true)
     request.send()
-
-    search.updateDom(selectedUser)
   }
+
+  search.updateDom(selectedUser)
 }
 
 module.exports = self
