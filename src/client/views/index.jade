@@ -1,51 +1,7 @@
 extends layout
 
-block variables
-  - var bodyStyle = 'opacity: 0;';
-
-block head
-  link(rel='stylesheet', href='/stylesheets/style.css')
-  link(rel='stylesheet', href='/stylesheets/print.css', media='print')
-  link(rel='stylesheet', href='https://fonts.googleapis.com/icon?family=Material+Icons')
-  link(rel='stylesheet', href='/components/material-design-lite/material.min.css')
-  script(defer='', src='/components/material-design-lite/material.min.js')
-
 block content
-  form#search
-    .top-bar
-      .title
-        .logo
-        .text Rooster
-      .input-wrapper
-        input(type='search', placeholder='Zoeken', autocomplete='off')
-        button.material-icons.fav(tabindex='0', type='button') &#xE83A;
-      .tooltip
-        span Voer hier een <strong>docentafkorting</strong>, <strong>klas</strong>, <strong>leerlingnummer</strong> of <strong>lokaalnummer</strong> in.
-      button#overflow-button(type='button')
-        i.material-icons &#xE5D4;
-        
-      ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='overflow-button')
-        a(href='http://www.meetingpointmco.nl/Roosters-AL/doc/basisroosters/default.htm')
-          li.mdl-menu__item Basis rooster gebruiken
-        a(href='http://www.meetingpointmco.nl/Roosters-AL/doc/')
-          li.mdl-menu__item Oud rooster gebruiken
-        a(href='javascript:window.print()').print-page
-          li.mdl-menu__item.mdl-menu__item--full-bleed-divider#print-page Pagina printen
-        li.mdl-menu__item(disabled) Gemaakt door Noah Loomans
-    .autocomplete-wrapper
-      ul.autocomplete
-  #week-selector
-    #search-space-filler
-    .week-wrapper
-      button(type='button').material-icons &#xE5C4;
-      span.current 
-        span.no-print Loading...
-        span.print
-      button(type='button').material-icons &#xE5C8;
-  
-  #schedule
+  #root
 
 block scripts
-  script.
-    !{flagsStr}!{usersStr}!{validWeekNumbersStr}
   script(src='/bundle.js')
