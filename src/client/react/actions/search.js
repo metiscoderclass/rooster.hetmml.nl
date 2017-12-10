@@ -3,3 +3,8 @@ export const inputChange = typedValue => ({
   type: 'SEARCH/INPUT_CHANGE',
   typedValue,
 });
+
+export const focusChange = hasFocus => ({
+  type: 'SEARCH/FOCUS_CHANGE',
+  hasFocus,
+});

@@ -1,6 +1,7 @@
 const DEFAULT_STATE = {
   searchInput: '',
   searchResults: [],
+  hasFocus: false,
 };
 
 const search = (state = DEFAULT_STATE, action) => {
@@ -12,6 +13,11 @@ const search = (state = DEFAULT_STATE, action) => {
         searchResults: [
           { type: 's', name: '18561' },
         ],
+      };
+    case 'SEARCH/FOCUS_CHANGE':
+      return {
+        ...state,
+        hasFocus: action.hasFocus,
       };
     default:
       return state;
