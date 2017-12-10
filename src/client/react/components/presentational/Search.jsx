@@ -2,19 +2,43 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import SearchIcon from 'react-icons/lib/md/search';
-import PersonIcon from 'react-icons/lib/md/person';
+import StudentIcon from 'react-icons/lib/md/person';
+import RoomIcon from 'react-icons/lib/md/room';
+import ClassIcon from 'react-icons/lib/md/group';
+import TeacherIcon from 'react-icons/lib/md/account-circle';
 
 const userShape = {
   value: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
 };
 
-const Result = ({ user }) => (
-  <div className="search__result">
-    <div className="search__icon-wrapper"><PersonIcon /></div>
-    <div className="search__result__text">{user.value}</div>
-  </div>
-);
+const Result = ({ user }) => {
+  let icon;
+
+  switch (user.type) {
+    case 'c':
+      icon = <ClassIcon />;
+      break;
+    case 't':
+      icon = <TeacherIcon />;
+      break;
+    case 's':
+      icon = <StudentIcon />;
+      break;
+    case 'r':
+      icon = <RoomIcon />;
+      break;
+    default:
+      throw new Error(`Invalid user type: ${user.type}`);
+  }
+
+  return (
+    <div className="search__result">
+      <div className="search__icon-wrapper">{icon}</div>
+      <div className="search__result__text">{user.value}</div>
+    </div>
+  );
+};
 
 Result.propTypes = {
   user: PropTypes.shape(userShape).isRequired,
