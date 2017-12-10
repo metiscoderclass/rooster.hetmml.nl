@@ -9,6 +9,7 @@ self.send.search = function (selectedUser, favorite) {
 
   const eventCategory = favorite ? 'search fav' : 'search'
 
+
   let eventAction
   switch (selectedUser.type) {
     case 'c':

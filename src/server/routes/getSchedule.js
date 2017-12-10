@@ -22,6 +22,7 @@ function getWeekNumber (target) {
   return 1 + Math.ceil((firstThursday - target) / 604800000)
 }
 
+
 router.get('/:type/:value.png', function (req, res, next) {
   port = process.env.PORT || 3000;
   const { type, value } = req.params
@@ -49,6 +50,7 @@ router.get('/:type/:value', function (req, res, next) {
     const user =
       users.filter(user => user.type === type && user.value === value)[0]
 
+
     if (!user) {
       next(new Error(`${type}${value} is not in the user index.`))
     }
@@ -67,7 +69,37 @@ router.get('/:type/:value', function (req, res, next) {
         return
       }
 
-      const utf8Body = iconv.decode(data.body, 'ISO-8859-1')
+
+
+
+      let utf8Body = iconv.decode(data.body, 'ISO-8859-1')
+
+
+          users.forEach(function (user) {
+              let user_list = user.value;
+              //let user_lijst_twee = user;
+              let opties = {
+                "leraar": "t",
+                "klas": "c",
+                "leerling": "s",
+                "lokaal": "r"
+              };
+
+
+              user_list = new RegExp(user_list, 'g')
+
+
+              let show_user_display = user_list.toString().replace(/[&\/\\#,+()$~%.'":g*?<>{}]/g,"");
+
+
+              utf8Body = utf8Body.replace(user_list, "<a href='/" + optie + user_list + "'>" + show_user_display + "</a>")
+              console.log(show_user_display);
+
+
+    })
+
+
+
       res.status(data.statusCode).end(utf8Body)
     })
   })

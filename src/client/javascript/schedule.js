@@ -9,11 +9,13 @@ self._nodes = {
   schedule: document.querySelector('#schedule')
 }
 
+
 self._parseMeetingpointHTML = function (htmlStr) {
   const html = document.createElement('html')
   html.innerHTML = htmlStr
   const centerNode = html.querySelector('center')
-  return centerNode
+  return centerNode;
+
 }
 
 self._handleLoad = function (event) {
@@ -27,6 +29,9 @@ self._handleLoad = function (event) {
   self._nodes.schedule.appendChild(document)
   self._nodes.schedule.classList.remove('error')
   self.emit('load')
+
+
+
 }
 
 self._handleError = function (event) {
