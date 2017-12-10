@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { type } from '../../actions/search';
+import { inputChange } from '../../actions/search';
 import PresentationalSearch from '../presentational/Search';
 
 const mapStateToProps = state => ({
@@ -8,8 +8,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onType: (event) => {
-    dispatch(type(event.target.value));
+  onInputChange: (event) => {
+    dispatch(inputChange(event.target.value));
   },
 });
 

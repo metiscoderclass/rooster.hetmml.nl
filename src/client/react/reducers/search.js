@@ -5,7 +5,7 @@ const DEFAULT_STATE = {
 
 const search = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
-    case 'SEARCH/TYPE':
+    case 'SEARCH/INPUT_CHANGE':
       return {
         ...state,
         searchInput: action.typedValue,
