@@ -29,7 +29,7 @@ const search = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
     case 'SEARCH/INPUT_CHANGE': {
       let results = getSearchResults(action.typedValue);
-      let exactMatch = false;
+      let exactMatch = null;
 
       if ((results.length > 0) && (action.typedValue === results[0].value)) {
         [exactMatch] = results;
