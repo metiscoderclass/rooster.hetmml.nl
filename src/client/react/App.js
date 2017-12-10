@@ -1,14 +1,9 @@
 import React from 'react';
-import Search from './components/presentational/Search';
+import Search from './components/container/Search';
 
 const App = () => (
   <div>
-    <Search
-      onInput={() => {}}
-      results={[
-        { type: 's', name: '18561' },
-      ]}
-    />
+    <Search />
   </div>
 );
 

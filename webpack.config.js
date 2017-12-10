@@ -4,7 +4,7 @@ module.exports = {
   entry: './src/client/react/index.js',
   output: {
     path: path.resolve(__dirname, 'src/client/static'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
   },
   module: {
     rules: [
@@ -12,8 +12,8 @@ module.exports = {
         test: [/\.js$/],
         exclude: [/node_modules/],
         loader: 'babel-loader',
-        options: { presets: ['es2015', 'react'] }
-      }
-    ]
-  }
-}
+        options: { presets: ['es2015', 'react', 'stage-2'] },
+      },
+    ],
+  },
+};

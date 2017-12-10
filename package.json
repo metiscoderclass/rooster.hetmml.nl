@@ -11,6 +11,7 @@
   "dependencies": {
     "babel-loader": "^7.1.2",
     "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
     "bluebird": "^3.4.6",
     "body-parser": "^1.16.0",
     "browser-request": "^0.3.3",
