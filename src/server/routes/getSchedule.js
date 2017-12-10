@@ -67,7 +67,12 @@ router.get('/:type/:value', function (req, res, next) {
         return
       }
 
-      const utf8Body = iconv.decode(data.body, 'ISO-8859-1')
+      let utf8Body = iconv.decode(data.body, 'ISO-8859-1')
+
+      users.forEach(function (user) {
+        let utf8Body = utf8Body.replace(/oko/g, "test")
+      })
+
       res.status(data.statusCode).end(utf8Body)
     })
   })

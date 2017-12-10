@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
-import { type } from '../../actions';
+import { type } from '../../actions/search';
 import PresentationalSearch from '../presentational/Search';
 
 const mapStateToProps = state => ({
-  results: state.searchResults,
-  value: state.searchInput,
+  results: state.search.searchResults,
+  value: state.search.searchInput,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -16,7 +16,7 @@ const Search = ({ onType, value, results }) => (
 
 Search.propTypes = {
   onType: PropTypes.func.isRequired,
-  value: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
   results: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.require,
     type: PropTypes.string.require,

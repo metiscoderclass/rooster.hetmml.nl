@@ -1,21 +1,8 @@
-const DEFAULT_STATE = {
-  searchInput: '',
-  searchResults: [],
-};
+import { combineReducers } from 'redux';
+import search from './reducers/search';
 
-const reducer = (state = DEFAULT_STATE, action) => {
-  switch (action.type) {
-    case 'TYPE':
-      return {
-        ...state,
-        searchInput: action.typedValue,
-        searchResults: [
-          { type: 's', name: '18561' },
-        ],
-      };
-    default:
-      return state;
-  }
-};
+const rootReducer = combineReducers({
+  search,
+});
 
-export default reducer;
+export default rootReducer;
