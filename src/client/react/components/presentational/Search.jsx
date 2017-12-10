@@ -2,6 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import SearchIcon from 'react-icons/lib/md/search';
+import PersonIcon from 'react-icons/lib/md/person';
+
+const userShape = {
+  value: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+};
+
+const Result = ({ user }) => (
+  <div className="search__result">
+    <div className="search__icon-wrapper"><PersonIcon /></div>
+    <div className="search__result__text">{user.value}</div>
+  </div>
+);
+
+Result.propTypes = {
+  user: PropTypes.shape(userShape).isRequired,
+};
 
 const Search = ({
   onInputChange,
@@ -11,7 +28,7 @@ const Search = ({
   value,
   results,
 }) => (
-  <div className={classnames('search', { focus: hasFocus })}>
+  <div className={classnames('search', { 'search--has-focus': hasFocus, 'search--has-results': results.length > 0 })}>
     <div className="search__input-wrapper">
       <div className="search__icon-wrapper"><SearchIcon /></div>
       <input
@@ -22,9 +39,9 @@ const Search = ({
         onBlur={onBlur}
       />
     </div>
-    <ul>
-      {results.map(result => <li key={result.name}>{result.name}</li>)}
-    </ul>
+    {results.map(user => (
+      <Result key={user.value} user={user} />
+    ))}
   </div>
 );
 
@@ -34,10 +51,7 @@ Search.propTypes = {
   onBlur: PropTypes.func.isRequired,
   hasFocus: PropTypes.bool.isRequired,
   value: PropTypes.string.isRequired,
-  results: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-  })).isRequired,
+  results: PropTypes.arrayOf(PropTypes.shape(userShape)).isRequired,
 };
 
 export default Search;

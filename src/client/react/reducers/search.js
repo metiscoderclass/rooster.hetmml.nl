@@ -11,7 +11,7 @@ const search = (state = DEFAULT_STATE, action) => {
         ...state,
         searchInput: action.typedValue,
         searchResults: [
-          { type: 's', name: '18561' },
+          { type: 's', value: '18561' },
         ],
       };
     case 'SEARCH/FOCUS_CHANGE':
