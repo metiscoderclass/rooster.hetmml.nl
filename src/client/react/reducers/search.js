@@ -6,6 +6,7 @@ const DEFAULT_STATE = {
   searchResults: [
     { type: 's', value: '18561' },
   ],
+  exactMatch: null,
   hasFocus: false,
 };
 
@@ -26,12 +27,22 @@ function getSearchResults(query) {
 
 const search = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
-    case 'SEARCH/INPUT_CHANGE':
+    case 'SEARCH/INPUT_CHANGE': {
+      let results = getSearchResults(action.typedValue);
+      let exactMatch = false;
+
+      if ((results.length > 0) && (action.typedValue === results[0].value)) {
+        [exactMatch] = results;
+        results = results.splice(1);
+      }
+
       return {
         ...state,
         searchInput: action.typedValue,
-        searchResults: getSearchResults(action.typedValue),
+        searchResults: results,
+        exactMatch,
       };
+    }
     case 'SEARCH/FOCUS_CHANGE':
       return {
         ...state,

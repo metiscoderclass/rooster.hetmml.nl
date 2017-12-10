@@ -6,6 +6,7 @@ const mapStateToProps = state => ({
   results: state.search.searchResults,
   value: state.search.searchInput,
   hasFocus: state.search.hasFocus,
+  exactMatch: state.search.exactMatch,
 });
 
 const mapDispatchToProps = dispatch => ({

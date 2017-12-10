@@ -12,33 +12,36 @@ const userShape = {
   type: PropTypes.string.isRequired,
 };
 
-const Result = ({ user }) => {
-  let icon;
-
-  switch (user.type) {
+const IconFromUserType = ({ userType }) => {
+  switch (userType) {
     case 'c':
-      icon = <ClassIcon />;
-      break;
+      return <ClassIcon />;
     case 't':
-      icon = <TeacherIcon />;
-      break;
+      return <TeacherIcon />;
     case 's':
-      icon = <StudentIcon />;
-      break;
+      return <StudentIcon />;
     case 'r':
-      icon = <RoomIcon />;
-      break;
+      return <RoomIcon />;
     default:
-      throw new Error(`Invalid user type: ${user.type}`);
+      return <SearchIcon />;
   }
-
-  return (
-    <div className="search__result">
-      <div className="search__icon-wrapper">{icon}</div>
-      <div className="search__result__text">{user.value}</div>
-    </div>
-  );
 };
+
+IconFromUserType.propTypes = {
+  userType: PropTypes.string,
+};
+
+IconFromUserType.defaultProps = {
+  userType: null,
+};
+
+
+const Result = ({ user }) => (
+  <div className="search__result">
+    <div className="search__icon-wrapper"><IconFromUserType userType={user.type} /></div>
+    <div className="search__result__text">{user.value}</div>
+  </div>
+);
 
 Result.propTypes = {
   user: PropTypes.shape(userShape).isRequired,
@@ -51,10 +54,12 @@ const Search = ({
   hasFocus,
   value,
   results,
+  exactMatch,
 }) => (
   <div className={classnames('search', { 'search--has-focus': hasFocus, 'search--has-results': results.length > 0 })}>
     <div className="search__input-wrapper">
-      <div className="search__icon-wrapper"><SearchIcon /></div>
+      {/* Show the icon from the exact match if there is an exact match, otherwise show the search icon. */}
+      <div className="search__icon-wrapper"><IconFromUserType userType={exactMatch ? exactMatch.type : null} /></div>
       <input
         onChange={onInputChange}
         value={value}
@@ -76,6 +81,12 @@ Search.propTypes = {
   hasFocus: PropTypes.bool.isRequired,
   value: PropTypes.string.isRequired,
   results: PropTypes.arrayOf(PropTypes.shape(userShape)).isRequired,
+  exactMatch: PropTypes.shape(userShape),
 };
+
+Search.defaultProps = {
+  exactMatch: null,
+};
+
 
 export default Search;
