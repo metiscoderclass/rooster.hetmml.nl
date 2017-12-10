@@ -4,6 +4,7 @@ import PresentationalSearch from '../presentational/Search';
 
 const mapStateToProps = state => ({
   results: state.searchResults,
+  value: state.searchInput,
 });
 
 const mapDispatchToProps = dispatch => ({

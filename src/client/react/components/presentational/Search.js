@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Search = ({ onType, results }) => (
+const Search = ({ onType, value, results }) => (
   <div>
     <input
       onChange={onType}
+      value={value}
       placeholder="Zoeken"
     />
     <ul>
@@ -15,6 +16,7 @@ const Search = ({ onType, results }) => (
 
 Search.propTypes = {
   onType: PropTypes.func.isRequired,
+  value: PropTypes.func.isRequired,
   results: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.require,
     type: PropTypes.string.require,
