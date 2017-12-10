@@ -1,8 +1,28 @@
+/* global USERS */
+import fuzzy from 'fuzzy';
+
 const DEFAULT_STATE = {
   searchInput: '',
-  searchResults: [],
+  searchResults: [
+    { type: 's', value: '18561' },
+  ],
   hasFocus: false,
 };
+
+function getSearchResults(query) {
+  if (query.trim() === '') {
+    return [];
+  }
+
+  const allResults = fuzzy.filter(query, USERS, {
+    extract: user => user.value,
+  });
+
+  const firstResults = allResults.splice(0, 4);
+  const users = firstResults.map(result => result.original);
+
+  return users;
+}
 
 const search = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
@@ -10,12 +30,7 @@ const search = (state = DEFAULT_STATE, action) => {
       return {
         ...state,
         searchInput: action.typedValue,
-        searchResults: [
-          { type: 's', value: '18561' },
-          { type: 'c', value: '5H2' },
-          { type: 't', value: 'akh' },
-          { type: 'r', value: '008-mk' },
-        ],
+        searchResults: getSearchResults(action.typedValue),
       };
     case 'SEARCH/FOCUS_CHANGE':
       return {
