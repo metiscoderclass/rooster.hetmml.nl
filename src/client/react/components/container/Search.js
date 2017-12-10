@@ -3,8 +3,8 @@ import { inputChange, focusChange } from '../../actions/search';
 import PresentationalSearch from '../presentational/Search';
 
 const mapStateToProps = state => ({
-  results: state.search.searchResults,
-  value: state.search.searchInput,
+  results: state.search.results,
+  value: state.search.input,
   hasFocus: state.search.hasFocus,
   exactMatch: state.search.exactMatch,
 });

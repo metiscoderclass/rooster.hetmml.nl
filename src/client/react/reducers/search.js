@@ -2,8 +2,8 @@
 import fuzzy from 'fuzzy';
 
 const DEFAULT_STATE = {
-  searchInput: '',
-  searchResults: [
+  input: '',
+  results: [
     { type: 's', value: '18561' },
   ],
   exactMatch: null,
@@ -31,6 +31,8 @@ const search = (state = DEFAULT_STATE, action) => {
       let results = getSearchResults(action.typedValue);
       let exactMatch = null;
 
+      // Is the typed value exactly the same as the first result? Then show the
+      // appropiate icon instead of the generic search icon.
       if ((results.length > 0) && (action.typedValue === results[0].value)) {
         [exactMatch] = results;
         results = results.splice(1);
@@ -38,8 +40,8 @@ const search = (state = DEFAULT_STATE, action) => {
 
       return {
         ...state,
-        searchInput: action.typedValue,
-        searchResults: results,
+        input: action.typedValue,
+        results,
         exactMatch,
       };
     }
