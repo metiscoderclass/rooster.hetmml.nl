@@ -15,6 +15,7 @@ const mapDispatchToProps = dispatch => ({
   },
   onFocus: () => {
     dispatch(focusChange(true));
+    document.querySelector('#search__input').select();
   },
   onBlur: () => {
     dispatch(focusChange(false));

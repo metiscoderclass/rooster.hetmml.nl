@@ -35,7 +35,6 @@ IconFromUserType.defaultProps = {
   userType: null,
 };
 
-
 const Result = ({ user }) => (
   <div className="search__result">
     <div className="search__icon-wrapper"><IconFromUserType userType={user.type} /></div>
@@ -61,6 +60,7 @@ const Search = ({
       {/* Show the icon from the exact match if there is an exact match, otherwise show the search icon. */}
       <div className="search__icon-wrapper"><IconFromUserType userType={exactMatch ? exactMatch.type : null} /></div>
       <input
+        id="search__input"
         onChange={onInputChange}
         value={value}
         placeholder="Zoeken"
@@ -87,6 +87,5 @@ Search.propTypes = {
 Search.defaultProps = {
   exactMatch: null,
 };
-
 
 export default Search;
