@@ -15,40 +15,67 @@ const userShape = {
   type: PropTypes.string.isRequired,
 };
 
-const Search = ({
-  onInputChange,
-  onFocus,
-  onBlur,
-  hasFocus,
-  value,
-  exactMatch,
-}) => (
-  <div className={classnames('search', { 'search--has-focus': hasFocus })}>
-    <div className="search__input-wrapper">
-      <div className="search__icon-wrapper">
-        <IconFromUserType
-          userType={exactMatch ? exactMatch.type : null}
-          defaultIcon={<SearchIcon />}
-        />
+class Search extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      hasFocus: false,
+    };
+
+    this.onFocus = this.onFocus.bind(this);
+    this.onBlur = this.onBlur.bind(this);
+  }
+
+  onFocus() {
+    this.setState({
+      hasFocus: true,
+    });
+  }
+
+  onBlur() {
+    this.setState({
+      hasFocus: false,
+    });
+  }
+
+  render() {
+    const {
+      onInputChange,
+      value,
+      exactMatch,
+    } = this.props;
+
+    const {
+      hasFocus,
+    } = this.state;
+
+    return (
+      <div className={classnames('search', { 'search--has-focus': hasFocus })}>
+        <div className="search__input-wrapper">
+          <div className="search__icon-wrapper">
+            <IconFromUserType
+              userType={exactMatch ? exactMatch.type : null}
+              defaultIcon={<SearchIcon />}
+            />
+          </div>
+          <input
+            id="search__input"
+            onChange={onInputChange}
+            value={value}
+            placeholder="Zoeken"
+            onFocus={this.onFocus}
+            onBlur={this.onBlur}
+          />
+        </div>
+        <Results />
       </div>
-      <input
-        id="search__input"
-        onChange={onInputChange}
-        value={value}
-        placeholder="Zoeken"
-        onFocus={onFocus}
-        onBlur={onBlur}
-      />
-    </div>
-    <Results />
-  </div>
-);
+    );
+  }
+}
 
 Search.propTypes = {
   onInputChange: PropTypes.func.isRequired,
-  onFocus: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
-  hasFocus: PropTypes.bool.isRequired,
   value: PropTypes.string.isRequired,
   exactMatch: PropTypes.shape(userShape),
 };
@@ -60,20 +87,12 @@ Search.defaultProps = {
 const mapStateToProps = state => ({
   results: state.search.results,
   value: state.search.input,
-  hasFocus: state.search.hasFocus,
   exactMatch: state.search.exactMatch,
 });
 
 const mapDispatchToProps = dispatch => ({
   onInputChange: (event) => {
     dispatch(inputChange(event.target.value));
-  },
-  onFocus: () => {
-    dispatch(focusChange(true));
-    document.querySelector('#search__input').select();
-  },
-  onBlur: () => {
-    dispatch(focusChange(false));
   },
 });
 

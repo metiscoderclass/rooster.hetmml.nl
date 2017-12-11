@@ -7,7 +7,6 @@ const DEFAULT_STATE = {
     { type: 's', value: '18561' },
   ],
   exactMatch: null,
-  hasFocus: false,
 };
 
 function getSearchResults(query) {
@@ -45,11 +44,6 @@ const search = (state = DEFAULT_STATE, action) => {
         exactMatch,
       };
     }
-    case 'SEARCH/FOCUS_CHANGE':
-      return {
-        ...state,
-        hasFocus: action.hasFocus,
-      };
     default:
       return state;
   }
