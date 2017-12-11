@@ -16,3 +16,5 @@ Result.propTypes = {
     type: PropTypes.string.isRequired,
   }).isRequired,
 };
+
+export default Result;

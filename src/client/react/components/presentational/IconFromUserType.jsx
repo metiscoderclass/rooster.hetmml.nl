@@ -26,7 +26,7 @@ const IconFromUserType = ({ userType, defaultIcon }) => {
 
 IconFromUserType.propTypes = {
   userType: PropTypes.string,
-  defaultIcon: PropTypes.react,
+  defaultIcon: PropTypes.element,
 };
 
 IconFromUserType.defaultProps = {
