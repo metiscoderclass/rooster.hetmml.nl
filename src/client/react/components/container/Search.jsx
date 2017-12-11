@@ -1,10 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import classnames from 'classnames';
+
 import SearchIcon from 'react-icons/lib/md/search';
 
-import IconFromUserType from './IconFromUserType';
-import Result from './Result';
+import { inputChange, focusChange } from '../../actions/search';
+
+import IconFromUserType from '../presentational/IconFromUserType';
+import Result from '../presentational/Result';
 
 const userShape = {
   value: PropTypes.string.isRequired,
@@ -58,4 +62,24 @@ Search.defaultProps = {
   exactMatch: null,
 };
 
-export default Search;
+const mapStateToProps = state => ({
+  results: state.search.results,
+  value: state.search.input,
+  hasFocus: state.search.hasFocus,
+  exactMatch: state.search.exactMatch,
+});
+
+const mapDispatchToProps = dispatch => ({
+  onInputChange: (event) => {
+    dispatch(inputChange(event.target.value));
+  },
+  onFocus: () => {
+    dispatch(focusChange(true));
+    document.querySelector('#search__input').select();
+  },
+  onBlur: () => {
+    dispatch(focusChange(false));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Search);
