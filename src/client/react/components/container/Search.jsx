@@ -5,7 +5,7 @@ import classnames from 'classnames';
 
 import SearchIcon from 'react-icons/lib/md/search';
 
-import { inputChange } from '../../actions/search';
+import { inputChange, changeSelectedResult } from '../../actions/search';
 
 import Results from './Results';
 import IconFromUserType from '../presentational/IconFromUserType';
@@ -25,6 +25,7 @@ class Search extends React.Component {
 
     this.onFocus = this.onFocus.bind(this);
     this.onBlur = this.onBlur.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
   }
 
   onFocus() {
@@ -37,6 +38,22 @@ class Search extends React.Component {
     this.setState({
       hasFocus: false,
     });
+  }
+
+  onKeyDown(event) {
+    if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+      event.preventDefault();
+      switch (event.key) {
+        case 'ArrowUp':
+          this.props.dispatch(changeSelectedResult(-1));
+          break;
+        case 'ArrowDown':
+          this.props.dispatch(changeSelectedResult(+1));
+          break;
+        default:
+          throw new Error('This should never happen... pls?');
+      }
+    }
   }
 
   render() {
@@ -63,6 +80,7 @@ class Search extends React.Component {
           <input
             id="search__input"
             onChange={event => dispatch(inputChange(event.target.value))}
+            onKeyDown={this.onKeyDown}
             value={value}
             placeholder="Zoeken"
             onFocus={this.onFocus}

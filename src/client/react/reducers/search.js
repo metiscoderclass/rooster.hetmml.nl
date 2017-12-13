@@ -48,6 +48,34 @@ const search = (state = DEFAULT_STATE, action) => {
         isExactMatch,
       };
     }
+
+    case 'SEARCH/CHANGE_SELECTED_RESULT': {
+      const { results, isExactMatch } = state;
+      const prevSelectedResult = state.selectedResult;
+      const prevSelectedResultIndex = results.indexOf(prevSelectedResult);
+      let nextSelectedResultIndex =
+        prevSelectedResultIndex + action.relativeChange;
+
+      if (nextSelectedResultIndex < -1) {
+        nextSelectedResultIndex = results.length - 1;
+      } else if (nextSelectedResultIndex > results.length - 1) {
+        nextSelectedResultIndex = -1;
+      }
+
+      let nextSelectedResult =
+        nextSelectedResultIndex === -1
+          ? null
+          : results[nextSelectedResultIndex];
+
+      if (isExactMatch) {
+        nextSelectedResult = prevSelectedResult;
+      }
+
+      return {
+        ...state,
+        selectedResult: nextSelectedResult,
+      };
+    }
     default:
       return state;
   }

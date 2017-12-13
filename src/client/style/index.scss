@@ -48,6 +48,10 @@ body {
   &__result {
     display: flex;
 
+    &--selected {
+      background-color: lightgray;
+    }
+
     &__text {
       padding: 15px;
       padding-left: 0px;
