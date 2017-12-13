@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { createStore } from 'redux';
 import reducer from './reducers';
-import App from './App';
+import LandingPage from './LandingPage';
 
 /* eslint-disable no-underscore-dangle */
 const store = createStore(
@@ -14,7 +15,11 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Router>
+      <div>
+        <Route exact path="/" component={LandingPage} />
+      </div>
+    </Router>
   </Provider>,
   document.getElementById('root'),
 );
