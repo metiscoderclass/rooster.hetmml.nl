@@ -6,7 +6,8 @@ const DEFAULT_STATE = {
   results: [
     { type: 's', value: '18561' },
   ],
-  exactMatch: null,
+  selectedResult: null,
+  isExactMatch: false,
 };
 
 function getSearchResults(query) {
@@ -28,12 +29,14 @@ const search = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
     case 'SEARCH/INPUT_CHANGE': {
       let results = getSearchResults(action.typedValue);
-      let exactMatch = null;
+      let selectedResult = null;
+      let isExactMatch = false;
 
       // Is the typed value exactly the same as the first result? Then show the
       // appropiate icon instead of the generic search icon.
       if ((results.length > 0) && (action.typedValue === results[0].value)) {
-        [exactMatch] = results;
+        [selectedResult] = results;
+        isExactMatch = true;
         results = results.splice(1);
       }
 
@@ -41,7 +44,8 @@ const search = (state = DEFAULT_STATE, action) => {
         ...state,
         input: action.typedValue,
         results,
-        exactMatch,
+        selectedResult,
+        isExactMatch,
       };
     }
     default:

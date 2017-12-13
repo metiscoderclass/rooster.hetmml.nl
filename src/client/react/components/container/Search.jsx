@@ -42,7 +42,8 @@ class Search extends React.Component {
   render() {
     const {
       value,
-      exactMatch,
+      selectedResult,
+      isExactMatch,
       dispatch,
     } = this.props;
 
@@ -55,7 +56,7 @@ class Search extends React.Component {
         <div className="search__input-wrapper">
           <div className="search__icon-wrapper">
             <IconFromUserType
-              userType={exactMatch ? exactMatch.type : null}
+              userType={isExactMatch ? selectedResult.type : null}
               defaultIcon={<SearchIcon />}
             />
           </div>
@@ -76,18 +77,20 @@ class Search extends React.Component {
 
 Search.propTypes = {
   value: PropTypes.string.isRequired,
-  exactMatch: PropTypes.shape(userShape),
+  selectedResult: PropTypes.shape(userShape),
+  isExactMatch: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 
 Search.defaultProps = {
-  exactMatch: null,
+  selectedResult: null,
 };
 
 const mapStateToProps = state => ({
   results: state.search.results,
   value: state.search.input,
-  exactMatch: state.search.exactMatch,
+  selectedResult: state.search.selectedResult,
+  isExactMatch: state.search.isExactMatch,
 });
 
 export default connect(mapStateToProps)(Search);
