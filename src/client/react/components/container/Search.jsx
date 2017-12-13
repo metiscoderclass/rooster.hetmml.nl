@@ -5,7 +5,7 @@ import classnames from 'classnames';
 
 import SearchIcon from 'react-icons/lib/md/search';
 
-import { inputChange, focusChange } from '../../actions/search';
+import { inputChange } from '../../actions/search';
 
 import Results from './Results';
 import IconFromUserType from '../presentational/IconFromUserType';
@@ -41,9 +41,9 @@ class Search extends React.Component {
 
   render() {
     const {
-      onInputChange,
       value,
       exactMatch,
+      dispatch,
     } = this.props;
 
     const {
@@ -61,7 +61,7 @@ class Search extends React.Component {
           </div>
           <input
             id="search__input"
-            onChange={onInputChange}
+            onChange={event => dispatch(inputChange(event.target.value))}
             value={value}
             placeholder="Zoeken"
             onFocus={this.onFocus}
@@ -75,9 +75,9 @@ class Search extends React.Component {
 }
 
 Search.propTypes = {
-  onInputChange: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
   exactMatch: PropTypes.shape(userShape),
+  dispatch: PropTypes.func.isRequired,
 };
 
 Search.defaultProps = {
@@ -90,10 +90,4 @@ const mapStateToProps = state => ({
   exactMatch: state.search.exactMatch,
 });
 
-const mapDispatchToProps = dispatch => ({
-  onInputChange: (event) => {
-    dispatch(inputChange(event.target.value));
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Search);
+export default connect(mapStateToProps)(Search);
