@@ -74,6 +74,7 @@ const search = (state = DEFAULT_STATE, action) => {
         selectedResult: nextSelectedResult,
       };
     }
+
     default:
       return state;
   }
