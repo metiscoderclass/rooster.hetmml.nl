@@ -1,43 +1,42 @@
-/* global USERS */
 import fuzzy from 'fuzzy';
+import users from '../users';
 
 const DEFAULT_STATE = {
   input: '',
   results: [
-    { type: 's', value: '18561' },
+    's/18562',
   ],
   selectedResult: null,
   isExactMatch: false,
 };
 
-function getSearchResults(query) {
+function getSearchResults(allUsers, query) {
   if (query.trim() === '') {
     return [];
   }
 
-  const allResults = fuzzy.filter(query, USERS, {
+  const allResults = fuzzy.filter(query, allUsers, {
     extract: user => user.value,
   });
 
   const firstResults = allResults.splice(0, 4);
-  const users = firstResults.map(result => result.original);
+  const userIds = firstResults.map(result => result.original.id);
 
-  return users;
+  return userIds;
 }
 
 const search = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
     case 'SEARCH/INPUT_CHANGE': {
-      let results = getSearchResults(action.typedValue);
+      const results = getSearchResults(users.allUsers, action.typedValue);
       let selectedResult = null;
       let isExactMatch = false;
 
       // Is the typed value exactly the same as the first result? Then show the
       // appropiate icon instead of the generic search icon.
-      if ((results.length > 0) && (action.typedValue === results[0].value)) {
+      if ((results.length === 1) && (action.typedValue === users.byId[results[0]].value)) {
         [selectedResult] = results;
         isExactMatch = true;
-        results = results.splice(1);
       }
 
       return {
@@ -51,6 +50,9 @@ const search = (state = DEFAULT_STATE, action) => {
 
     case 'SEARCH/CHANGE_SELECTED_RESULT': {
       const { results, isExactMatch } = state;
+
+      if (isExactMatch) return state;
+
       const prevSelectedResult = state.selectedResult;
       const prevSelectedResultIndex = results.indexOf(prevSelectedResult);
       let nextSelectedResultIndex =
@@ -62,14 +64,10 @@ const search = (state = DEFAULT_STATE, action) => {
         nextSelectedResultIndex = -1;
       }
 
-      let nextSelectedResult =
+      const nextSelectedResult =
         nextSelectedResultIndex === -1
           ? null
           : results[nextSelectedResultIndex];
-
-      if (isExactMatch) {
-        nextSelectedResult = prevSelectedResult;
-      }
 
       return {
         ...state,

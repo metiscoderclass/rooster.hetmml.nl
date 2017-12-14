@@ -4,27 +4,22 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 import Result from '../presentational/Result';
 
-const Results = (({ results, selectedResult }) => (
+const Results = (({ results, isExactMatch, selectedResult }) => (
   <div
     className={classnames('search__results', {
-      'search__results--has-results': results.length > 0,
+      'search__results--has-results': !isExactMatch && results.length > 0,
     })}
   >
-    {results.map(user => (
-      <Result key={user.value} user={user} selected={user === selectedResult} />
+    {!isExactMatch && results.map(userId => (
+      <Result key={userId} userId={userId} isSelected={userId === selectedResult} />
     ))}
   </div>
 ));
 
 Results.propTypes = {
-  results: PropTypes.arrayOf(PropTypes.shape({
-    type: PropTypes.string,
-    value: PropTypes.string,
-  })).isRequired,
-  selectedResult: PropTypes.shape({
-    type: PropTypes.string,
-    value: PropTypes.string,
-  }),
+  results: PropTypes.arrayOf(PropTypes.string).isRequired,
+  isExactMatch: PropTypes.bool.isRequired,
+  selectedResult: PropTypes.string,
 };
 
 Results.defaultProps = {
@@ -33,6 +28,7 @@ Results.defaultProps = {
 
 const mapStateToProps = state => ({
   results: state.search.results,
+  isExactMatch: state.search.isExactMatch,
   selectedResult: state.search.selectedResult,
 });
 

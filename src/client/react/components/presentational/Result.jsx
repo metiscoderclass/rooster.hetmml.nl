@@ -1,26 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import users from '../../users';
 
 import IconFromUserType from './IconFromUserType';
 
-const Result = ({ user, selected }) => (
+const Result = ({ userId, isSelected }) => (
   <div
     className={classnames('search__result', {
-      'search__result--selected': selected,
+      'search__result--selected': isSelected,
     })}
   >
-    <div className="search__icon-wrapper"><IconFromUserType userType={user.type} /></div>
-    <div className="search__result__text">{user.value}</div>
+    <div className="search__icon-wrapper"><IconFromUserType userType={users.byId[userId].type} /></div>
+    <div className="search__result__text">{users.byId[userId].value}</div>
   </div>
 );
 
 Result.propTypes = {
-  user: PropTypes.shape({
-    value: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-  }).isRequired,
-  selected: PropTypes.bool.isRequired,
+  userId: PropTypes.string.isRequired,
+  isSelected: PropTypes.bool.isRequired,
 };
 
 export default Result;

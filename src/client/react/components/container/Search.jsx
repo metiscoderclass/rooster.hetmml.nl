@@ -7,13 +7,9 @@ import SearchIcon from 'react-icons/lib/md/search';
 
 import { inputChange, changeSelectedResult } from '../../actions/search';
 
+import users from '../../users';
 import Results from './Results';
 import IconFromUserType from '../presentational/IconFromUserType';
-
-const userShape = {
-  value: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-};
 
 class Search extends React.Component {
   constructor(props) {
@@ -73,7 +69,7 @@ class Search extends React.Component {
         <div className="search__input-wrapper">
           <div className="search__icon-wrapper">
             <IconFromUserType
-              userType={isExactMatch ? selectedResult.type : null}
+              userType={isExactMatch ? users.byId[selectedResult].type : null}
               defaultIcon={<SearchIcon />}
             />
           </div>
@@ -95,7 +91,7 @@ class Search extends React.Component {
 
 Search.propTypes = {
   value: PropTypes.string.isRequired,
-  selectedResult: PropTypes.shape(userShape),
+  selectedResult: PropTypes.string,
   isExactMatch: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
 };
