@@ -6,7 +6,10 @@
   "scripts": {
     "start": "node ./src/server/bin/www",
     "setup": "npm install && bower install",
-    "dev": "webpack -wd"
+    "build": "webpack -p",
+    "build:dev": "webpack --watch",
+    "test": "jest",
+    "test:dev": "jest --watch"
   },
   "jest": {
     "transform": {
