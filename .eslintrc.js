@@ -5,4 +5,7 @@ module.exports = {
     "node": true,
     "jest": true,
   },
+  "rules": {
+    "react/jsx-filename-extension": [1, { "extensions": [".js"] }]
+  }
 };

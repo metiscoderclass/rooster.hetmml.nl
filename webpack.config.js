@@ -2,7 +2,7 @@ const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const js = {
-  entry: './src/client/react/index.jsx',
+  entry: './src/client/react/index.js',
   output: {
     path: path.resolve(__dirname, 'src/client/static'),
     filename: 'bundle.js',
