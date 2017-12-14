@@ -1,11 +1,66 @@
-window.USERS = [];
+window.USERS = [
+  { type: 's', value: '18561' },
+  { type: 's', value: '18562' },
+  { type: 's', value: '18563' },
+  { type: 's', value: '18564' },
+  { type: 's', value: '18565' },
+  { type: 's', value: '18566' },
+  { type: 's', value: '18567' },
+  { type: 's', value: '18568' },
+  { type: 's', value: '18569' },
+];
 
 const deepFreeze = require('deep-freeze');
 const search = require('./search').default;
-const { changeSelectedResult } = require('../actions/search');
+const { inputChange, changeSelectedResult } = require('../actions/search');
 
 describe('reducers', () => {
   describe('search', () => {
+    describe('SEARCH/INPUT_CHANGE', () => {
+      it('Returns no results when nothing is typed in', () => {
+        expect(search(undefined, inputChange(''))).toEqual({
+          input: '',
+          results: [],
+          selectedResult: null,
+          isExactMatch: false,
+        });
+      });
+
+      it('Returns no results when a space is typed in', () => {
+        expect(search(undefined, inputChange(' '))).toEqual({
+          input: ' ',
+          results: [],
+          selectedResult: null,
+          isExactMatch: false,
+        });
+      });
+
+      it('Preforms a basic search, only returning four results', () => {
+        expect(search(undefined, inputChange('18'))).toEqual({
+          input: '18',
+          results: [
+            's/18561',
+            's/18562',
+            's/18563',
+            's/18564',
+          ],
+          selectedResult: null,
+          isExactMatch: false,
+        });
+      });
+
+      it('Selects the first result and sets isExactMatch to true when there is an exact match', () => {
+        expect(search(undefined, inputChange('18561'))).toEqual({
+          input: '18561',
+          results: [
+            's/18561',
+          ],
+          selectedResult: 's/18561',
+          isExactMatch: true,
+        });
+      });
+    });
+
     describe('SEARCH/CHANGE_SELECTED_RESULT', () => {
       it('Does nothing when there are no results', () => {
         const prevState = {
