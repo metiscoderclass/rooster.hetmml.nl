@@ -2,16 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import logger from 'redux-logger';
 import reducer from './reducers';
 import LandingPage from './LandingPage';
 
-/* eslint-disable no-underscore-dangle */
+// eslint-disable-next-line no-underscore-dangle
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   reducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+  composeEnhancers(applyMiddleware(logger)),
 );
-/* eslint-enable */
 
 ReactDOM.render(
   <Provider store={store}>
