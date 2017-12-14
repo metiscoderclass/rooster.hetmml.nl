@@ -2,7 +2,6 @@ import fuzzy from 'fuzzy';
 import users from '../users';
 
 const DEFAULT_STATE = {
-  input: '',
   results: [
     's/18562',
   ],
@@ -41,7 +40,6 @@ const search = (state = DEFAULT_STATE, action) => {
 
       return {
         ...state,
-        input: action.typedValue,
         results,
         selectedResult,
         isExactMatch,

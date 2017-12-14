@@ -19,7 +19,6 @@ describe('reducers', () => {
     describe('SEARCH/INPUT_CHANGE', () => {
       it('Returns no results when nothing is typed in', () => {
         expect(search(undefined, inputChange(''))).toEqual({
-          input: '',
           results: [],
           selectedResult: null,
           isExactMatch: false,
@@ -28,7 +27,6 @@ describe('reducers', () => {
 
       it('Returns no results when a space is typed in', () => {
         expect(search(undefined, inputChange(' '))).toEqual({
-          input: ' ',
           results: [],
           selectedResult: null,
           isExactMatch: false,
@@ -37,7 +35,6 @@ describe('reducers', () => {
 
       it('Preforms a basic search, only returning four results', () => {
         expect(search(undefined, inputChange('18'))).toEqual({
-          input: '18',
           results: [
             's/18561',
             's/18562',
@@ -51,7 +48,6 @@ describe('reducers', () => {
 
       it('Selects the first result and sets isExactMatch to true when there is an exact match', () => {
         expect(search(undefined, inputChange('18561'))).toEqual({
-          input: '18561',
           results: [
             's/18561',
           ],
