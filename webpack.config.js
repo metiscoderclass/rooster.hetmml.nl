@@ -2,23 +2,25 @@ const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const js = {
-  entry: './src/client/react/index.js',
+  entry: './src/client/react/index.tsx',
   output: {
     path: path.resolve(__dirname, 'src/client/static'),
     filename: 'bundle.js',
   },
+  devtool: 'source-map',
   module: {
     rules: [
       {
-        test: [/\.js$/, /\.jsx$/],
-        exclude: [/node_modules/],
-        loader: 'babel-loader',
-        options: { presets: ['es2015', 'react', 'stage-2'] },
+        test: [/\.tsx?$/],
+        loader: 'awesome-typescript-loader',
       },
+      // exclude: [/node_modules/],
+      // loader: 'babel-loader',
+      // options: { presets: ['es2015', 'react', 'stage-2'] },
     ],
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.ts', '.tsx'],
   },
 };
 
