@@ -13,8 +13,8 @@ import users from '../../users';
 import Results from './Results';
 import IconFromUserType from '../presentational/IconFromUserType';
 
-interface SearchStatehProps {
-  selectedResult: string,
+interface SearchStateProps {
+  selectedResult: string | null,
   isExactMatch: boolean,
 }
 
@@ -23,8 +23,8 @@ interface SearchDispatchProps {
   inputChange(typedValue: string): void,
 }
 
-class Search extends React.Component<SearchStatehProps & SearchDispatchProps, any> {
-  constructor(props: SearchStatehProps & SearchDispatchProps) {
+class Search extends React.Component<SearchStateProps & SearchDispatchProps, any> {
+  constructor(props: SearchStateProps & SearchDispatchProps) {
     super(props);
 
     this.state = {
@@ -80,7 +80,7 @@ class Search extends React.Component<SearchStatehProps & SearchDispatchProps, an
         <div className="search__input-wrapper">
           <div className="search__icon-wrapper">
             <IconFromUserType
-              userType={isExactMatch ? users.byId[selectedResult].type : null}
+              userType={(selectedResult && isExactMatch) ? users.byId[selectedResult].type : undefined}
               defaultIcon={<SearchIcon />}
             />
           </div>
@@ -99,25 +99,10 @@ class Search extends React.Component<SearchStatehProps & SearchDispatchProps, an
   }
 }
 
-// Search.propTypes = {
-//   selectedResult: PropTypes.string,
-//   isExactMatch: PropTypes.bool.isRequired,
-//   dispatch: PropTypes.func.isRequired,
-// };
-
-// Search.defaultProps = {
-//   selectedResult: null,
-// };
-
-const mapStateToProps = (state: State):SearchStatehProps => ({
+const mapStateToProps = (state: State):SearchStateProps => ({
   selectedResult: state.search.selectedResult,
   isExactMatch: state.search.isExactMatch,
 });
-
-// const mapDispatchToProps = {
-//   inputChange,
-//   changeSelectedResult,
-// };
 
 const mapDispatchToProps = (dispatch: any): SearchDispatchProps => ({
   inputChange(typedValue) {

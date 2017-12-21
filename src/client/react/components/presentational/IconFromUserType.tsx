@@ -9,7 +9,7 @@ import TeacherIcon = require('react-icons/lib/md/account-circle');
 //   defaultIcon?: JSX.Element,
 // }
 
-const IconFromUserType: React.StatelessComponent<{ userType: string, defaultIcon?: JSX.Element }> = (props) => {
+const IconFromUserType: React.StatelessComponent<{ userType?: string, defaultIcon?: JSX.Element }> = (props) => {
   switch (props.userType) {
     case 'c':
       return <ClassIcon />;

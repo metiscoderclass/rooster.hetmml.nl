@@ -1,6 +1,9 @@
 /* global USERS */
 
 import { combineReducers, createStore } from 'redux';
+import { AnyAction } from 'redux';
+import { Reducer } from 'redux';
+import { ReducersMapObject } from 'redux';
 
 export interface User {
   type: string,
@@ -21,7 +24,11 @@ declare global {
 
 const getId = ({ type, value }: User) => `${type}/${value}`;
 
-const byId = (state = {}, action: Action) => {
+type ByIdState = {
+  [userId: string]: User,
+}
+
+const byId = (state: ByIdState = {}, action: Action): ByIdState => {
   switch (action.type) {
     case 'USERS/ADD_USER':
       return {
@@ -35,7 +42,9 @@ const byId = (state = {}, action: Action) => {
   }
 };
 
-const allIds = (state : any[] = [], action : Action) => {
+type AllIdsState = string[]
+
+const allIds = (state: AllIdsState = [], action: Action): AllIdsState => {
   switch (action.type) {
     case 'USERS/ADD_USER':
       return [
@@ -47,7 +56,9 @@ const allIds = (state : any[] = [], action : Action) => {
   }
 };
 
-const allUsers = (state : any[] = [], action : Action) => {
+type AllUsersState = User[];
+
+const allUsers = (state: AllUsersState = [], action: Action): AllUsersState => {
   switch (action.type) {
     case 'USERS/ADD_USER':
       return [
@@ -62,9 +73,9 @@ const allUsers = (state : any[] = [], action : Action) => {
 };
 
 interface State {
-  byId: any,
-  allIds: string[],
-  allUsers: User[]
+  byId: ByIdState,
+  allIds: AllIdsState,
+  allUsers: AllUsersState,
 }
 
 const store = createStore(combineReducers<State>({

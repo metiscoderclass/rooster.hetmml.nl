@@ -61,7 +61,7 @@ const search = (state = DEFAULT_STATE, action: Action): State => {
       if (isExactMatch) return state;
 
       const prevSelectedResult = state.selectedResult;
-      const prevSelectedResultIndex = results.indexOf(prevSelectedResult);
+      const prevSelectedResultIndex = prevSelectedResult ? results.indexOf(prevSelectedResult) : -1;
       let nextSelectedResultIndex =
         prevSelectedResultIndex + action.relativeChange;
 
