@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
+import { withRouter } from 'react-router-dom';
 
 import SearchIcon from 'react-icons/lib/md/search';
 
@@ -37,7 +38,7 @@ class Search extends React.Component {
   }
 
   onKeyDown(event) {
-    if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+    if (event.key === 'ArrowUp' || event.key === 'ArrowDown' || event.key === 'Enter') {
       event.preventDefault();
       switch (event.key) {
         case 'ArrowUp':
@@ -45,6 +46,11 @@ class Search extends React.Component {
           break;
         case 'ArrowDown':
           this.props.dispatch(changeSelectedResult(+1));
+          break;
+        case 'Enter':
+          if (this.props.selectedResult) {
+            this.props.history.push(`/${this.props.selectedResult}`);
+          }
           break;
         default:
           throw new Error('This should never happen... pls?');
@@ -91,6 +97,9 @@ Search.propTypes = {
   selectedResult: PropTypes.string,
   isExactMatch: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 Search.defaultProps = {
@@ -103,4 +112,4 @@ const mapStateToProps = state => ({
   isExactMatch: state.search.isExactMatch,
 });
 
-export default connect(mapStateToProps)(Search);
+export default connect(mapStateToProps)(withRouter(Search));
