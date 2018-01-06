@@ -1,16 +1,7 @@
-import * as fuzzy from 'fuzzy';
-import users, { User } from '../users';
-import { InputChangeAction, ChangeSelectedResultAction } from '../actions/search';
+import fuzzy from 'fuzzy';
+import users from '../users';
 
-export interface State {
-  results: string[],
-  selectedResult: string | null,
-  isExactMatch: boolean,
-};
-
-export type Action = InputChangeAction | ChangeSelectedResultAction;
-
-const DEFAULT_STATE: State = {
+const DEFAULT_STATE = {
   results: [
     's/18562',
   ],
@@ -18,22 +9,22 @@ const DEFAULT_STATE: State = {
   isExactMatch: false,
 };
 
-function getSearchResults(allUsers: User[], query: string) {
+function getSearchResults(allUsers, query) {
   if (query.trim() === '') {
     return [];
   }
 
   const allResults = fuzzy.filter(query, allUsers, {
-    extract: (user: User) => user.value,
+    extract: user => user.value,
   });
 
   const firstResults = allResults.splice(0, 4);
-  const userIds = firstResults.map((result: { original: User }) => result.original.id);
+  const userIds = firstResults.map(result => result.original.id);
 
   return userIds;
 }
 
-const search = (state = DEFAULT_STATE, action: Action): State => {
+const search = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
     case 'SEARCH/INPUT_CHANGE': {
       const results = getSearchResults(users.allUsers, action.typedValue);

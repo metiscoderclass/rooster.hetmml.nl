@@ -1,10 +1,11 @@
-import * as React from 'react';
-import * as classnames from 'classnames';
+import React from 'react';
+import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import users from '../../users';
 
 import IconFromUserType from './IconFromUserType';
 
-const Result: React.StatelessComponent<{ userId: string, isSelected: boolean }> = ({ userId, isSelected }) => (
+const Result = ({ userId, isSelected }) => (
   <div
     className={classnames('search__result', {
       'search__result--selected': isSelected,
@@ -14,5 +15,10 @@ const Result: React.StatelessComponent<{ userId: string, isSelected: boolean }> 
     <div className="search__result__text">{users.byId[userId].value}</div>
   </div>
 );
+
+Result.propTypes = {
+  userId: PropTypes.string.isRequired,
+  isSelected: PropTypes.bool.isRequired,
+};
 
 export default Result;

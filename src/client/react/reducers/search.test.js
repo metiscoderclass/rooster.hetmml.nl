@@ -1,4 +1,4 @@
-(<any>window).USERS = [
+window.USERS = [
   { type: 's', value: '18561' },
   { type: 's', value: '18562' },
   { type: 's', value: '18563' },

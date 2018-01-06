@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Search from './components/container/Search';
 
 const App = () => (

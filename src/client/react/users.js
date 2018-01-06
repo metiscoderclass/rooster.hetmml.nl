@@ -2,26 +2,9 @@
 
 import { combineReducers, createStore } from 'redux';
 
-export interface User {
-  type: string,
-  value: string,
-  id: string,
-}
+const getId = ({ type, value }) => `${type}/${value}`;
 
-type Action = {
-  type: 'USERS/ADD_USER',
-  user: User,
-}
-
-declare global {
-  interface Window {
-    USERS: User[];
-  }
-}
-
-const getId = ({ type, value }: User) => `${type}/${value}`;
-
-const byId = (state = {}, action: Action) => {
+const byId = (state = {}, action) => {
   switch (action.type) {
     case 'USERS/ADD_USER':
       return {
@@ -35,7 +18,7 @@ const byId = (state = {}, action: Action) => {
   }
 };
 
-const allIds = (state : any[] = [], action : Action) => {
+const allIds = (state = [], action) => {
   switch (action.type) {
     case 'USERS/ADD_USER':
       return [
@@ -47,7 +30,7 @@ const allIds = (state : any[] = [], action : Action) => {
   }
 };
 
-const allUsers = (state : any[] = [], action : Action) => {
+const allUsers = (state = [], action) => {
   switch (action.type) {
     case 'USERS/ADD_USER':
       return [
@@ -61,19 +44,13 @@ const allUsers = (state : any[] = [], action : Action) => {
   }
 };
 
-interface State {
-  byId: any,
-  allIds: string[],
-  allUsers: User[]
-}
-
-const store = createStore(combineReducers<State>({
+const store = createStore(combineReducers({
   byId,
   allIds,
   allUsers,
 }));
 
-window.USERS.forEach((user) => {
+USERS.forEach((user) => {
   store.dispatch({
     type: 'USERS/ADD_USER',
     user: {

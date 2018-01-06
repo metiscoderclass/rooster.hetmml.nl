@@ -1,30 +1,18 @@
-import * as React from 'react';
-import { Dispatch } from 'redux';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 
-import SearchIcon = require('react-icons/lib/md/search');
+import SearchIcon from 'react-icons/lib/md/search';
 
 import { inputChange, changeSelectedResult } from '../../actions/search';
-import { Action } from '../../reducers/search';
-import { State } from '../../reducers';
 
 import users from '../../users';
 import Results from './Results';
 import IconFromUserType from '../presentational/IconFromUserType';
 
-interface SearchStatehProps {
-  selectedResult: string,
-  isExactMatch: boolean,
-}
-
-interface SearchDispatchProps {
-  changeSelectedResult(relativeChange: 1 | -1): void,
-  inputChange(typedValue: string): void,
-}
-
-class Search extends React.Component<SearchStatehProps & SearchDispatchProps, any> {
-  constructor(props: SearchStatehProps & SearchDispatchProps) {
+class Search extends React.Component {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -48,15 +36,15 @@ class Search extends React.Component<SearchStatehProps & SearchDispatchProps, an
     });
   }
 
-  onKeyDown(event: React.KeyboardEvent<any>) {
+  onKeyDown(event) {
     if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
       event.preventDefault();
       switch (event.key) {
         case 'ArrowUp':
-          this.props.changeSelectedResult(-1);
+          this.props.dispatch(changeSelectedResult(-1));
           break;
         case 'ArrowDown':
-          this.props.changeSelectedResult(+1);
+          this.props.dispatch(changeSelectedResult(+1));
           break;
         default:
           throw new Error('This should never happen... pls?');
@@ -68,7 +56,7 @@ class Search extends React.Component<SearchStatehProps & SearchDispatchProps, an
     const {
       selectedResult,
       isExactMatch,
-      inputChange,
+      dispatch,
     } = this.props;
 
     const {
@@ -86,7 +74,7 @@ class Search extends React.Component<SearchStatehProps & SearchDispatchProps, an
           </div>
           <input
             id="search__input"
-            onChange={event => inputChange(event.target.value)}
+            onChange={event => dispatch(inputChange(event.target.value))}
             onKeyDown={this.onKeyDown}
             placeholder="Zoeken"
             onFocus={this.onFocus}
@@ -99,33 +87,20 @@ class Search extends React.Component<SearchStatehProps & SearchDispatchProps, an
   }
 }
 
-// Search.propTypes = {
-//   selectedResult: PropTypes.string,
-//   isExactMatch: PropTypes.bool.isRequired,
-//   dispatch: PropTypes.func.isRequired,
-// };
+Search.propTypes = {
+  selectedResult: PropTypes.string,
+  isExactMatch: PropTypes.bool.isRequired,
+  dispatch: PropTypes.func.isRequired,
+};
 
-// Search.defaultProps = {
-//   selectedResult: null,
-// };
+Search.defaultProps = {
+  selectedResult: null,
+};
 
-const mapStateToProps = (state: State):SearchStatehProps => ({
+const mapStateToProps = state => ({
+  results: state.search.results,
   selectedResult: state.search.selectedResult,
   isExactMatch: state.search.isExactMatch,
 });
 
-// const mapDispatchToProps = {
-//   inputChange,
-//   changeSelectedResult,
-// };
-
-const mapDispatchToProps = (dispatch: any): SearchDispatchProps => ({
-  inputChange(typedValue) {
-    dispatch(inputChange(typedValue));
-  },
-  changeSelectedResult(relativeChange) {
-    dispatch(changeSelectedResult(relativeChange))
-  }
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Search);
+export default connect(mapStateToProps)(Search);
