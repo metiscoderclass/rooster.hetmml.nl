@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 
 import SearchIcon from 'react-icons/lib/md/search';
 
-import { inputChange, changeSelectedResult } from '../../actions/search';
+import { setUser, inputChange, changeSelectedResult } from '../../actions/search';
 
 import users from '../../users';
 import Results from './Results';
@@ -23,6 +23,10 @@ class Search extends React.Component {
     this.onFocus = this.onFocus.bind(this);
     this.onBlur = this.onBlur.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.dispatch(setUser(this.props.urlUser));
   }
 
   onFocus() {
@@ -97,6 +101,7 @@ class Search extends React.Component {
 
 Search.propTypes = {
   selectedResult: PropTypes.string,
+  urlUser: PropTypes.string,
   isExactMatch: PropTypes.bool.isRequired,
   searchText: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
@@ -107,6 +112,7 @@ Search.propTypes = {
 
 Search.defaultProps = {
   selectedResult: null,
+  urlUser: null,
 };
 
 const mapStateToProps = state => ({
@@ -116,4 +122,4 @@ const mapStateToProps = state => ({
   isExactMatch: state.search.isExactMatch,
 });
 
-export default connect(mapStateToProps)(withRouter(Search));
+export default withRouter(connect(mapStateToProps)(Search));

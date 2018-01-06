@@ -27,6 +27,22 @@ function getSearchResults(allUsers, query) {
 
 const search = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
+    case 'SEARCH/SET_USER': {
+      const { user } = action;
+
+      if (user == null) {
+        return DEFAULT_STATE;
+      }
+
+      return {
+        ...state,
+        results: [],
+        searchText: users.byId[user].value,
+        selectedResult: user,
+        isExactMatch: true,
+      };
+    }
+
     case 'SEARCH/INPUT_CHANGE': {
       const { searchText } = action;
       const results = getSearchResults(users.allUsers, action.searchText);
@@ -82,3 +98,7 @@ const search = (state = DEFAULT_STATE, action) => {
 };
 
 export default search;
+
+export const _test = {
+  DEFAULT_STATE,
+};

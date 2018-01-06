@@ -12,10 +12,30 @@ window.USERS = [
 
 const deepFreeze = require('deep-freeze');
 const search = require('./search').default;
-const { inputChange, changeSelectedResult } = require('../actions/search');
+const { _test } = require('./search');
+const {
+  setUser,
+  inputChange,
+  changeSelectedResult,
+} = require('../actions/search');
 
 describe('reducers', () => {
   describe('search', () => {
+    describe('SEARCH/SET_USER', () => {
+      it('Resets to the default state if the user is null', () => {
+        expect(search({ foo: 'bar' }, setUser(null))).toEqual(_test.DEFAULT_STATE);
+      });
+
+      it('Sets all the values of that user properly', () => {
+        expect(search(undefined, setUser('s/18561'))).toEqual({
+          results: [],
+          searchText: '18561',
+          selectedResult: 's/18561',
+          isExactMatch: true,
+        });
+      });
+    });
+
     describe('SEARCH/INPUT_CHANGE', () => {
       it('Returns no results when nothing is typed in', () => {
         expect(search(undefined, inputChange(''))).toEqual({

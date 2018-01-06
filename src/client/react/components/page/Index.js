@@ -1,16 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Search from '../container/Search';
 
-const App = ({ location }) => (
+const App = () => (
   <div>
-    <Search location={location} />
+    <Search />
   </div>
 );
-
-App.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  location: PropTypes.object.isRequired,
-};
 
 export default App;

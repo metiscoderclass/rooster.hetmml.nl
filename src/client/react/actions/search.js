@@ -1,3 +1,8 @@
+export const setUser = user => ({
+  type: 'SEARCH/SET_USER',
+  user,
+});
+
 export const inputChange = searchText => ({
   type: 'SEARCH/INPUT_CHANGE',
   searchText,

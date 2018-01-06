@@ -6,6 +6,7 @@ module.exports = {
     "jest": true,
   },
   "rules": {
-    "react/jsx-filename-extension": [1, { "extensions": [".js"] }]
+    "react/jsx-filename-extension": ["error", { "extensions": [".js"] }],
+    "no-underscore-dangle": ["error", { "allow": ["_test"] }],
   }
 };
