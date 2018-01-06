@@ -5,7 +5,6 @@ export interface State {
   search: SearchState,
 }
 
-// @ts-ignore
 const rootReducer = combineReducers<State>({
   search,
 });
