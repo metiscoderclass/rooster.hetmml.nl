@@ -6,7 +6,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 import reducer from './reducers';
-import LandingPage from './LandingPage';
+import Index from './components/page/Index';
 
 // eslint-disable-next-line no-underscore-dangle
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -19,7 +19,7 @@ ReactDOM.render(
   <Provider store={store}>
     <Router>
       <div>
-        <Route exact path="/" component={LandingPage} />
+        <Route exact path="/" component={Index} />
       </div>
     </Router>
   </Provider>,

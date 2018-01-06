@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Search from './components/container/Search';
+import Search from '../container/Search';
 
 const App = ({ location }) => (
   <div>
@@ -9,6 +9,7 @@ const App = ({ location }) => (
 );
 
 App.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
   location: PropTypes.object.isRequired,
 };
 
