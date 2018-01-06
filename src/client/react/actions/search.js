@@ -1,6 +1,6 @@
-export const inputChange = typedValue => ({
+export const inputChange = searchText => ({
   type: 'SEARCH/INPUT_CHANGE',
-  typedValue,
+  searchText,
 });
 
 /**

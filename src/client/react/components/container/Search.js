@@ -62,6 +62,7 @@ class Search extends React.Component {
     const {
       selectedResult,
       isExactMatch,
+      searchText,
       dispatch,
     } = this.props;
 
@@ -82,6 +83,7 @@ class Search extends React.Component {
             id="search__input"
             onChange={event => dispatch(inputChange(event.target.value))}
             onKeyDown={this.onKeyDown}
+            value={searchText}
             placeholder="Zoeken"
             onFocus={this.onFocus}
             onBlur={this.onBlur}
@@ -96,6 +98,7 @@ class Search extends React.Component {
 Search.propTypes = {
   selectedResult: PropTypes.string,
   isExactMatch: PropTypes.bool.isRequired,
+  searchText: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
@@ -108,6 +111,7 @@ Search.defaultProps = {
 
 const mapStateToProps = state => ({
   results: state.search.results,
+  searchText: state.search.searchText,
   selectedResult: state.search.selectedResult,
   isExactMatch: state.search.isExactMatch,
 });

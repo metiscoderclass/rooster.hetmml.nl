@@ -20,6 +20,7 @@ describe('reducers', () => {
       it('Returns no results when nothing is typed in', () => {
         expect(search(undefined, inputChange(''))).toEqual({
           results: [],
+          searchText: '',
           selectedResult: null,
           isExactMatch: false,
         });
@@ -28,6 +29,7 @@ describe('reducers', () => {
       it('Returns no results when a space is typed in', () => {
         expect(search(undefined, inputChange(' '))).toEqual({
           results: [],
+          searchText: ' ',
           selectedResult: null,
           isExactMatch: false,
         });
@@ -41,6 +43,7 @@ describe('reducers', () => {
             's/18563',
             's/18564',
           ],
+          searchText: '18',
           selectedResult: null,
           isExactMatch: false,
         });
@@ -51,6 +54,7 @@ describe('reducers', () => {
           results: [
             's/18561',
           ],
+          searchText: '18561',
           selectedResult: 's/18561',
           isExactMatch: true,
         });
@@ -61,6 +65,7 @@ describe('reducers', () => {
       it('Does nothing when there are no results', () => {
         const prevState = {
           results: [],
+          searchText: '',
           selectedResult: null,
           isExactMatch: false,
         };
@@ -79,6 +84,7 @@ describe('reducers', () => {
       it('Does nothing when there is an exact match', () => {
         const prevState = {
           results: ['s/18561'],
+          searchText: '18561',
           selectedResult: 's/18561',
           isExactMatch: true,
         };
@@ -98,6 +104,7 @@ describe('reducers', () => {
       it('Switches to the correct selectedResult when no selected result is selected', () => {
         const prevState = {
           results: ['s/18561', 's/18562', 's/18563'],
+          searchText: '1856',
           selectedResult: null,
           isExactMatch: false,
         };
@@ -123,6 +130,7 @@ describe('reducers', () => {
       it('Switches to the correct selectedResult when there is a selected result selected', () => {
         const prevState = {
           results: ['s/18561', 's/18562', 's/18563'],
+          searchText: '1856',
           selectedResult: 's/18562',
           isExactMatch: false,
         };
@@ -148,20 +156,24 @@ describe('reducers', () => {
       it('Properly wraps arround when incrementing', () => {
         expect(search({
           results: ['s/18561', 's/18562', 's/18563'],
+          searchText: '1856',
           selectedResult: 's/18563',
           isExactMatch: false,
         }, changeSelectedResult(+1))).toEqual({
           results: ['s/18561', 's/18562', 's/18563'],
+          searchText: '1856',
           selectedResult: null,
           isExactMatch: false,
         });
 
         expect(search({
           results: ['s/18561', 's/18562', 's/18563'],
+          searchText: '1856',
           selectedResult: null,
           isExactMatch: false,
         }, changeSelectedResult(+1))).toEqual({
           results: ['s/18561', 's/18562', 's/18563'],
+          searchText: '1856',
           selectedResult: 's/18561',
           isExactMatch: false,
         });
@@ -170,20 +182,24 @@ describe('reducers', () => {
       it('Properly wraps arround when decrementing', () => {
         expect(search({
           results: ['s/18561', 's/18562', 's/18563'],
+          searchText: '1856',
           selectedResult: 's/18561',
           isExactMatch: false,
         }, changeSelectedResult(-1))).toEqual({
           results: ['s/18561', 's/18562', 's/18563'],
+          searchText: '1856',
           selectedResult: null,
           isExactMatch: false,
         });
 
         expect(search({
           results: ['s/18561', 's/18562', 's/18563'],
+          searchText: '1856',
           selectedResult: null,
           isExactMatch: false,
         }, changeSelectedResult(-1))).toEqual({
           results: ['s/18561', 's/18562', 's/18563'],
+          searchText: '1856',
           selectedResult: 's/18563',
           isExactMatch: false,
         });
