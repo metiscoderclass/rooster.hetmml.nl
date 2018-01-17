@@ -50,7 +50,7 @@ const search = (state = DEFAULT_STATE, action) => {
       let isExactMatch = false;
 
       // Is the typed value exactly the same as the first result? Then show the
-      // appropiate icon instead of the generic search icon.
+      // appropriate icon instead of the generic search icon.
       if ((results.length === 1) && (action.searchText === users.byId[results[0]].value)) {
         [selectedResult] = results;
         isExactMatch = true;
