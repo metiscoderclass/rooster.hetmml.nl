@@ -27,3 +27,7 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root'),
 );
+
+// We only want to focus the input on page load. NOT on a in-javascript
+// redirect. This is because that is when people usually want to start typing.
+document.querySelector('.search input').focus();

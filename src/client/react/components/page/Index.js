@@ -2,7 +2,8 @@ import React from 'react';
 import Search from '../container/Search';
 
 const App = () => (
-  <div>
+  <div className="page-index">
+    <img src="/icons/mml-logo.png" alt="Metis" />
     <Search />
   </div>
 );

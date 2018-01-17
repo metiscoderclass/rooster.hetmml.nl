@@ -1,10 +1,26 @@
 body {
-  background-color: #ececec;
   font-family: 'Roboto';
+  margin: 0;
 }
 
 * {
   box-sizing: border-box;
+}
+
+.page-index {
+  background-color: #ececec;
+  padding-top: 24vh;
+  height: 100vh;
+
+  img {
+    display: block;
+    margin: 0 auto;
+  }
+
+  .search {
+    margin: 0 auto;
+    margin-top: 64px;
+  }
 }
 
 .search {
