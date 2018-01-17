@@ -29,6 +29,12 @@ class Search extends React.Component {
     this.props.dispatch(setUser(this.props.urlUser));
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.urlUser !== this.props.urlUser) {
+      this.props.dispatch(setUser(nextProps.urlUser));
+    }
+  }
+
   onFocus() {
     this.setState({
       hasFocus: true,
@@ -51,10 +57,18 @@ class Search extends React.Component {
         case 'ArrowDown':
           this.props.dispatch(changeSelectedResult(+1));
           break;
-        case 'Enter':
-          if (this.props.selectedResult) {
-            this.props.history.push(`/${this.props.selectedResult}`);
+        case 'Enter': {
+          const result = this.props.selectedResult || this.props.results[0];
+
+          if (result === this.props.urlUser) {
+            // EDGE CASE: The user is set if the user changes, but it doesn't
+            // change if the result is already the one we are viewing.
+            // Therefor, we need to dispatch the SET_USER command manually.
+            this.props.dispatch(setUser(this.props.urlUser));
+          } else if (result) {
+            this.props.history.push(`/${result}`);
           }
+        }
           break;
         default:
           throw new Error('This should never happen... pls?');
@@ -100,6 +114,7 @@ class Search extends React.Component {
 }
 
 Search.propTypes = {
+  results: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectedResult: PropTypes.string,
   urlUser: PropTypes.string,
   isExactMatch: PropTypes.bool.isRequired,

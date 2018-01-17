@@ -8,5 +8,7 @@ module.exports = {
   "rules": {
     "react/jsx-filename-extension": ["error", { "extensions": [".js"] }],
     "no-underscore-dangle": ["error", { "allow": ["_test"] }],
+    "class-methods-use-this": "off",
+    "no-prototype-builtins": "off",
   }
 };

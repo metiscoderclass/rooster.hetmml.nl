@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import Search from '../container/Search';
+import View from '../container/View';
 import users from '../../users';
 
 const App = ({ match }) => {
@@ -15,6 +16,7 @@ const App = ({ match }) => {
   return (
     <div>
       <Search urlUser={user} />
+      <View user={user} />
     </div>
   );
 };
