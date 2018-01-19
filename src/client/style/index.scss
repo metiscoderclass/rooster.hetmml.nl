@@ -12,19 +12,23 @@ body {
   padding-top: 24vh;
   height: 100vh;
 
-  img {
-    display: block;
+  .container {
+    max-width: 600px;
     margin: 0 auto;
-  }
+    padding: 20px;
 
-  .search {
-    margin: 0 auto;
-    margin-top: 64px;
+    img {
+      display: block;
+      margin: 0 auto;
+    }
+
+    .search {
+      margin-top: 64px;
+    }
   }
 }
 
 .search {
-  width: 580px;
   border-radius: 2px;
   background-color: white;
 
