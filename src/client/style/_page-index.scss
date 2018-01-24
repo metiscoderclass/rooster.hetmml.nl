@@ -6,7 +6,7 @@
   .container {
     max-width: 600px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 8px;
 
     img {
       display: block;
@@ -14,6 +14,7 @@
     }
 
     .search {
+      z-index: 1; // Position search above help-box
       margin-top: 64px;
     }
   }

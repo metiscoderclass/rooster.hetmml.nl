@@ -1,6 +1,13 @@
 .search {
-  border-radius: 2px;
-  background-color: white;
+  height: 54px;
+  position: relative;
+
+  &-overflow {
+    border-radius: 2px;
+    background-color: white;
+    position: absolute;
+    width: 100%;
+  }
 
   &--has-focus {
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);

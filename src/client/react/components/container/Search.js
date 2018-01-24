@@ -89,25 +89,27 @@ class Search extends React.Component {
     } = this.state;
 
     return (
-      <div className={classnames('search', { 'search--has-focus': hasFocus })}>
-        <div className="search__input-wrapper">
-          <div className="search__icon-wrapper">
-            <IconFromUserType
-              userType={isExactMatch ? users.byId[selectedResult].type : null}
-              defaultIcon={<SearchIcon />}
+      <div className="search">
+        <div className={classnames('search-overflow', { 'search--has-focus': hasFocus })}>
+          <div className="search__input-wrapper">
+            <div className="search__icon-wrapper">
+              <IconFromUserType
+                userType={isExactMatch ? users.byId[selectedResult].type : null}
+                defaultIcon={<SearchIcon />}
+              />
+            </div>
+            <input
+              id="search__input"
+              onChange={event => dispatch(inputChange(event.target.value))}
+              onKeyDown={this.onKeyDown}
+              value={searchText}
+              placeholder="Zoeken"
+              onFocus={this.onFocus}
+              onBlur={this.onBlur}
             />
           </div>
-          <input
-            id="search__input"
-            onChange={event => dispatch(inputChange(event.target.value))}
-            onKeyDown={this.onKeyDown}
-            value={searchText}
-            placeholder="Zoeken"
-            onFocus={this.onFocus}
-            onBlur={this.onBlur}
-          />
+          <Results />
         </div>
-        <Results />
       </div>
     );
   }

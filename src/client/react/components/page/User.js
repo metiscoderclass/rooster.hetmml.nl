@@ -14,8 +14,12 @@ const App = ({ match }) => {
   }
 
   return (
-    <div>
-      <Search urlUser={user} />
+    <div className="page-user">
+      <div className="menu">
+        <div className="menu-container">
+          <Search urlUser={user} />
+        </div>
+      </div>
       <View user={user} />
     </div>
   );
