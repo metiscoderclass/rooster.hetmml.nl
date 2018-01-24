@@ -9,6 +9,9 @@ const Results = (({ results, isExactMatch, selectedResult }) => (
     className={classnames('search__results', {
       'search__results--has-results': !isExactMatch && results.length > 0,
     })}
+    style={{
+      minHeight: isExactMatch ? 0 : results.length * 54,
+    }}
   >
     {!isExactMatch && results.map(userId => (
       <Result key={userId} userId={userId} isSelected={userId === selectedResult} />

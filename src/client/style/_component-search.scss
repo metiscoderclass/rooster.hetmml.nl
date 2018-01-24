@@ -35,6 +35,11 @@
     }
   }
 
+  &__results {
+    transition: 0.1s ease-in-out min-height;
+    overflow: hidden;
+  }
+
   &__result {
     display: flex;
 

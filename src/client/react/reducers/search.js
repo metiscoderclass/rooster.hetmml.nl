@@ -2,9 +2,10 @@ import fuzzy from 'fuzzy';
 import users from '../users';
 
 const DEFAULT_STATE = {
-  results: [
-    's/18562',
-  ],
+  // results: [
+  //   's/18562',
+  // ],
+  results: [],
   searchText: '',
   selectedResult: null,
   isExactMatch: false,
