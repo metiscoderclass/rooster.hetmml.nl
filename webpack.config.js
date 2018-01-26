@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
@@ -20,6 +21,9 @@ const js = {
   resolve: {
     extensions: ['.js', '.jsx'],
   },
+  plugins: [
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /nl/),
+  ],
 };
 
 const style = {
