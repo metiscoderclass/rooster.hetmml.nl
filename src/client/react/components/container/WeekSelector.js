@@ -9,7 +9,11 @@ const WeekSelector = ({ urlWeek, location, history }) => {
   const updateWeek = (change) => {
     const newWeek = moment().week(urlWeek.week() + change);
     const isCurrentWeek = moment().week() === newWeek.week();
-    history.push(`${location.pathname}?${queryString.stringify({ week: isCurrentWeek ? undefined : newWeek.week() })}`);
+
+    const query = queryString.stringify({
+      week: isCurrentWeek ? undefined : newWeek.week(),
+    });
+    history.push(`${location.pathname}?${query}`);
   };
 
   return (
