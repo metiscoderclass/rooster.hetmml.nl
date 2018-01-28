@@ -54,11 +54,12 @@ class View extends React.Component {
 
 View.propTypes = {
   user: PropTypes.string,
+  week: PropTypes.number.isRequired,
   dispatch: PropTypes.func.isRequired,
-  schedules: PropTypes.objectOf(PropTypes.shape({
+  schedules: PropTypes.objectOf(PropTypes.objectOf(PropTypes.shape({
     state: PropTypes.string.isRequired,
     htmlStr: PropTypes.string,
-  })).isRequired,
+  }))).isRequired,
 };
 
 View.defaultProps = {
