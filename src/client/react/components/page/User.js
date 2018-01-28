@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import queryString from 'query-string';
 import moment from 'moment';
+import purifyWeek from '../../lib/purifyWeek';
 import Search from '../container/Search';
 import View from '../container/View';
 import users from '../../users';
@@ -11,7 +12,7 @@ import WeekSelector from '../container/WeekSelector';
 const App = ({ match, location }) => {
   const user = `${match.params.type}/${match.params.value}`;
   const weekStr = queryString.parse(location.search).week;
-  const week = weekStr ? moment().week(weekStr) : moment();
+  const week = purifyWeek(weekStr ? parseInt(weekStr, 10) : moment().week());
 
   if (!users.allIds.includes(user)) {
     // Invalid user, redirect to index.
@@ -26,8 +27,7 @@ const App = ({ match, location }) => {
           <WeekSelector urlWeek={week} />
         </div>
       </div>
-      {/* The View object just wants the week number. */}
-      <View user={user} week={week.week()} />
+      <View user={user} week={week} />
     </div>
   );
 };
