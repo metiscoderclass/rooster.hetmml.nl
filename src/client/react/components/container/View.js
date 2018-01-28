@@ -16,24 +16,26 @@ function cleanMeetingpointHTML(htmlStr) {
 
 class View extends React.Component {
   componentDidMount() {
-    if (!this.loadingFinished(this.props.user)) {
-      this.props.dispatch(fetchSchedule(this.props.user));
+    if (!this.loadingFinished(this.props.user, this.props.week)) {
+      this.props.dispatch(fetchSchedule(this.props.user, this.props.week));
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.user !== this.props.user && !this.loadingFinished(nextProps.user)) {
-      this.props.dispatch(fetchSchedule(nextProps.user));
+    if ((nextProps.user !== this.props.user || nextProps.week !== this.props.week)
+        && !this.loadingFinished(nextProps.user, nextProps.week)) {
+      this.props.dispatch(fetchSchedule(nextProps.user, nextProps.week));
     }
   }
 
-  loadingFinished(user) {
+  loadingFinished(user, week) {
     return this.props.schedules.hasOwnProperty(user) &&
-      this.props.schedules[user].state === 'finished';
+      this.props.schedules[user].hasOwnProperty(week) &&
+      this.props.schedules[user][week].state === 'finished';
   }
 
   render() {
-    if (!this.loadingFinished(this.props.user)) {
+    if (!this.loadingFinished(this.props.user, this.props.week)) {
       return (
         <div>
           Loading...
@@ -41,7 +43,7 @@ class View extends React.Component {
       );
     }
 
-    const cleanHTML = cleanMeetingpointHTML(this.props.schedules[this.props.user].htmlStr);
+    const cleanHTML = cleanMeetingpointHTML(this.props.schedules[this.props.user][this.props.week].htmlStr);
 
     return (
       // eslint-disable-next-line react/no-danger

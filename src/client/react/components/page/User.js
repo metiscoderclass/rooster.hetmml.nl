@@ -26,7 +26,8 @@ const App = ({ match, location }) => {
           <WeekSelector urlWeek={week} />
         </div>
       </div>
-      <View user={user} />
+      {/* The View object just wants the week number. */}
+      <View user={user} week={week.week()} />
     </div>
   );
 };
