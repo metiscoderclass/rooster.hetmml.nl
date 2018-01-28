@@ -3,12 +3,12 @@ const schedule = (state = {}, action) => {
     case 'VIEW/FETCH_SCHEDULE_REQUEST':
       return {
         ...state,
-        state: 'fetching',
+        state: 'FETCHING',
       };
     case 'VIEW/FETCH_SCHEDULE_SUCCESS':
       return {
         ...state,
-        state: 'finished',
+        state: 'FINISHED',
         htmlStr: action.htmlStr,
       };
     default:

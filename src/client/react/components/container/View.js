@@ -5,65 +5,55 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import { fetchSchedule } from '../../actions/view';
-
-function cleanMeetingpointHTML(htmlStr) {
-  const DOMPurify = createDOMPurify(window);
-
-  return DOMPurify.sanitize(htmlStr, {
-    ADD_ATTR: ['rules'],
-  });
-}
+import extractSchedule from '../../lib/extractSchedule';
 
 class View extends React.Component {
-  componentDidMount() {
-    if (!this.loadingFinished(this.props.user, this.props.week)) {
-      this.props.dispatch(fetchSchedule(this.props.user, this.props.week));
-    }
+  renderLoading() {
+    return (
+      <div>
+        Loading...
+      </div>
+    );
   }
 
-  componentWillReceiveProps(nextProps) {
-    if ((nextProps.user !== this.props.user || nextProps.week !== this.props.week)
-        && !this.loadingFinished(nextProps.user, nextProps.week)) {
-      this.props.dispatch(fetchSchedule(nextProps.user, nextProps.week));
-    }
-  }
+  renderSchedule(htmlStr) {
+    const DOMPurify = createDOMPurify(window);
 
-  loadingFinished(user, week) {
-    return this.props.schedules.hasOwnProperty(user) &&
-      this.props.schedules[user].hasOwnProperty(week) &&
-      this.props.schedules[user][week].state === 'finished';
-  }
-
-  render() {
-    if (!this.loadingFinished(this.props.user, this.props.week)) {
-      return (
-        <div>
-          Loading...
-        </div>
-      );
-    }
-
-    const cleanHTML = cleanMeetingpointHTML(this.props.schedules[this.props.user][this.props.week].htmlStr);
+    const cleanHTML = DOMPurify.sanitize(htmlStr, {
+      ADD_ATTR: ['rules'],
+    });
 
     return (
       // eslint-disable-next-line react/no-danger
       <div dangerouslySetInnerHTML={{ __html: cleanHTML }} />
     );
   }
+
+  render() {
+    const schedule = extractSchedule(this.props.schedules, this.props.user, this.props.week);
+
+    switch (schedule.state) {
+      case 'NOT_REQUESTED':
+        this.props.dispatch(fetchSchedule(this.props.user, this.props.week));
+        return this.renderLoading();
+      case 'FETCHING':
+        return this.renderLoading();
+      case 'FINISHED':
+        return this.renderSchedule(schedule.htmlStr);
+      default:
+        throw new Error(`${schedule.state} is not a valid schedule state.`);
+    }
+  }
 }
 
 View.propTypes = {
-  user: PropTypes.string,
+  user: PropTypes.string.isRequired,
   week: PropTypes.number.isRequired,
   dispatch: PropTypes.func.isRequired,
   schedules: PropTypes.objectOf(PropTypes.objectOf(PropTypes.shape({
     state: PropTypes.string.isRequired,
     htmlStr: PropTypes.string,
   }))).isRequired,
-};
-
-View.defaultProps = {
-  user: null,
 };
 
 const mapStateToProps = state => ({
