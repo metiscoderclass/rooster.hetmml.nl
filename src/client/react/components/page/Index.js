@@ -2,7 +2,7 @@ import React from 'react';
 import Search from '../container/Search';
 import HelpBox from '../container/HelpBox';
 
-const App = () => (
+const IndexPage = () => (
   <div className="page-index">
     <div className="container">
       <img src="/icons/mml-logo.png" alt="Metis" />
@@ -12,4 +12,4 @@ const App = () => (
   </div>
 );
 
-export default App;
+export default IndexPage;

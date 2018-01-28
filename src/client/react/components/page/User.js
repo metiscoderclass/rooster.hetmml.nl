@@ -9,7 +9,7 @@ import View from '../container/View';
 import users from '../../users';
 import WeekSelector from '../container/WeekSelector';
 
-const App = ({ match, location }) => {
+const UserPage = ({ match, location }) => {
   const user = `${match.params.type}/${match.params.value}`;
   const weekStr = queryString.parse(location.search).week;
   const week = purifyWeek(weekStr ? parseInt(weekStr, 10) : moment().week());
@@ -32,7 +32,7 @@ const App = ({ match, location }) => {
   );
 };
 
-App.propTypes = {
+UserPage.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       type: PropTypes.string.isRequired,
@@ -44,4 +44,4 @@ App.propTypes = {
   }).isRequired,
 };
 
-export default App;
+export default UserPage;
