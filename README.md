@@ -12,5 +12,5 @@ To build the code in develop mode, run `npm run build:dev`. To build the code
 for production, run `npm run build`. To start the server simply run
 `npm start`.
 
-This means that you probably want to open two terminal windows, in one of the
-two runs `npm run build:dev`, and another runs `npm start`.
+This means that you probably want to open two terminal windows, in one which
+you run run `npm run build:dev`, and in another you run `npm start`.
