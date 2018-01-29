@@ -1,0 +1,23 @@
+.help-box {
+  position: relative;
+  margin-top: 32px;
+
+  .arrow {
+    position: absolute;
+    background-color: white;
+    width: 32px;
+    height: 32px;
+    top: -16px;
+    left: 48px;
+    transform: rotate(45deg);
+  }
+
+  .bubble {
+    position: relative;
+    background-color: white;
+    font-weight: bold;
+    margin: 16px;
+    padding: 16px;
+    border-radius: 4px;
+  }
+}

@@ -1,76 +1,70 @@
-const express = require('express')
-const router = express.Router()
-const request = require('request')
-const iconv = require('iconv-lite')
-const webshot = require('webshot')
+const express = require('express');
 
-const getUserIndex = require('../lib/getUserIndex')
-const getURLOfUser = require('../lib/getURLOfUser')
+const router = express.Router();
+const request = require('request');
+const iconv = require('iconv-lite');
+const webshot = require('webshot');
+
+const getUserIndex = require('../lib/getUserIndex');
+const getURLOfUser = require('../lib/getURLOfUser');
 
 // copied from http://www.meetingpointmco.nl/Roosters-AL/doc/dagroosters/untisscripts.js,
 // were using the same code as they do to be sure that we always get the same
 // week number.
-function getWeekNumber (target) {
-  const dayNr = (target.getDay() + 6) % 7
-  target.setDate(target.getDate() - dayNr + 3)
-  const firstThursday = target.valueOf()
-  target.setMonth(0, 1)
+function getWeekNumber(target) {
+  const dayNr = (target.getDay() + 6) % 7;
+  // eslint-disable-next-line
+  target.setDate(target.getDate() - dayNr + 3);
+  const firstThursday = target.valueOf();
+  target.setMonth(0, 1);
   if (target.getDay() !== 4) {
-    target.setMonth(0, 1 + ((4 - target.getDay()) + 7) % 7)
+    // eslint-disable-next-line
+    target.setMonth(0, 1 + ((4 - target.getDay()) + 7) % 7);
   }
 
-  return 1 + Math.ceil((firstThursday - target) / 604800000)
+  return 1 + Math.ceil((firstThursday - target) / 604800000);
 }
 
-router.get('/:type/:value.png', function (req, res, next) {
-  port = process.env.PORT || 3000;
-  const { type, value } = req.params
-  const stream = webshot(
-    `http://localhost:${port}/get/${type}/${value}`,
-    { customCSS: "body { background-color: white; }" }
-  )
-  stream.pipe(res)
-})
+// router.get('/:type/:value.png', (req, res) => {
+//   const port = process.env.PORT || 3000;
+//   const { type, value } = req.params;
+//   const stream = webshot(
+//     `http://localhost:${port}/get/${type}/${value}`,
+//     { customCSS: 'body { background-color: white; }' },
+//   );
+//   stream.pipe(res);
+// });
 
-router.get('/:type/:value.jpg', function (req, res, next) {
-  port = process.env.PORT || 3000;
-  const { type, value } = req.params
-  const stream = webshot(
-    `http://localhost:${port}/get/${type}/${value}`,
-    { customCSS: "body { background-color: white; }", streamType: 'jpg' }
-  )
-  stream.pipe(res)
-})
-
-router.get('/:type/:value', function (req, res, next) {
-  getUserIndex().then(users => {
-    const { type, value } = req.params
-    let { week } = req.query
+router.get('/:type/:value', (req, res, next) => {
+  getUserIndex().then((users) => {
+    const { type, value } = req.params;
+    let { week } = req.query;
     const user =
-      users.filter(user => user.type === type && user.value === value)[0]
+      users.filter(user_ => user_.type === type && user_.value === value)[0];
 
     if (!user) {
-      next(new Error(`${type}${value} is not in the user index.`))
+      next(new Error(`${type}${value} is not in the user index.`));
     }
 
     if (!week) {
-      week = getWeekNumber(new Date())
+      week = getWeekNumber(new Date());
     }
 
-    const { index } = user
+    const { index } = user;
 
-    const url = getURLOfUser(type, index, week)
+    const url = getURLOfUser(type, index, week);
 
-    request(url, { encoding: null }, function (err, data) {
+    request(url, { encoding: null }, (err, data) => {
       if (err) {
-        next(err)
-        return
+        next(err);
+        return;
       }
 
-      const utf8Body = iconv.decode(data.body, 'ISO-8859-1')
-      res.status(data.statusCode).end(utf8Body)
-    })
-  })
-})
+      const utf8Body = iconv.decode(data.body, 'ISO-8859-1');
 
-module.exports = router
+      res.status(data.statusCode).end(utf8Body);
+    });
+  });
+});
+
+module.exports = router;

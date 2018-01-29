@@ -1,0 +1,21 @@
+.page-index {
+  background-color: #ececec;
+  padding-top: 24vh;
+  height: 100vh;
+
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 8px;
+
+    img {
+      display: block;
+      margin: 0 auto;
+    }
+
+    .search {
+      z-index: 1; // Position search above help-box
+      margin-top: 64px;
+    }
+  }
+}
