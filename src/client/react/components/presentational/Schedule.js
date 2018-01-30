@@ -23,7 +23,7 @@ class Schedule extends React.Component {
   }
 
   updateScaling() {
-    const windowWidth = window.innerWidth;
+    const windowWidth = document.body.clientWidth;
     const tableNode = this.scheduleDiv.querySelector('table');
     if (!tableNode) return;
 
