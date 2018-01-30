@@ -1,6 +1,7 @@
 .page-user {
   .search-wrapper {
     position: fixed;
+    z-index: 1; // Position the search bar abore the schedule
     width: 100%;
 
     .search-container {
