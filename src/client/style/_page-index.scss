@@ -19,3 +19,20 @@
     }
   }
 }
+
+
+@media (max-height: 510px) {
+  .page-index {
+    padding-top: 0px;
+
+    .container {
+      img {
+        display: none;
+      }
+
+      .search {
+        margin-top: 0px;
+      }
+    }
+  }
+}
