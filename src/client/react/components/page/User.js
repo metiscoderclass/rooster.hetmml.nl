@@ -21,9 +21,13 @@ const UserPage = ({ match, location }) => {
 
   return (
     <div className="page-user">
+      <div className="search-wrapper">
+        <div className="search-container">
+          <Search urlUser={user} />
+        </div>
+      </div>
       <div className="menu">
         <div className="menu-container">
-          <Search urlUser={user} />
           <WeekSelector urlWeek={week} />
         </div>
       </div>

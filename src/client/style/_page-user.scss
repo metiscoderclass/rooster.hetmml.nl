@@ -1,6 +1,18 @@
 .page-user {
+  .search-wrapper {
+    position: fixed;
+    width: 100%;
+
+    .search-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 8px;
+    }
+  }
+
   .menu {
     background-color: #F44336;
+    padding-top: 54px;
 
     &-container {
       max-width: 600px;
