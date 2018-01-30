@@ -1,0 +1,38 @@
+.week-selector {
+  display: flex;
+  padding: 8px;
+  padding-bottom: 0;
+  color: white;
+  align-items: center;
+
+  .text {
+    flex-grow: 1;
+    text-align: center;
+  }
+
+  button {
+    background-color: initial;
+    border: initial;
+    color: inherit;
+    padding: 8px;
+    border-radius: 4px;
+
+    svg {
+      font-size: 2em;
+    }
+
+    &:focus {
+      background-color: #D32F2F;
+      outline: none;
+    }
+
+    &:active {
+      background-color: #B81111;
+      outline: none;
+    }
+
+    &::-moz-focus-inner {
+      border: 0; // Remove the dotted line outline from Firefox
+    }
+  }
+}

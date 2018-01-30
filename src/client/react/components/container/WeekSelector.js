@@ -4,6 +4,9 @@ import moment from 'moment';
 import queryString from 'query-string';
 import { withRouter } from 'react-router-dom';
 
+import ArrowBackIcon from 'react-icons/lib/md/arrow-back';
+import ArrowForwardIcon from 'react-icons/lib/md/arrow-forward';
+
 import purifyWeek from '../../lib/purifyWeek';
 
 const WeekSelector = ({ urlWeek, location, history }) => {
@@ -18,10 +21,10 @@ const WeekSelector = ({ urlWeek, location, history }) => {
   };
 
   return (
-    <div>
-      <button onClick={() => updateWeek(-1)}>Prev</button>
-      Week {urlWeek}
-      <button onClick={() => updateWeek(+1)}>Next</button>
+    <div className="week-selector">
+      <button onClick={() => updateWeek(-1)}><ArrowBackIcon /></button>
+      <div className="text">Week {urlWeek}</div>
+      <button onClick={() => updateWeek(+1)}><ArrowForwardIcon /></button>
     </div>
   );
 };
