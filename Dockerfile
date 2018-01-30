@@ -10,6 +10,9 @@ RUN apt-get install -y nodejs yarn
 COPY . /var/www
 WORKDIR /var/www
 
+RUN yarn
+RUN yarn build
+
 ENV PORT=80
 EXPOSE 80
 
