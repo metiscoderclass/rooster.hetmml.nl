@@ -106,6 +106,7 @@ class Search extends React.Component {
               placeholder="Zoeken"
               onFocus={this.onFocus}
               onBlur={this.onBlur}
+              autoComplete="off"
             />
           </div>
           <Results />
