@@ -68,8 +68,8 @@ class Search extends React.Component {
           } else if (result) {
             this.props.history.push(`/${result}`);
           }
-        }
           break;
+        }
         default:
           throw new Error('This should never happen... pls?');
       }
