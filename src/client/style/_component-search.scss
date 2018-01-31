@@ -50,8 +50,9 @@
 
   &__result {
     display: flex;
+    cursor: pointer;
 
-    &--selected {
+    &:hover, &--selected {
       background-color: lightgray;
     }
 

@@ -109,7 +109,7 @@ class Search extends React.Component {
               autoComplete="off"
             />
           </div>
-          <Results />
+          <Results urlUser={this.props.urlUser} />
         </div>
       </div>
     );
