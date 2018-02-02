@@ -33,13 +33,8 @@ const WeekSelector = ({ location, history }) => {
 };
 
 WeekSelector.propTypes = {
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-    search: PropTypes.string.isRequired,
-  }).isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
+  location: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 export default withRouter(WeekSelector);

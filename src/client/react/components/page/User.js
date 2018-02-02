@@ -32,12 +32,7 @@ const UserPage = ({ match }) => {
 };
 
 UserPage.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      type: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
+  match: PropTypes.object.isRequired,
 };
 
 export default UserPage;

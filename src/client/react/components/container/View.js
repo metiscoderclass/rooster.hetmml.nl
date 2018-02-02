@@ -38,15 +38,8 @@ View.propTypes = {
     state: PropTypes.string.isRequired,
     htmlStr: PropTypes.string,
   }))).isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      type: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
-  location: PropTypes.shape({
-    search: PropTypes.string.isRequired,
-  }).isRequired,
+  match: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 

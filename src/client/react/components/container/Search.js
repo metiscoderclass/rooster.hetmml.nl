@@ -125,15 +125,8 @@ Search.propTypes = {
   selectedResult: PropTypes.string,
   isExactMatch: PropTypes.bool.isRequired,
   searchText: PropTypes.string.isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      type: PropTypes.string,
-      value: PropTypes.string,
-    }).isRequired,
-  }).isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
+  match: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 

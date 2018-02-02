@@ -52,15 +52,8 @@ Results.propTypes = {
   results: PropTypes.arrayOf(PropTypes.string).isRequired,
   isExactMatch: PropTypes.bool.isRequired,
   selectedResult: PropTypes.string,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      type: PropTypes.string,
-      value: PropTypes.string,
-    }).isRequired,
-  }).isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
+  match: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 

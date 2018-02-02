@@ -10,5 +10,6 @@ module.exports = {
     "no-underscore-dangle": ["error", { "allow": ["_test"] }],
     "class-methods-use-this": "off",
     "no-prototype-builtins": "off",
+    "react/forbid-prop-types": "off",
   }
 };
