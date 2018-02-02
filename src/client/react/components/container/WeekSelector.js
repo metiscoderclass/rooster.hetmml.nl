@@ -33,6 +33,7 @@ const WeekSelector = ({ location, history }) => {
 };
 
 WeekSelector.propTypes = {
+  // react-router
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
 };

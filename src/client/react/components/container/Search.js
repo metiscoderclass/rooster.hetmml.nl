@@ -125,8 +125,12 @@ Search.propTypes = {
   selectedResult: PropTypes.string,
   isExactMatch: PropTypes.bool.isRequired,
   searchText: PropTypes.string.isRequired,
+
+  // react-router
   match: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
+
+  // redux
   dispatch: PropTypes.func.isRequired,
 };
 

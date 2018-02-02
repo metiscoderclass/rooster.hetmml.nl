@@ -52,8 +52,12 @@ Results.propTypes = {
   results: PropTypes.arrayOf(PropTypes.string).isRequired,
   isExactMatch: PropTypes.bool.isRequired,
   selectedResult: PropTypes.string,
+
+  // react-router
   match: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
+
+  // redux
   dispatch: PropTypes.func.isRequired,
 };
 

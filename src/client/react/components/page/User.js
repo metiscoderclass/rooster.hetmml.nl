@@ -32,6 +32,7 @@ const UserPage = ({ match }) => {
 };
 
 UserPage.propTypes = {
+  // react-router
   match: PropTypes.object.isRequired,
 };
 

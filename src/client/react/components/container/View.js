@@ -38,8 +38,12 @@ View.propTypes = {
     state: PropTypes.string.isRequired,
     htmlStr: PropTypes.string,
   }))).isRequired,
+
+  // react-router
   match: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
+
+  // redux
   dispatch: PropTypes.func.isRequired,
 };
 
