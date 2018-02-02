@@ -10,6 +10,20 @@ import ArrowForwardIcon from 'react-icons/lib/md/arrow-forward';
 import purifyWeek from '../../lib/purifyWeek';
 import { weekFromLocation } from '../../lib/url';
 
+function weekName(week) {
+  const currentWeek = moment().week();
+
+  if (currentWeek === week) {
+     return "Huidige week • " + week;
+  } else if (currentWeek + 1 === week) {
+     return "Volgende week • " + week;
+  } else if (currentWeek - 1 === week) {
+     return "Vorige week • " + week;
+  }
+  
+  return "Week " + week;
+}
+
 const WeekSelector = ({ location, history }) => {
   const week = weekFromLocation(location);
 
@@ -26,7 +40,7 @@ const WeekSelector = ({ location, history }) => {
   return (
     <div className="week-selector">
       <button onClick={() => updateWeek(-1)}><ArrowBackIcon /></button>
-      <div className="text">Week {week}</div>
+      <div className="text">{weekName(week)}</div>
       <button onClick={() => updateWeek(+1)}><ArrowForwardIcon /></button>
     </div>
   );
