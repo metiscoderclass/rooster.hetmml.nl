@@ -1,52 +1,63 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import classnames from 'classnames';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import Result from '../presentational/Result';
+
 import { setUser } from '../../actions/search';
+import { userFromMatch } from '../../lib/url';
+import Result from '../presentational/Result';
 
 const Results = ({
   results,
   isExactMatch,
-  urlUser,
   selectedResult,
+  match,
   history,
   dispatch,
-}) => (
-  <div
-    className={classnames('search__results', {
-      'search__results--has-results': !isExactMatch && results.length > 0,
-    })}
-    style={{
-      minHeight: isExactMatch ? 0 : results.length * 54,
-    }}
-  >
-    {!isExactMatch && results.map(userId => (
-      <Result
-        key={userId}
-        userId={userId}
-        isSelected={userId === selectedResult}
-        onClick={() => {
-          if (userId === urlUser) {
-            // EDGE CASE: The user is set if the user changes, but it doesn't
-            // change if the result is already the one we are viewing.
-            // Therefor, we need to dispatch the SET_USER command manually.
-            dispatch(setUser(urlUser));
-          } else {
-            history.push(`/${userId}`);
-          }
-        }}
-      />
-    ))}
-  </div>
-);
+}) => {
+  const user = userFromMatch(match);
+
+  return (
+    <div
+      className={classnames('search__results', {
+        'search__results--has-results': !isExactMatch && results.length > 0,
+      })}
+      style={{
+        minHeight: isExactMatch ? 0 : results.length * 54,
+      }}
+    >
+      {!isExactMatch && results.map(userId => (
+        <Result
+          key={userId}
+          userId={userId}
+          isSelected={userId === selectedResult}
+          onClick={() => {
+            if (userId === user) {
+              // EDGE CASE: The user is set if the user changes, but it doesn't
+              // change if the result is already the one we are viewing.
+              // Therefor, we need to dispatch the SET_USER command manually.
+              dispatch(setUser(user));
+            } else {
+              history.push(`/${userId}`);
+            }
+          }}
+        />
+      ))}
+    </div>
+  );
+};
 
 Results.propTypes = {
   results: PropTypes.arrayOf(PropTypes.string).isRequired,
   isExactMatch: PropTypes.bool.isRequired,
-  urlUser: PropTypes.string,
   selectedResult: PropTypes.string,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      type: PropTypes.string,
+      value: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
@@ -54,7 +65,6 @@ Results.propTypes = {
 };
 
 Results.defaultProps = {
-  urlUser: null,
   selectedResult: null,
 };
 

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
+import { userFromMatch, weekFromLocation } from '../../lib/url';
 import { fetchSchedule } from '../../actions/view';
 import extractSchedule from '../../lib/extractSchedule';
 
@@ -11,10 +12,12 @@ import Loading from '../presentational/Loading';
 
 const View = ({
   schedules,
-  user,
-  week,
+  match,
+  location,
   dispatch,
 }) => {
+  const user = userFromMatch(match);
+  const week = weekFromLocation(location);
   const schedule = extractSchedule(schedules, user, week);
 
   switch (schedule.state) {
@@ -35,8 +38,15 @@ View.propTypes = {
     state: PropTypes.string.isRequired,
     htmlStr: PropTypes.string,
   }))).isRequired,
-  user: PropTypes.string.isRequired,
-  week: PropTypes.number.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      type: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+  location: PropTypes.shape({
+    search: PropTypes.string.isRequired,
+  }).isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 

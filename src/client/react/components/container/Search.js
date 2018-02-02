@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom';
 
 import SearchIcon from 'react-icons/lib/md/search';
 
+import { userFromMatch } from '../../lib/url';
 import { setUser, inputChange, changeSelectedResult } from '../../actions/search';
 
 import users from '../../users';
@@ -26,12 +27,14 @@ class Search extends React.Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(setUser(this.props.urlUser));
+    const urlUser = userFromMatch(this.props.match);
+    this.props.dispatch(setUser(urlUser));
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.urlUser !== this.props.urlUser) {
-      this.props.dispatch(setUser(nextProps.urlUser));
+    if (nextProps.match !== this.props.match) {
+      const urlUser = userFromMatch(nextProps.match);
+      this.props.dispatch(setUser(urlUser));
     }
   }
 
@@ -59,12 +62,13 @@ class Search extends React.Component {
           break;
         case 'Enter': {
           const result = this.props.selectedResult || this.props.results[0];
+          const urlUser = userFromMatch(this.props.match);
 
-          if (result === this.props.urlUser) {
+          if (result === urlUser) {
             // EDGE CASE: The user is set if the user changes, but it doesn't
             // change if the result is already the one we are viewing.
             // Therefor, we need to dispatch the SET_USER command manually.
-            this.props.dispatch(setUser(this.props.urlUser));
+            this.props.dispatch(setUser(urlUser));
           } else if (result) {
             this.props.history.push(`/${result}`);
           }
@@ -109,7 +113,7 @@ class Search extends React.Component {
               autoComplete="off"
             />
           </div>
-          <Results urlUser={this.props.urlUser} />
+          <Results />
         </div>
       </div>
     );
@@ -119,18 +123,22 @@ class Search extends React.Component {
 Search.propTypes = {
   results: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectedResult: PropTypes.string,
-  urlUser: PropTypes.string,
   isExactMatch: PropTypes.bool.isRequired,
   searchText: PropTypes.string.isRequired,
-  dispatch: PropTypes.func.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      type: PropTypes.string,
+      value: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 Search.defaultProps = {
   selectedResult: null,
-  urlUser: null,
 };
 
 const mapStateToProps = state => ({
