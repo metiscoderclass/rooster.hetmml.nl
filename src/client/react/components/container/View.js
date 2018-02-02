@@ -10,28 +10,55 @@ import extractSchedule from '../../lib/extractSchedule';
 import Schedule from '../presentational/Schedule';
 import Loading from '../presentational/Loading';
 
-const View = ({
-  schedules,
-  match,
-  location,
-  dispatch,
-}) => {
-  const user = userFromMatch(match);
-  const week = weekFromLocation(location);
-  const schedule = extractSchedule(schedules, user, week);
-
-  switch (schedule.state) {
-    case 'NOT_REQUESTED':
-      dispatch(fetchSchedule(user, week));
-      return <Loading />;
-    case 'FETCHING':
-      return <Loading />;
-    case 'FINISHED':
-      return <Schedule htmlStr={schedule.htmlStr} />;
-    default:
-      throw new Error(`${schedule.state} is not a valid schedule state.`);
+class View extends React.Component {
+  componentDidMount() {
+    this.fetchScheduleIfNeeded();
   }
-};
+
+  componentDidUpdate() {
+    this.fetchScheduleIfNeeded();
+  }
+
+  fetchScheduleIfNeeded() {
+    const {
+      schedules,
+      match,
+      location,
+      dispatch,
+    } = this.props;
+
+    const user = userFromMatch(match);
+    const week = weekFromLocation(location);
+    const schedule = extractSchedule(schedules, user, week);
+
+    if (schedule.state === 'NOT_REQUESTED') {
+      dispatch(fetchSchedule(user, week));
+    }
+  }
+
+  render() {
+    const {
+      schedules,
+      match,
+      location,
+    } = this.props;
+
+    const user = userFromMatch(match);
+    const week = weekFromLocation(location);
+    const schedule = extractSchedule(schedules, user, week);
+
+    switch (schedule.state) {
+      case 'NOT_REQUESTED':
+        return <Loading />;
+      case 'FETCHING':
+        return <Loading />;
+      case 'FINISHED':
+        return <Schedule htmlStr={schedule.htmlStr} />;
+      default:
+        throw new Error(`${schedule.state} is not a valid schedule state.`);
+    }
+  }
+}
 
 View.propTypes = {
   schedules: PropTypes.objectOf(PropTypes.objectOf(PropTypes.shape({
