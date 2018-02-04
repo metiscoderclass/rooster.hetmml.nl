@@ -14,14 +14,14 @@ function weekName(week) {
   const currentWeek = moment().week();
 
   if (currentWeek === week) {
-     return "Huidige week • " + week;
+    return `Huidige week • ${week}`;
   } else if (currentWeek + 1 === week) {
-     return "Volgende week • " + week;
+    return `Volgende week • ${week}`;
   } else if (currentWeek - 1 === week) {
-     return "Vorige week • " + week;
+    return `Vorige week • ${week}`;
   }
-  
-  return "Week " + week;
+
+  return `Week ${week}`;
 }
 
 const WeekSelector = ({ location, history }) => {
