@@ -4,19 +4,24 @@ import classnames from 'classnames';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
+import users from '../../users';
 import { setUser } from '../../actions/search';
 import { userFromMatch } from '../../lib/url';
 import Result from '../presentational/Result';
 
 const Results = ({
   results,
-  isExactMatch,
+  searchText,
   selectedResult,
   match,
   history,
   dispatch,
 }) => {
   const user = userFromMatch(match);
+
+  const isExactMatch =
+    user != null &&
+    searchText === users.byId[user].value;
 
   return (
     <div
@@ -50,7 +55,7 @@ const Results = ({
 
 Results.propTypes = {
   results: PropTypes.arrayOf(PropTypes.string).isRequired,
-  isExactMatch: PropTypes.bool.isRequired,
+  searchText: PropTypes.string.isRequired,
   selectedResult: PropTypes.string,
 
   // react-router
@@ -67,7 +72,7 @@ Results.defaultProps = {
 
 const mapStateToProps = state => ({
   results: state.search.results,
-  isExactMatch: state.search.isExactMatch,
+  searchText: state.search.searchText,
   selectedResult: state.search.selectedResult,
 });
 

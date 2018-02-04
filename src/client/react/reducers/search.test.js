@@ -31,7 +31,6 @@ describe('reducers', () => {
           results: [],
           searchText: '18561',
           selectedResult: 's/18561',
-          isExactMatch: true,
         });
       });
     });
@@ -42,7 +41,6 @@ describe('reducers', () => {
           results: [],
           searchText: '',
           selectedResult: null,
-          isExactMatch: false,
         });
       });
 
@@ -51,7 +49,6 @@ describe('reducers', () => {
           results: [],
           searchText: ' ',
           selectedResult: null,
-          isExactMatch: false,
         });
       });
 
@@ -65,18 +62,6 @@ describe('reducers', () => {
           ],
           searchText: '18',
           selectedResult: null,
-          isExactMatch: false,
-        });
-      });
-
-      it('Selects the first result and sets isExactMatch to true when there is an exact match', () => {
-        expect(search(undefined, inputChange('18561'))).toEqual({
-          results: [
-            's/18561',
-          ],
-          searchText: '18561',
-          selectedResult: 's/18561',
-          isExactMatch: true,
         });
       });
     });
@@ -87,7 +72,6 @@ describe('reducers', () => {
           results: [],
           searchText: '',
           selectedResult: null,
-          isExactMatch: false,
         };
 
         const actionPlus = changeSelectedResult(+1);
@@ -97,26 +81,6 @@ describe('reducers', () => {
 
         const nextStatePlus = search(prevState, actionPlus);
         const nextStateMin = search(prevState, actionMin);
-        expect(nextStatePlus).toEqual(prevState);
-        expect(nextStateMin).toEqual(prevState);
-      });
-
-      it('Does nothing when there is an exact match', () => {
-        const prevState = {
-          results: ['s/18561'],
-          searchText: '18561',
-          selectedResult: 's/18561',
-          isExactMatch: true,
-        };
-
-        const actionPlus = changeSelectedResult(+1);
-        const actionMin = changeSelectedResult(-1);
-
-        deepFreeze([prevState, actionPlus, actionMin]);
-
-        const nextStatePlus = search(prevState, actionPlus);
-        const nextStateMin = search(prevState, actionMin);
-
         expect(nextStatePlus).toEqual(prevState);
         expect(nextStateMin).toEqual(prevState);
       });
@@ -126,7 +90,6 @@ describe('reducers', () => {
           results: ['s/18561', 's/18562', 's/18563'],
           searchText: '1856',
           selectedResult: null,
-          isExactMatch: false,
         };
 
         const actionPlus = changeSelectedResult(+1);
@@ -152,7 +115,6 @@ describe('reducers', () => {
           results: ['s/18561', 's/18562', 's/18563'],
           searchText: '1856',
           selectedResult: 's/18562',
-          isExactMatch: false,
         };
 
         const actionPlus = changeSelectedResult(+1);
@@ -173,55 +135,47 @@ describe('reducers', () => {
         });
       });
 
-      it('Properly wraps arround when incrementing', () => {
+      it('Properly wraps around when incrementing', () => {
         expect(search({
           results: ['s/18561', 's/18562', 's/18563'],
           searchText: '1856',
           selectedResult: 's/18563',
-          isExactMatch: false,
         }, changeSelectedResult(+1))).toEqual({
           results: ['s/18561', 's/18562', 's/18563'],
           searchText: '1856',
           selectedResult: null,
-          isExactMatch: false,
         });
 
         expect(search({
           results: ['s/18561', 's/18562', 's/18563'],
           searchText: '1856',
           selectedResult: null,
-          isExactMatch: false,
         }, changeSelectedResult(+1))).toEqual({
           results: ['s/18561', 's/18562', 's/18563'],
           searchText: '1856',
           selectedResult: 's/18561',
-          isExactMatch: false,
         });
       });
 
-      it('Properly wraps arround when decrementing', () => {
+      it('Properly wraps around when decrementing', () => {
         expect(search({
           results: ['s/18561', 's/18562', 's/18563'],
           searchText: '1856',
           selectedResult: 's/18561',
-          isExactMatch: false,
         }, changeSelectedResult(-1))).toEqual({
           results: ['s/18561', 's/18562', 's/18563'],
           searchText: '1856',
           selectedResult: null,
-          isExactMatch: false,
         });
 
         expect(search({
           results: ['s/18561', 's/18562', 's/18563'],
           searchText: '1856',
           selectedResult: null,
-          isExactMatch: false,
         }, changeSelectedResult(-1))).toEqual({
           results: ['s/18561', 's/18562', 's/18563'],
           searchText: '1856',
           selectedResult: 's/18563',
-          isExactMatch: false,
         });
       });
     });

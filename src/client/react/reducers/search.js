@@ -8,7 +8,6 @@ const DEFAULT_STATE = {
   results: [],
   searchText: '',
   selectedResult: null,
-  isExactMatch: false,
 };
 
 function getSearchResults(allUsers, query) {
@@ -40,36 +39,19 @@ const search = (state = DEFAULT_STATE, action) => {
         results: [],
         searchText: users.byId[user].value,
         selectedResult: user,
-        isExactMatch: true,
       };
     }
 
-    case 'SEARCH/INPUT_CHANGE': {
-      const { searchText } = action;
-      const results = getSearchResults(users.allUsers, action.searchText);
-      let selectedResult = null;
-      let isExactMatch = false;
-
-      // Is the typed value exactly the same as the first result? Then show the
-      // appropriate icon instead of the generic search icon.
-      if ((results.length === 1) && (action.searchText === users.byId[results[0]].value)) {
-        [selectedResult] = results;
-        isExactMatch = true;
-      }
-
+    case 'SEARCH/INPUT_CHANGE':
       return {
         ...state,
-        results,
-        searchText,
-        selectedResult,
-        isExactMatch,
+        results: getSearchResults(users.allUsers, action.searchText),
+        searchText: action.searchText,
+        selectedResult: null,
       };
-    }
 
     case 'SEARCH/CHANGE_SELECTED_RESULT': {
-      const { results, isExactMatch } = state;
-
-      if (isExactMatch) return state;
+      const { results } = state;
 
       const prevSelectedResult = state.selectedResult;
       const prevSelectedResultIndex = results.indexOf(prevSelectedResult);

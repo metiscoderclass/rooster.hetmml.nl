@@ -82,9 +82,8 @@ class Search extends React.Component {
 
   render() {
     const {
-      selectedResult,
-      isExactMatch,
       searchText,
+      match,
       dispatch,
     } = this.props;
 
@@ -92,13 +91,19 @@ class Search extends React.Component {
       hasFocus,
     } = this.state;
 
+    const urlUser = userFromMatch(match);
+
+    const isExactMatch =
+      urlUser != null &&
+      searchText === users.byId[urlUser].value;
+
     return (
       <div className="search">
         <div className={classnames('search-overflow', { 'search--has-focus': hasFocus })}>
           <div className="search__input-wrapper">
             <div className="search__icon-wrapper">
               <IconFromUserType
-                userType={isExactMatch ? users.byId[selectedResult].type : null}
+                userType={isExactMatch ? users.byId[urlUser].type : null}
                 defaultIcon={<SearchIcon />}
               />
             </div>
@@ -123,7 +128,6 @@ class Search extends React.Component {
 Search.propTypes = {
   results: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectedResult: PropTypes.string,
-  isExactMatch: PropTypes.bool.isRequired,
   searchText: PropTypes.string.isRequired,
 
   // react-router
