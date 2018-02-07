@@ -3,9 +3,8 @@ const express = require('express');
 const router = express.Router();
 const request = require('request');
 const iconv = require('iconv-lite');
-const webshot = require('webshot');
 
-const getUserIndex = require('../lib/getUserIndex');
+const getMeetingpointData = require('../lib/getMeetingpointData');
 const getURLOfUser = require('../lib/getURLOfUser');
 
 // copied from http://www.meetingpointmco.nl/Roosters-AL/doc/dagroosters/untisscripts.js,
@@ -25,18 +24,8 @@ function getWeekNumber(target) {
   return 1 + Math.ceil((firstThursday - target) / 604800000);
 }
 
-// router.get('/:type/:value.png', (req, res) => {
-//   const port = process.env.PORT || 3000;
-//   const { type, value } = req.params;
-//   const stream = webshot(
-//     `http://localhost:${port}/get/${type}/${value}`,
-//     { customCSS: 'body { background-color: white; }' },
-//   );
-//   stream.pipe(res);
-// });
-
 router.get('/:type/:value', (req, res, next) => {
-  getUserIndex().then((users) => {
+  getMeetingpointData().then(({ users }) => {
     const { type, value } = req.params;
     let { week } = req.query;
     const user =
