@@ -14,27 +14,31 @@ function getUsers(page) {
   const regexs = [/var classes = \[(.+)\];/, /var teachers = \[(.+)\];/, /var rooms = \[(.+)\];/, /var students = \[(.+)\];/];
   const items = regexs.map(regex => script.match(regex)[1].split(',').map(item => item.replace(/"/g, '')));
 
-  return []
-    .concat(items[0].map((item, index) => ({
-      type: 'c',
-      value: item,
-      index,
-    })))
-    .concat(items[1].map((item, index) => ({
-      type: 't',
-      value: item,
-      index,
-    })))
-    .concat(items[2].map((item, index) => ({
-      type: 'r',
-      value: item,
-      index,
-    })))
-    .concat(items[3].map((item, index) => ({
-      type: 's',
-      value: item,
-      index,
-    })));
+  const classes = items[0].map((item, index) => ({
+    type: 'c',
+    value: item,
+    index,
+  }));
+
+  const teachers = items[1].map((item, index) => ({
+    type: 't',
+    value: item,
+    index,
+  }));
+
+  const rooms = items[2].map((item, index) => ({
+    type: 'r',
+    value: item,
+    index,
+  }));
+
+  const students = items[3].map((item, index) => ({
+    type: 's',
+    value: item,
+    index,
+  }));
+
+  return _.flatten([classes, teachers, rooms, students]);
 }
 
 function getValidWeekNumbers(page) {
