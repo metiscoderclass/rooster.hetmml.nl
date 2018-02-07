@@ -1,11 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
-import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+
 import { createStore, applyMiddleware, compose } from 'redux';
+import { Provider } from 'react-redux';
 import logger from 'redux-logger';
 import thunk from 'redux-thunk';
+
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom';
+
 import reducer from './reducers';
 import Index from './components/page/Index';
 import User from './components/page/User';
@@ -22,10 +30,11 @@ const store = createStore(
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <div>
+      <Switch>
         <Route exact path="/" component={Index} />
         <Route path="/:type/:value" component={User} />
-      </div>
+        <Redirect to="/" />
+      </Switch>
     </Router>
   </Provider>,
   document.getElementById('root'),
