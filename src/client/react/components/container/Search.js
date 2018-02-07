@@ -51,32 +51,39 @@ class Search extends React.Component {
   }
 
   onKeyDown(event) {
-    if (event.key === 'ArrowUp' || event.key === 'ArrowDown' || event.key === 'Enter') {
-      event.preventDefault();
-      switch (event.key) {
-        case 'ArrowUp':
-          this.props.dispatch(changeSelectedResult(-1));
-          break;
-        case 'ArrowDown':
-          this.props.dispatch(changeSelectedResult(+1));
-          break;
-        case 'Enter': {
-          const result = this.props.selectedResult || this.props.results[0];
-          const urlUser = userFromMatch(this.props.match);
+    const urlUser = userFromMatch(this.props.match);
+    const result = this.props.selectedResult || this.props.results[0];
 
-          if (result === urlUser) {
-            // EDGE CASE: The user is set if the user changes, but it doesn't
-            // change if the result is already the one we are viewing.
-            // Therefor, we need to dispatch the SET_USER command manually.
-            this.props.dispatch(setUser(urlUser));
-          } else if (result) {
-            this.props.history.push(`/${result}`);
-          }
-          break;
+    switch (event.key) {
+      case 'ArrowUp':
+        event.preventDefault();
+        this.props.dispatch(changeSelectedResult(-1));
+        break;
+
+      case 'ArrowDown':
+        event.preventDefault();
+        this.props.dispatch(changeSelectedResult(+1));
+        break;
+
+      case 'Escape':
+        event.preventDefault();
+        this.props.dispatch(setUser(urlUser));
+        break;
+
+      case 'Enter':
+        event.preventDefault();
+        if (result === urlUser) {
+          // EDGE CASE: The user is set if the user changes, but it doesn't
+          // change if the result is already the one we are viewing.
+          // Therefor, we need to dispatch the SET_USER command manually.
+          this.props.dispatch(setUser(urlUser));
+        } else if (result) {
+          this.props.history.push(`/${result}`);
         }
-        default:
-          throw new Error('This should never happen... pls?');
-      }
+        break;
+
+      default:
+        // Do nothing
     }
   }
 
