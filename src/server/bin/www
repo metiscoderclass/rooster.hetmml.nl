@@ -1,60 +1,36 @@
 #!/usr/bin/env node
 
-const app = require('../app')
-const http = require('http')
+const app = require('../app');
+const http = require('http');
 
-const port = normalizePort(process.env.PORT || '3000')
-const server = http.createServer(app)
-
-server.listen(port)
-server.on('error', error => onError(error, port))
-server.on('listening', _ => onListening(server))
-
-function normalizePort (val) {
-  const port = parseInt(val, 10)
-
-  if (isNaN(port)) {
-    // named pipe
-    return val
-  }
-
-  if (port >= 0) {
-    // port number
-    return port
-  }
-
-  return false
-}
-
-function onError (error, port) {
+function onError(error, port) {
   if (error.syscall !== 'listen') {
-    throw error
+    throw error;
   }
-
-  const bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      console.error(bind + ' requires elevated privileges')
-      process.exit(1)
-      break
+      console.error(`Port ${port} requires elevated privileges`);
+      process.exit(1);
+      break;
     case 'EADDRINUSE':
-      console.error(bind + ' is already in use')
-      process.exit(1)
-      break
+      console.error(`Port ${port} is already in use`);
+      process.exit(1);
+      break;
     default:
-      throw error
+      throw error;
   }
 }
 
-function onListening (server) {
-  const addr = server.address()
-  if (typeof addr === 'string') {
-    console.log(`Listening on pipe ${addr}`)
-  } else {
-    console.log(`Listening on http://localhost:${addr.port}/`)
-  }
+function onListening(server) {
+  const addr = server.address();
+  console.log(`Listening on http://localhost:${addr.port}/`);
 }
+
+const port = process.env.PORT || '3000';
+const server = http.createServer(app);
+
+server.listen(port);
+server.on('error', error => onError(error, port));
+server.on('listening', () => onListening(server));
