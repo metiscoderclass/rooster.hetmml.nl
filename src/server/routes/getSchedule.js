@@ -41,7 +41,9 @@ router.get('/:type/:value', (req, res, next) => {
 
     const { index } = user;
 
-    const url = getURLOfUser(type, index, week);
+    const scheduleType = req.query.type || 'dag';
+
+    const url = getURLOfUser(scheduleType, type, index, week);
 
     request(url, { encoding: null }, (err, data) => {
       if (err) {
