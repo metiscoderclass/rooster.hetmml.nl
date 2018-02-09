@@ -1,5 +1,3 @@
-
-
 const Promise = require('bluebird');
 const cheerio = require('cheerio');
 const _ = require('lodash');
@@ -41,22 +39,34 @@ function getUsers(page) {
   return _.flatten([classes, teachers, rooms, students]);
 }
 
-function getValidWeekNumbers(page) {
+function getWeeks(page) {
   const weekSelector = page('select[name="week"]');
-  const weekNumbers = _.map(weekSelector.children(), option => parseInt(option.attribs.value, 10));
+  const weeks = _.map(weekSelector.children(), option => ({
+    id: cheerio(option).attr('value'),
+    text: cheerio(option).text(),
+  }));
 
-  return weekNumbers;
+  return weeks;
 }
 
 function requestData() {
   lastUpdate = new Date();
 
-  return request('http://www.meetingpointmco.nl/Roosters-AL/doc/dagroosters/frames/navbar.htm', { timeout: 5000 }).then((response) => {
-    const page = cheerio.load(response.body);
-    const users = getUsers(page);
-    const validWeekNumbers = getValidWeekNumbers(page);
+  const requests = [
+    request('http://www.meetingpointmco.nl/Roosters-AL/doc/dagroosters/frames/navbar.htm', { timeout: 5000 }),
+    request('http://www.meetingpointmco.nl/Roosters-AL/doc/basisroosters/frames/navbar.htm', { timeout: 5000 }),
+  ];
 
-    meetingpointData = { users, validWeekNumbers };
+  return Promise.all(requests).then(([dailyScheduleResponse, basisScheduleResponse]) => {
+    const dailySchedulePage = cheerio.load(dailyScheduleResponse.body);
+    const basisSchedulePage = cheerio.load(basisScheduleResponse.body);
+    const users = getUsers(dailySchedulePage);
+    const dailyScheduleWeeks = getWeeks(dailySchedulePage);
+    const basisScheduleWeeks = getWeeks(basisSchedulePage);
+
+    meetingpointData = { users, dailyScheduleWeeks, basisScheduleWeeks };
+
+    console.log(meetingpointData);
 
     return meetingpointData;
   });

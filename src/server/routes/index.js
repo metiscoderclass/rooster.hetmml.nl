@@ -5,7 +5,7 @@ const getMeetingpointData = require('../lib/getMeetingpointData');
 
 /* GET home page. */
 router.get(['/', '/s/*', '/t/*', '/r/*', '/c/*'], (req, res) => {
-  getMeetingpointData().then((data) => {
+  getMeetingpointData().then(({ users, dailyScheduleWeeks, basisScheduleWeeks }) => {
     const isBeta = process.env.BETA === '1';
 
     const flags = [];
@@ -17,10 +17,16 @@ router.get(['/', '/s/*', '/t/*', '/r/*', '/c/*'], (req, res) => {
     }
 
     const flagsStr = `var FLAGS = ${JSON.stringify(flags)};`;
-    const usersStr = `var USERS = ${JSON.stringify(data.users)};`;
-    const validWeekNumbersStr = `var VALID_WEEK_NUMBERS = ${JSON.stringify(data.validWeekNumbers)}`;
+    const usersStr = `var USERS = ${JSON.stringify(users)};`;
+    const dailyScheduleWeeksStr = `var DAGROOSTER_WEEKS = ${JSON.stringify(dailyScheduleWeeks)}`;
+    const basisScheduleWeeksStr = `var BASISROOSTER_WEEKS = ${JSON.stringify(basisScheduleWeeks)}`;
 
-    res.render('index', { flagsStr, usersStr, validWeekNumbersStr });
+    res.render('index', {
+      flagsStr,
+      usersStr,
+      dailyScheduleWeeksStr,
+      basisScheduleWeeksStr,
+    });
   }).catch(() => {
     console.error('Unable to get user info, emergency redirect!');
     res.render('redirect');
