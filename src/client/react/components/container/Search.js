@@ -14,6 +14,23 @@ import Results from './Results';
 import IconFromUserType from '../presentational/IconFromUserType';
 
 class Search extends React.Component {
+  static propTypes = {
+    results: PropTypes.arrayOf(PropTypes.string).isRequired,
+    selectedResult: PropTypes.string,
+    searchText: PropTypes.string.isRequired,
+
+    // react-router
+    match: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+
+    // redux
+    dispatch: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    selectedResult: null,
+  };
+
   constructor(props) {
     super(props);
 
@@ -131,23 +148,6 @@ class Search extends React.Component {
     );
   }
 }
-
-Search.propTypes = {
-  results: PropTypes.arrayOf(PropTypes.string).isRequired,
-  selectedResult: PropTypes.string,
-  searchText: PropTypes.string.isRequired,
-
-  // react-router
-  match: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
-
-  // redux
-  dispatch: PropTypes.func.isRequired,
-};
-
-Search.defaultProps = {
-  selectedResult: null,
-};
 
 const mapStateToProps = state => ({
   results: state.search.results,

@@ -11,6 +11,20 @@ import Schedule from '../presentational/Schedule';
 import Loading from '../presentational/Loading';
 
 class View extends React.Component {
+  static propTypes = {
+    schedules: PropTypes.objectOf(PropTypes.objectOf(PropTypes.shape({
+      state: PropTypes.string.isRequired,
+      htmlStr: PropTypes.string,
+    }))).isRequired,
+
+    // react-router
+    match: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+
+    // redux
+    dispatch: PropTypes.func.isRequired,
+  };
+
   componentDidMount() {
     this.fetchScheduleIfNeeded();
   }
@@ -49,7 +63,6 @@ class View extends React.Component {
 
     switch (schedule.state) {
       case 'NOT_REQUESTED':
-        return <Loading />;
       case 'FETCHING':
         return <Loading />;
       case 'FINISHED':
@@ -59,20 +72,6 @@ class View extends React.Component {
     }
   }
 }
-
-View.propTypes = {
-  schedules: PropTypes.objectOf(PropTypes.objectOf(PropTypes.shape({
-    state: PropTypes.string.isRequired,
-    htmlStr: PropTypes.string,
-  }))).isRequired,
-
-  // react-router
-  match: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
-
-  // redux
-  dispatch: PropTypes.func.isRequired,
-};
 
 const mapStateToProps = state => ({
   schedules: state.view.schedules,

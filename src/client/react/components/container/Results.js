@@ -9,66 +9,61 @@ import { setUser } from '../../actions/search';
 import { userFromMatch } from '../../lib/url';
 import Result from '../presentational/Result';
 
-const Results = ({
-  results,
-  searchText,
-  selectedResult,
-  match,
-  history,
-  dispatch,
-}) => {
-  const user = userFromMatch(match);
+class Results extends React.Component {
+  static propTypes = {
+    results: PropTypes.arrayOf(PropTypes.string).isRequired,
+    searchText: PropTypes.string.isRequired,
+    selectedResult: PropTypes.string,
 
-  const isExactMatch =
-    user != null &&
-    searchText === users.byId[user].value;
+    // react-router
+    match: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
 
-  return (
-    <div
-      className={classnames('search__results', {
-        'search__results--has-results': !isExactMatch && results.length > 0,
-      })}
-      style={{
-        minHeight: isExactMatch ? 0 : results.length * 54,
-      }}
-    >
-      {!isExactMatch && results.map(userId => (
-        <Result
-          key={userId}
-          userId={userId}
-          isSelected={userId === selectedResult}
-          onClick={() => {
-            if (userId === user) {
-              // EDGE CASE: The user is set if the user changes, but it doesn't
-              // change if the result is already the one we are viewing.
-              // Therefor, we need to dispatch the SET_USER command manually.
-              dispatch(setUser(user));
-            } else {
-              history.push(`/${userId}`);
-            }
-          }}
-        />
-      ))}
-    </div>
-  );
-};
+    // redux
+    dispatch: PropTypes.func.isRequired,
+  };
 
-Results.propTypes = {
-  results: PropTypes.arrayOf(PropTypes.string).isRequired,
-  searchText: PropTypes.string.isRequired,
-  selectedResult: PropTypes.string,
+  static defaultProps = {
+    selectedResult: null,
+  };
 
-  // react-router
-  match: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
+  render() {
+    const user = userFromMatch(this.props.match);
 
-  // redux
-  dispatch: PropTypes.func.isRequired,
-};
+    const isExactMatch =
+      user != null &&
+      this.props.searchText === users.byId[user].value;
 
-Results.defaultProps = {
-  selectedResult: null,
-};
+    return (
+      <div
+        className={classnames('search__results', {
+          'search__results--has-results': !isExactMatch && this.props.results.length > 0,
+        })}
+        style={{
+          minHeight: isExactMatch ? 0 : this.props.results.length * 54,
+        }}
+      >
+        {!isExactMatch && this.props.results.map(userId => (
+          <Result
+            key={userId}
+            userId={userId}
+            isSelected={userId === this.props.selectedResult}
+            onClick={() => {
+              if (userId === user) {
+                // EDGE CASE: The user is set if the user changes, but it doesn't
+                // change if the result is already the one we are viewing.
+                // Therefor, we need to dispatch the SET_USER command manually.
+                this.props.dispatch(setUser(user));
+              } else {
+                this.props.history.push(`/${userId}`);
+              }
+            }}
+          />
+        ))}
+      </div>
+    );
+  }
+}
 
 const mapStateToProps = state => ({
   results: state.search.results,

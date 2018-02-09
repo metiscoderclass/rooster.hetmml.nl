@@ -10,46 +10,50 @@ import ArrowForwardIcon from 'react-icons/lib/md/arrow-forward';
 import purifyWeek from '../../lib/purifyWeek';
 import { weekFromLocation } from '../../lib/url';
 
-function weekName(week) {
-  const currentWeek = moment().week();
+class WeekSelector extends React.Component {
+  static propTypes = {
+    // react-router
+    location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+  };
 
-  if (currentWeek === week) {
-    return `Huidige week • ${week}`;
-  } else if (currentWeek + 1 === week) {
-    return `Volgende week • ${week}`;
-  } else if (currentWeek - 1 === week) {
-    return `Vorige week • ${week}`;
+  getWeekText() {
+    const week = weekFromLocation(this.props.location);
+
+    const currentWeek = moment().week();
+
+    if (currentWeek === week) {
+      return `Huidige week • ${week}`;
+    } else if (currentWeek + 1 === week) {
+      return `Volgende week • ${week}`;
+    } else if (currentWeek - 1 === week) {
+      return `Vorige week • ${week}`;
+    }
+
+    return `Week ${week}`;
   }
 
-  return `Week ${week}`;
-}
+  updateWeek(change) {
+    const week = weekFromLocation(this.props.location);
 
-const WeekSelector = ({ location, history }) => {
-  const week = weekFromLocation(location);
-
-  const updateWeek = (change) => {
     const newWeek = purifyWeek(week + change);
     const isCurrentWeek = moment().week() === newWeek;
 
     const query = queryString.stringify({
       week: isCurrentWeek ? undefined : newWeek,
     });
-    history.push(`${location.pathname}?${query}`);
-  };
+    this.props.history.push(`${this.props.location.pathname}?${query}`);
+  }
 
-  return (
-    <div className="week-selector">
-      <button onClick={() => updateWeek(-1)}><ArrowBackIcon /></button>
-      <div className="text">{weekName(week)}</div>
-      <button onClick={() => updateWeek(+1)}><ArrowForwardIcon /></button>
-    </div>
-  );
-};
-
-WeekSelector.propTypes = {
-  // react-router
-  location: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
-};
+  render() {
+    return (
+      <div className="week-selector">
+        <button onClick={() => this.updateWeek(-1)}><ArrowBackIcon /></button>
+        <div className="text">{this.getWeekText()}</div>
+        <button onClick={() => this.updateWeek(+1)}><ArrowForwardIcon /></button>
+      </div>
+    );
+  }
+}
 
 export default withRouter(WeekSelector);

@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import createDOMPurify from 'dompurify';
 
 class Schedule extends React.Component {
+  static propTypes = {
+    htmlStr: PropTypes.string.isRequired,
+  };
+
   constructor(props) {
     super(props);
 
@@ -57,9 +61,5 @@ class Schedule extends React.Component {
     );
   }
 }
-
-Schedule.propTypes = {
-  htmlStr: PropTypes.string.isRequired,
-};
 
 export default Schedule;

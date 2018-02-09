@@ -2,25 +2,36 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-const HelpBox = ({ results, searchText }) => {
-  if (results.length > 0 || searchText !== '') {
-    return <div />;
+class HelpBox extends React.Component {
+  static propTypes = {
+    // redux
+    results: PropTypes.arrayOf(PropTypes.string).isRequired,
+    searchText: PropTypes.string.isRequired,
   }
 
-  return (
-    <div className="help-box">
-      <div className="arrow" />
-      <div className="bubble">
-        Voer hier een docentafkorting, klas, leerlingnummer of lokaalnummer in.
+  render() {
+    if (this.props.results.length > 0 || this.props.searchText !== '') {
+      return <div />;
+    }
+
+    return (
+      <div className="help-box">
+        <div className="arrow" />
+        <div className="bubble">
+          Voer hier een docentafkorting, klas, leerlingnummer of lokaalnummer in.
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 HelpBox.propTypes = {
+  // redux
   results: PropTypes.arrayOf(PropTypes.string).isRequired,
   searchText: PropTypes.string.isRequired,
 };
+
+HelpBox.propTypes
 
 const mapStateToProps = state => ({
   results: state.search.results,
