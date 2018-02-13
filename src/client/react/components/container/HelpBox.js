@@ -25,14 +25,6 @@ class HelpBox extends React.Component {
   }
 }
 
-HelpBox.propTypes = {
-  // redux
-  results: PropTypes.arrayOf(PropTypes.string).isRequired,
-  searchText: PropTypes.string.isRequired,
-};
-
-HelpBox.propTypes
-
 const mapStateToProps = state => ({
   results: state.search.results,
   searchText: state.search.searchText,
