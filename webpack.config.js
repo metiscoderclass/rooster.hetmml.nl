@@ -18,10 +18,9 @@ const js = {
       },
     ],
   },
-  resolve: {
-    extensions: ['.js', '.jsx'],
-  },
   plugins: [
+    // Only load the dutch local for moment.js
+    // https://stackoverflow.com/questions/25384360/how-to-prevent-moment-js-from-loading-locales-with-webpack#25426019
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /nl/),
   ],
 };
