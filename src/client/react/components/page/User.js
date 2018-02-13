@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
+import { Elevation } from 'rmwc/Elevation';
 import Search from '../container/Search';
 import View from '../container/View';
 import { userFromMatch } from '../../lib/url';
@@ -27,11 +28,13 @@ class UserPage extends React.Component {
             <Search />
           </div>
         </div>
-        <div className="menu">
-          <div className="menu-container">
-            <WeekSelector />
+        <Elevation z={2}>
+          <div className="menu">
+            <div className="menu-container">
+              <WeekSelector />
+            </div>
           </div>
-        </div>
+        </Elevation>
         <View />
       </div>
     );
