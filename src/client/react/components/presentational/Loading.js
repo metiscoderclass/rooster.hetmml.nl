@@ -4,7 +4,9 @@ import { LinearProgress } from 'rmwc/LinearProgress';
 class Loading extends React.Component {
   render() {
     return (
-      <LinearProgress determinate={false} />
+      <div className="loading">
+        <LinearProgress determinate={false} />
+      </div>
     );
   }
 }

@@ -1,3 +1,5 @@
+@import "../../../node_modules/material-components-web/dist/material-components-web.min.css";
+
 * {
   box-sizing: border-box;
 }
@@ -13,3 +15,4 @@ body {
 @import "component-search";
 @import "component-help-box";
 @import "component-week-selector";
+@import "component-loading";
