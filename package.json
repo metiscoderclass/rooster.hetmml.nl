@@ -55,6 +55,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "request": "^2.74.0",
+    "rmwc": "^1.1.2",
     "sass-loader": "^6.0.6",
     "smoothscroll-polyfill": "^0.3.4",
     "spdy": "^3.4.4",
