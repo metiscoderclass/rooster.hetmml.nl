@@ -10,7 +10,7 @@ const getUrlOfUser = require('./getURLOfUser');
 let meetingpointData;
 let lastUpdate;
 
-function getUsers(page) {
+function parseUsers(page) {
   const script = page('script').eq(1).text();
 
   const regexs = [/var classes = \[(.+)\];/, /var teachers = \[(.+)\];/, /var rooms = \[(.+)\];/, /var students = \[(.+)\];/];
@@ -43,7 +43,7 @@ function getUsers(page) {
   return _.flatten([classes, teachers, rooms, students]);
 }
 
-function getWeeks(page) {
+function parseWeeks(page) {
   const weekSelector = page('select[name="week"]');
   const weeks = _.map(weekSelector.children(), option => ({
     id: cheerio(option).attr('value'),
@@ -53,11 +53,34 @@ function getWeeks(page) {
   return weeks;
 }
 
-function getAltText(page) {
+function parseAltText(page) {
   return page('center > font').eq(2).text().trim();
 }
 
-function requestData() {
+function combineUsers(usersArrays) {
+  return _.uniqBy(_.flatten(usersArrays), user => `${user.type}/${user.value}`);
+}
+
+function getAlts(users) {
+  const requests = users.map(user =>
+    request(getUrlOfUser('dag', user.type, user.index, 7), { encoding: null }));
+
+  return Promise.all(requests).then((teacherResponses) => {
+    return teacherResponses.map((teacherResponse, index) => {
+      const utf8Body = iconv.decode(teacherResponse.body, 'iso-8859-1');
+      const teacherResponseBody = cheerio.load(utf8Body);
+
+      const teacherName = parseAltText(teacherResponseBody);
+
+      return {
+        ...users[index],
+        alt: teacherName,
+      };
+    });
+  });
+}
+
+function getMeetingpointData() {
   const navbarRequests = [
     request('http://www.meetingpointmco.nl/Roosters-AL/doc/dagroosters/frames/navbar.htm', { timeout: 5000 }),
     request('http://www.meetingpointmco.nl/Roosters-AL/doc/basisroosters/frames/navbar.htm', { timeout: 5000 }),
@@ -67,40 +90,24 @@ function requestData() {
     .then(([dailyScheduleResponse, basisScheduleResponse]) => {
       const dailySchedulePage = cheerio.load(dailyScheduleResponse.body);
       const basisSchedulePage = cheerio.load(basisScheduleResponse.body);
-      const users = getUsers(dailySchedulePage);
-      const dailyScheduleWeeks = getWeeks(dailySchedulePage);
-      const basisScheduleWeeks = getWeeks(basisSchedulePage);
+
+      const users = parseUsers(dailySchedulePage);
+      const dailyScheduleWeeks = parseWeeks(dailySchedulePage);
+      const basisScheduleWeeks = parseWeeks(basisSchedulePage);
 
       const teachers = users.filter(user => user.type === 't');
 
-      const teacherRequests = teachers.map(teacher =>
-        request(getUrlOfUser('dag', teacher.type, teacher.index, 7), { encoding: null }));
-
-      return Promise.all(teacherRequests).then((teacherResponses) => {
-        const teachersWithAlts = teacherResponses.map((teacherResponse, index) => {
-          const utf8Body = iconv.decode(teacherResponse.body, 'iso-8859-1');
-          const teacherResponseBody = cheerio.load(utf8Body);
-
-          const teacherName = getAltText(teacherResponseBody);
-
-          return {
-            ...teachers[index],
-            alt: teacherName,
-          };
-        });
-
-        return {
-          users: _.uniqBy(_.flatten([teachersWithAlts, users]), user => `${user.type}/${user.value}`),
-          dailyScheduleWeeks,
-          basisScheduleWeeks,
-        };
-      });
+      return getAlts(teachers).then(teachersWithAlts => ({
+        users: combineUsers([teachersWithAlts, users]),
+        dailyScheduleWeeks,
+        basisScheduleWeeks,
+      }));
     });
 }
 
-function getMeetingpointData() {
+function getMeetingpointDataCacheWrapper() {
   if (meetingpointData == null || new Date() - lastUpdate > 30 * 60 * 1000) { // 30 minutes
-    return requestData().then((meetingpointData_) => {
+    return getMeetingpointData().then((meetingpointData_) => {
       lastUpdate = new Date();
       meetingpointData = meetingpointData_;
 
@@ -111,4 +118,4 @@ function getMeetingpointData() {
   return Promise.resolve(meetingpointData);
 }
 
-module.exports = debounce(getMeetingpointData);
+module.exports = debounce(getMeetingpointDataCacheWrapper);
