@@ -1,7 +1,10 @@
 const Promise = require('bluebird');
 const cheerio = require('cheerio');
+const iconv = require('iconv-lite');
 const _ = require('lodash');
 const request = Promise.promisify(require('request'));
+
+const getUrlOfUser = require('./getURLOfUser');
 
 let meetingpointData;
 let lastUpdate;
@@ -52,24 +55,45 @@ function getWeeks(page) {
 function requestData() {
   lastUpdate = new Date();
 
-  const requests = [
+  const navbarRequests = [
     request('http://www.meetingpointmco.nl/Roosters-AL/doc/dagroosters/frames/navbar.htm', { timeout: 5000 }),
     request('http://www.meetingpointmco.nl/Roosters-AL/doc/basisroosters/frames/navbar.htm', { timeout: 5000 }),
   ];
 
-  return Promise.all(requests).then(([dailyScheduleResponse, basisScheduleResponse]) => {
+  return Promise.all(navbarRequests)
+    .then(([dailyScheduleResponse, basisScheduleResponse]) => {
     const dailySchedulePage = cheerio.load(dailyScheduleResponse.body);
     const basisSchedulePage = cheerio.load(basisScheduleResponse.body);
     const users = getUsers(dailySchedulePage);
     const dailyScheduleWeeks = getWeeks(dailySchedulePage);
     const basisScheduleWeeks = getWeeks(basisSchedulePage);
 
-    meetingpointData = { users, dailyScheduleWeeks, basisScheduleWeeks };
+      const teachers = users.filter(user => user.type === 't');
 
-    console.log(meetingpointData);
+      const teacherRequests = teachers.map(teacher =>
+        request(getUrlOfUser('dag', teacher.type, teacher.index, 7), { timeout: 5000, encoding: null }));
+
+      return Promise.all(teacherRequests).then((teacherResponses) => {
+        const teachersWithAlts = teacherResponses.map((teacherResponse, index) => {
+          const utf8Body = iconv.decode(teacherResponse.body, 'iso-8859-1');
+          const teacherResponseBody = cheerio.load(utf8Body);
+          const teacherName = teacherResponseBody('center > font').eq(2).text().trim();
+
+          return {
+            ...teachers[index],
+            alt: teacherName,
+          };
+        });
+
+        meetingpointData = {
+          users: _.defaults(teachersWithAlts, users),
+          dailyScheduleWeeks,
+          basisScheduleWeeks,
+        };
 
     return meetingpointData;
   });
+    });
 }
 
 function getMeetingpointData() {
