@@ -52,6 +52,10 @@ function getWeeks(page) {
   return weeks;
 }
 
+function getAltText(page) {
+  return page('center > font').eq(2).text().trim();
+}
+
 function requestData() {
   lastUpdate = new Date();
 
@@ -71,13 +75,14 @@ function requestData() {
       const teachers = users.filter(user => user.type === 't');
 
       const teacherRequests = teachers.map(teacher =>
-        request(getUrlOfUser('dag', teacher.type, teacher.index, 7), { timeout: 5000, encoding: null }));
+        request(getUrlOfUser('dag', teacher.type, teacher.index, 7), { encoding: null }));
 
       return Promise.all(teacherRequests).then((teacherResponses) => {
         const teachersWithAlts = teacherResponses.map((teacherResponse, index) => {
           const utf8Body = iconv.decode(teacherResponse.body, 'iso-8859-1');
           const teacherResponseBody = cheerio.load(utf8Body);
-          const teacherName = teacherResponseBody('center > font').eq(2).text().trim();
+
+          const teacherName = getAltText(teacherResponseBody);
 
           return {
             ...teachers[index],
@@ -86,7 +91,7 @@ function requestData() {
         });
 
         meetingpointData = {
-          users: _.defaults(teachersWithAlts, users),
+          users: _.uniqBy(_.flatten([teachersWithAlts, users]), user => `${user.type}/${user.value}`),
           dailyScheduleWeeks,
           basisScheduleWeeks,
         };
