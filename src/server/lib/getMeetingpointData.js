@@ -97,7 +97,7 @@ function requestData() {
 }
 
 function getMeetingpointData() {
-  if (lastUpdate == null || new Date() - lastUpdate > 30 * 60 * 1000) { // 10 minutes
+  if (lastUpdate == null || new Date() - lastUpdate > 30 * 60 * 1000) { // 30 minutes
     return requestData();
   } else if (!meetingpointData) {
     return Promise.reject();
