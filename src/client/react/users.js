@@ -56,6 +56,7 @@ USERS.forEach((user) => {
     user: {
       type: user.type,
       value: user.value,
+      alt: user.alt,
       id: getId(user),
     },
   });

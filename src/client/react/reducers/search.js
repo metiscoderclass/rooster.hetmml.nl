@@ -1,4 +1,5 @@
-import fuzzy from 'fuzzy';
+import FuzzySearch from 'fuzzy-search';
+import uniqBy from 'lodash/uniqBy';
 import users from '../users';
 
 const DEFAULT_STATE = {
@@ -11,16 +12,17 @@ const DEFAULT_STATE = {
 };
 
 function getSearchResults(allUsers, query) {
+  const searcher = new FuzzySearch(allUsers, ['value', 'alt']);
+
   if (query.trim() === '') {
     return [];
   }
 
-  const allResults = fuzzy.filter(query, allUsers, {
-    extract: user => user.value,
-  });
+  const allResults = searcher.search(query);
+  const uniqResults = uniqBy(allResults, result => result.id);
+  const firstResults = uniqResults.splice(0, 4);
 
-  const firstResults = allResults.splice(0, 4);
-  const userIds = firstResults.map(result => result.original.id);
+  const userIds = firstResults.map(result => result.id);
 
   return userIds;
 }

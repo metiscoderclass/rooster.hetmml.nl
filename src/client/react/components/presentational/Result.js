@@ -24,7 +24,14 @@ class Result extends React.Component {
         <div className="search__icon-wrapper">
           <IconFromUserType userType={users.byId[this.props.userId].type} />
         </div>
-        <div className="search__result__text">{users.byId[this.props.userId].value}</div>
+        <div className="search__result__text">
+          {users.byId[this.props.userId].value}
+          {users.byId[this.props.userId].alt &&
+            <span className="search__result__text__alt">
+              {` ${users.byId[this.props.userId].alt}`}
+            </span>
+          }
+        </div>
       </div>
     );
   }
