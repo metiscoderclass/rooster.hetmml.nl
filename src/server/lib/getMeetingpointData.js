@@ -62,11 +62,11 @@ function requestData() {
 
   return Promise.all(navbarRequests)
     .then(([dailyScheduleResponse, basisScheduleResponse]) => {
-    const dailySchedulePage = cheerio.load(dailyScheduleResponse.body);
-    const basisSchedulePage = cheerio.load(basisScheduleResponse.body);
-    const users = getUsers(dailySchedulePage);
-    const dailyScheduleWeeks = getWeeks(dailySchedulePage);
-    const basisScheduleWeeks = getWeeks(basisSchedulePage);
+      const dailySchedulePage = cheerio.load(dailyScheduleResponse.body);
+      const basisSchedulePage = cheerio.load(basisScheduleResponse.body);
+      const users = getUsers(dailySchedulePage);
+      const dailyScheduleWeeks = getWeeks(dailySchedulePage);
+      const basisScheduleWeeks = getWeeks(basisSchedulePage);
 
       const teachers = users.filter(user => user.type === 't');
 
@@ -91,17 +91,18 @@ function requestData() {
           basisScheduleWeeks,
         };
 
-    return meetingpointData;
-  });
+        return meetingpointData;
+      });
     });
 }
 
 function getMeetingpointData() {
-  if (lastUpdate == null || new Date() - lastUpdate > 10 * 60 * 1000) { // 10 minutes
+  if (lastUpdate == null || new Date() - lastUpdate > 30 * 60 * 1000) { // 10 minutes
     return requestData();
   } else if (!meetingpointData) {
     return Promise.reject();
   }
+
   return Promise.resolve(meetingpointData);
 }
 
