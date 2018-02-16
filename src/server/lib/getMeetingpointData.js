@@ -111,4 +111,4 @@ function getMeetingpointData() {
   return Promise.resolve(meetingpointData);
 }
 
-module.exports = getMeetingpointData;
+module.exports = debounce(getMeetingpointData);

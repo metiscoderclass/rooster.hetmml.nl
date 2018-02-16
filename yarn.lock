@@ -6016,6 +6016,10 @@ progress@~1.1.8:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/progress/-/progress-1.1.8.tgz#e260c78f6161cdd9b0e56cc3e0a85de17c7a57be"
 
+promise-debounce@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/promise-debounce/-/promise-debounce-1.0.1.tgz#6ed76f8f79d0144fdbd01cc15589ce57f9d71e78"
+
 promise@^6.0.1:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/promise/-/promise-6.1.0.tgz#2ce729f6b94b45c26891ad0602c5c90e04c6eef6"
