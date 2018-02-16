@@ -1,6 +1,7 @@
 const Promise = require('bluebird');
 const cheerio = require('cheerio');
 const iconv = require('iconv-lite');
+const debounce = require('promise-debounce');
 const _ = require('lodash');
 const request = Promise.promisify(require('request'));
 
@@ -57,8 +58,6 @@ function getAltText(page) {
 }
 
 function requestData() {
-  lastUpdate = new Date();
-
   const navbarRequests = [
     request('http://www.meetingpointmco.nl/Roosters-AL/doc/dagroosters/frames/navbar.htm', { timeout: 5000 }),
     request('http://www.meetingpointmco.nl/Roosters-AL/doc/basisroosters/frames/navbar.htm', { timeout: 5000 }),
@@ -90,22 +89,23 @@ function requestData() {
           };
         });
 
-        meetingpointData = {
+        return {
           users: _.uniqBy(_.flatten([teachersWithAlts, users]), user => `${user.type}/${user.value}`),
           dailyScheduleWeeks,
           basisScheduleWeeks,
         };
-
-        return meetingpointData;
       });
     });
 }
 
 function getMeetingpointData() {
-  if (lastUpdate == null || new Date() - lastUpdate > 30 * 60 * 1000) { // 30 minutes
-    return requestData();
-  } else if (!meetingpointData) {
-    return Promise.reject();
+  if (meetingpointData == null || new Date() - lastUpdate > 30 * 60 * 1000) { // 30 minutes
+    return requestData().then((meetingpointData_) => {
+      lastUpdate = new Date();
+      meetingpointData = meetingpointData_;
+
+      return meetingpointData;
+    });
   }
 
   return Promise.resolve(meetingpointData);
