@@ -63,10 +63,10 @@ function combineUsers(usersArrays) {
 
 function getAlts(users) {
   const requests = users.map(user =>
-    request(getUrlOfUser('dag', user.type, user.index, 7), { encoding: null }));
+    request(getUrlOfUser('dag', user.type, user.index, 7), { timeout: 8000, encoding: null }));
 
-  return Promise.all(requests).then((teacherResponses) => {
-    return teacherResponses.map((teacherResponse, index) => {
+  return Promise.all(requests).then(teacherResponses =>
+    teacherResponses.map((teacherResponse, index) => {
       const utf8Body = iconv.decode(teacherResponse.body, 'iso-8859-1');
       const teacherResponseBody = cheerio.load(utf8Body);
 
@@ -76,8 +76,7 @@ function getAlts(users) {
         ...users[index],
         alt: teacherName,
       };
-    });
-  });
+    }));
 }
 
 function getMeetingpointData() {
@@ -97,11 +96,19 @@ function getMeetingpointData() {
 
       const teachers = users.filter(user => user.type === 't');
 
-      return getAlts(teachers).then(teachersWithAlts => ({
-        users: combineUsers([teachersWithAlts, users]),
-        dailyScheduleWeeks,
-        basisScheduleWeeks,
-      }));
+      return getAlts(teachers)
+        .then(teachersWithAlts => ({
+          users: combineUsers([teachersWithAlts, users]),
+          dailyScheduleWeeks,
+          basisScheduleWeeks,
+        }))
+        .catch(() => ({
+          // Just return the user data without the alts if getAlts fails, since
+          // the alts are non-essential.
+          users,
+          dailyScheduleWeeks,
+          basisScheduleWeeks,
+        }));
     });
 }
 
