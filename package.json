@@ -81,7 +81,7 @@
     "webpack": "^3.5.6"
   },
   "author": "Noah Loomans <noahloomans@gmail.com>",
-  "license": "MIT",
+  "license": "GPLv3",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nloomans/rooster-mml.git"

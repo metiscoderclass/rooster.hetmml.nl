@@ -1,4 +1,8 @@
 {
   "eslint.enable": true,
-  "cSpell.language": "en,nl"
+  "cSpell.language": "en,nl",
+  "licenser.projectName": "rooster.hetmml.nl",
+  "licenser.license": "GPLv3",
+  "licenser.author": "Noah Loomans",
+  "licenser.useSingleLineStyle": false
 }
