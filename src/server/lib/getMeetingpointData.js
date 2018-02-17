@@ -10,7 +10,7 @@ const getUrlOfUser = require('./getURLOfUser');
 let meetingpointData;
 let lastUpdate;
 
-function parseUsers(page) {
+function scrapeUsers(page) {
   const script = page('script').eq(1).text();
 
   const regexs = [/var classes = \[(.+)\];/, /var teachers = \[(.+)\];/, /var rooms = \[(.+)\];/, /var students = \[(.+)\];/];
@@ -43,7 +43,7 @@ function parseUsers(page) {
   return _.flatten([classes, teachers, rooms, students]);
 }
 
-function parseWeeks(page) {
+function scrapeWeeks(page) {
   const weekSelector = page('select[name="week"]');
   const weeks = _.map(weekSelector.children(), option => ({
     id: cheerio(option).attr('value'),
@@ -53,7 +53,7 @@ function parseWeeks(page) {
   return weeks;
 }
 
-function parseAltText(page) {
+function scrapeAltText(page) {
   return page('center > font').eq(2).text().trim();
 }
 
@@ -70,7 +70,7 @@ function getAlts(users) {
       const utf8Body = iconv.decode(teacherResponse.body, 'iso-8859-1');
       const teacherResponseBody = cheerio.load(utf8Body);
 
-      const teacherName = parseAltText(teacherResponseBody);
+      const teacherName = scrapeAltText(teacherResponseBody);
 
       return {
         ...users[index],
@@ -90,9 +90,9 @@ function getMeetingpointData() {
       const dailySchedulePage = cheerio.load(dailyScheduleResponse.body);
       const basisSchedulePage = cheerio.load(basisScheduleResponse.body);
 
-      const users = parseUsers(dailySchedulePage);
-      const dailyScheduleWeeks = parseWeeks(dailySchedulePage);
-      const basisScheduleWeeks = parseWeeks(basisSchedulePage);
+      const users = scrapeUsers(dailySchedulePage);
+      const dailyScheduleWeeks = scrapeWeeks(dailySchedulePage);
+      const basisScheduleWeeks = scrapeWeeks(basisSchedulePage);
 
       const teachers = users.filter(user => user.type === 't');
 
