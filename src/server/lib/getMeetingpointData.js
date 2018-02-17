@@ -10,7 +10,8 @@ const getUrlOfUser = require('./getURLOfUser');
 let meetingpointData;
 let lastUpdate;
 
-function scrapeUsers(page) {
+function scrapeUsers(html) {
+  const page = cheerio.load(html);
   const script = page('script').eq(1).text();
 
   const regexs = [/var classes = \[(.+)\];/, /var teachers = \[(.+)\];/, /var rooms = \[(.+)\];/, /var students = \[(.+)\];/];
@@ -43,7 +44,8 @@ function scrapeUsers(page) {
   return _.flatten([classes, teachers, rooms, students]);
 }
 
-function scrapeWeeks(page) {
+function scrapeWeeks(html) {
+  const page = cheerio.load(html);
   const weekSelector = page('select[name="week"]');
   const weeks = _.map(weekSelector.children(), option => ({
     id: cheerio(option).attr('value'),
@@ -53,7 +55,8 @@ function scrapeWeeks(page) {
   return weeks;
 }
 
-function scrapeAltText(page) {
+function scrapeAltText(html) {
+  const page = cheerio.load(html);
   return page('center > font').eq(2).text().trim();
 }
 
@@ -67,8 +70,7 @@ function getAlts(users) {
 
   return Promise.all(requests).then(teacherResponses =>
     teacherResponses.map((teacherResponse, index) => {
-      const utf8Body = iconv.decode(teacherResponse.body, 'iso-8859-1');
-      const teacherResponseBody = cheerio.load(utf8Body);
+      const teacherResponseBody = iconv.decode(teacherResponse.body, 'iso-8859-1');
 
       const teacherName = scrapeAltText(teacherResponseBody);
 
@@ -87,12 +89,9 @@ function getMeetingpointData() {
 
   return Promise.all(navbarRequests)
     .then(([dailyScheduleResponse, basisScheduleResponse]) => {
-      const dailySchedulePage = cheerio.load(dailyScheduleResponse.body);
-      const basisSchedulePage = cheerio.load(basisScheduleResponse.body);
-
-      const users = scrapeUsers(dailySchedulePage);
-      const dailyScheduleWeeks = scrapeWeeks(dailySchedulePage);
-      const basisScheduleWeeks = scrapeWeeks(basisSchedulePage);
+      const users = scrapeUsers(dailyScheduleResponse.body);
+      const dailyScheduleWeeks = scrapeWeeks(dailyScheduleResponse.body);
+      const basisScheduleWeeks = scrapeWeeks(basisScheduleResponse.body);
 
       const teachers = users.filter(user => user.type === 't');
 
