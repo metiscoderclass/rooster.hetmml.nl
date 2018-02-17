@@ -4,8 +4,8 @@ const router = express.Router();
 const request = require('request');
 const iconv = require('iconv-lite');
 
-const getMeetingpointData = require('../lib/getMeetingpointData');
-const getURLOfUser = require('../lib/getURLOfUser');
+const getScheduleData = require('../lib/schools/hetmml/getScheduleData');
+const getURLOfUser = require('../lib/schools/hetmml/getURLOfUser');
 
 // copied from http://www.meetingpointmco.nl/Roosters-AL/doc/dagroosters/untisscripts.js,
 // were using the same code as they do to be sure that we always get the same
@@ -25,7 +25,7 @@ function getWeekNumber(target) {
 }
 
 router.get('/:type/:value', (req, res, next) => {
-  getMeetingpointData().then(({ users }) => {
+  getScheduleData().then(({ users }) => {
     const { type, value } = req.params;
     let { week } = req.query;
     const user =

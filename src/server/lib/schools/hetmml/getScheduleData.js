@@ -81,7 +81,7 @@ function getAlts(users) {
     }));
 }
 
-function getMeetingpointData() {
+function getScheduleData() {
   const navbarRequests = [
     request('http://www.meetingpointmco.nl/Roosters-AL/doc/dagroosters/frames/navbar.htm', { timeout: 5000 }),
     request('http://www.meetingpointmco.nl/Roosters-AL/doc/basisroosters/frames/navbar.htm', { timeout: 5000 }),
@@ -111,9 +111,9 @@ function getMeetingpointData() {
     });
 }
 
-function getMeetingpointDataCacheWrapper() {
+function getScheduleDataCacheWrapper() {
   if (meetingpointData == null || new Date() - lastUpdate > 30 * 60 * 1000) { // 30 minutes
-    return getMeetingpointData().then((meetingpointData_) => {
+    return getScheduleData().then((meetingpointData_) => {
       lastUpdate = new Date();
       meetingpointData = meetingpointData_;
 
@@ -124,4 +124,4 @@ function getMeetingpointDataCacheWrapper() {
   return Promise.resolve(meetingpointData);
 }
 
-module.exports = debounce(getMeetingpointDataCacheWrapper);
+module.exports = debounce(getScheduleDataCacheWrapper);

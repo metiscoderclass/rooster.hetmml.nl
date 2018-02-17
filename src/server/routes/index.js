@@ -1,11 +1,11 @@
 const express = require('express');
 
 const router = express.Router();
-const getMeetingpointData = require('../lib/getMeetingpointData');
+const getScheduleData = require('../lib/schools/hetmml/getScheduleData');
 
 /* GET home page. */
 router.get(['/', '/s/*', '/t/*', '/r/*', '/c/*'], (req, res) => {
-  getMeetingpointData().then(({ users, dailyScheduleWeeks, basisScheduleWeeks }) => {
+  getScheduleData().then(({ users, dailyScheduleWeeks, basisScheduleWeeks }) => {
     const isBeta = process.env.BETA === '1';
 
     const flags = [];
