@@ -1,6 +1,10 @@
 const axios = require('axios');
 const iconv = require('iconv-lite');
 
+/**
+ * Create a new axios instance with sensible defaults for connecting to
+ * meetingpointmco.nl
+*/
 const instance = axios.create({
   baseURL: 'http://www.meetingpointmco.nl/Roosters-AL/doc/',
   timeout: 5000,

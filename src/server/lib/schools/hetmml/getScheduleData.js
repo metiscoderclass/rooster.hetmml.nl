@@ -8,6 +8,21 @@ const axios = require('./axios');
 let meetingpointData;
 let lastUpdate;
 
+/**
+ * Scrape all the valid users from a meetingpoint navbar.
+ * @param {string} html The html of a meetingpoint navbar.
+ * @returns {*}
+ * [
+ *   { type: 't', value: 'akh', index: 0 },
+ *   ...
+ *   { type: 's', value: '18561', index: 245 },
+ *   ...
+ *   { type: 'r', value: '008-mk', index: 2 },
+ *   ...
+ *   { type: 'c', value: '6-5H2', index: 23 },
+ *   ...
+ * ]
+ */
 function scrapeUsers(html) {
   const page = cheerio.load(html);
   const script = page('script').eq(1).text();
@@ -42,6 +57,14 @@ function scrapeUsers(html) {
   return _.flatten([classes, teachers, rooms, students]);
 }
 
+/**
+ * Scrape the known valid weeks from a meetingpoint navbar.
+ *
+ * There probably are more valid weeks, but these once are garanteed to be
+ * valid.
+ * @param {string} html The html of a meetingpoint navbar.
+ * @returns {*} [{ id: string, text: string }, ...]
+ */
 function scrapeWeeks(html) {
   const page = cheerio.load(html);
   const weekSelector = page('select[name="week"]');
@@ -53,18 +76,40 @@ function scrapeWeeks(html) {
   return weeks;
 }
 
+/**
+ * scrape the alt text (the text next to the short code) from a
+ * specific meetingpoint schedule.
+ * @param {string} html The html of a specific meetingpoint schedule.
+ * @returns {string}
+ */
 function scrapeAltText(html) {
   const page = cheerio.load(html);
   return page('center > font').eq(2).text().trim();
 }
 
+/**
+ * Combines two user array, if a dublicate user is present, the first one will
+ * be used.
+ *
+ * This function is currently used to merge a subset of users with alts
+ * attached to them with a compleat set of users without alts.
+ * @param {*} usersArrays An array of user arrays.
+ */
 function combineUsers(usersArrays) {
   return _.uniqBy(_.flatten(usersArrays), user => `${user.type}/${user.value}`);
 }
 
+/**
+ * Requests and adds an alt field to the given users.
+ *
+ * For example, it will add the teacher name to a teacher object.
+ *
+ * @param {*} users [{ type: string, value: string, index: number }, ...]
+ * @returns {*} [{ type: string, value: string, alt: string, index: number }, ...]
+ */
 function getAlts(users) {
   const requests = users.map(user =>
-    axios.get(getUrlOfUser('dag', user.type, user.index, 7)));
+    axios.get(getUrlOfUser('dag', user.type, user.index, 7)), { timeout: 8000 });
 
   return Promise.all(requests).then(teacherResponses =>
     teacherResponses.map((teacherResponse, index) => {
@@ -77,6 +122,11 @@ function getAlts(users) {
     }));
 }
 
+/**
+ * Requests all the relevent data from the meetingpoint server
+ * This is very expensive! Only call when you absolutely need to.
+ * @returns {Promise} { users, dailyScheduleWeeks, basisScheduleWeeks }
+ */
 function getScheduleData() {
   const navbarRequests = [
     axios.get('/dagroosters/frames/navbar.htm'),
@@ -107,6 +157,11 @@ function getScheduleData() {
     });
 }
 
+/**
+ * Wrapper around getScheduleData that is cheap to call. In most cases it
+ * returns a cached version. The cache is stored for 30 minutes.
+ * @returns {Promise} { users, dailyScheduleWeeks, basisScheduleWeeks }
+*/
 function getScheduleDataCacheWrapper() {
   if (meetingpointData == null || new Date() - lastUpdate > 30 * 60 * 1000) { // 30 minutes
     return getScheduleData().then((meetingpointData_) => {
@@ -120,4 +175,7 @@ function getScheduleDataCacheWrapper() {
   return Promise.resolve(meetingpointData);
 }
 
+// Debounce getScheduleDataCacheWrapper. This ensures that no requests will be
+// waited if a user requests the schedule data while the schedule data is
+// already being requested by another user.
 module.exports = debounce(getScheduleDataCacheWrapper);
