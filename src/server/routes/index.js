@@ -27,10 +27,11 @@ router.get(['/', '/s/*', '/t/*', '/r/*', '/c/*'], (req, res) => {
       dailyScheduleWeeksStr,
       basisScheduleWeeksStr,
     });
-  }).catch(() => {
-    console.error('Unable to get user info, emergency redirect!');
-    res.render('redirect');
   });
+  // .catch(() => {
+  //   console.error('Unable to get user info, emergency redirect!');
+  //   res.render('redirect');
+  // });
 });
 
 module.exports = router;

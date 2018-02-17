@@ -1,11 +1,9 @@
-const Promise = require('bluebird');
 const cheerio = require('cheerio');
-const iconv = require('iconv-lite');
 const debounce = require('promise-debounce');
 const _ = require('lodash');
-const request = Promise.promisify(require('request'));
 
 const getUrlOfUser = require('./getURLOfUser');
+const axios = require('./axios');
 
 let meetingpointData;
 let lastUpdate;
@@ -66,13 +64,11 @@ function combineUsers(usersArrays) {
 
 function getAlts(users) {
   const requests = users.map(user =>
-    request(getUrlOfUser('dag', user.type, user.index, 7), { timeout: 8000, encoding: null }));
+    axios.get(getUrlOfUser('dag', user.type, user.index, 7)));
 
   return Promise.all(requests).then(teacherResponses =>
     teacherResponses.map((teacherResponse, index) => {
-      const teacherResponseBody = iconv.decode(teacherResponse.body, 'iso-8859-1');
-
-      const teacherName = scrapeAltText(teacherResponseBody);
+      const teacherName = scrapeAltText(teacherResponse.data);
 
       return {
         ...users[index],
@@ -83,15 +79,15 @@ function getAlts(users) {
 
 function getScheduleData() {
   const navbarRequests = [
-    request('http://www.meetingpointmco.nl/Roosters-AL/doc/dagroosters/frames/navbar.htm', { timeout: 5000 }),
-    request('http://www.meetingpointmco.nl/Roosters-AL/doc/basisroosters/frames/navbar.htm', { timeout: 5000 }),
+    axios.get('/dagroosters/frames/navbar.htm'),
+    axios.get('/basisroosters/frames/navbar.htm'),
   ];
 
   return Promise.all(navbarRequests)
     .then(([dailyScheduleResponse, basisScheduleResponse]) => {
-      const users = scrapeUsers(dailyScheduleResponse.body);
-      const dailyScheduleWeeks = scrapeWeeks(dailyScheduleResponse.body);
-      const basisScheduleWeeks = scrapeWeeks(basisScheduleResponse.body);
+      const users = scrapeUsers(dailyScheduleResponse.data);
+      const dailyScheduleWeeks = scrapeWeeks(dailyScheduleResponse.data);
+      const basisScheduleWeeks = scrapeWeeks(basisScheduleResponse.data);
 
       const teachers = users.filter(user => user.type === 't');
 

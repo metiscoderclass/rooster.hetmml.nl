@@ -1,11 +1,10 @@
 const express = require('express');
 
 const router = express.Router();
-const request = require('request');
-const iconv = require('iconv-lite');
 
 const getScheduleData = require('../lib/schools/hetmml/getScheduleData');
 const getURLOfUser = require('../lib/schools/hetmml/getURLOfUser');
+const axios = require('../lib/schools/hetmml/axios');
 
 // copied from http://www.meetingpointmco.nl/Roosters-AL/doc/dagroosters/untisscripts.js,
 // were using the same code as they do to be sure that we always get the same
@@ -45,16 +44,13 @@ router.get('/:type/:value', (req, res, next) => {
 
     const url = getURLOfUser(scheduleType, type, index, week);
 
-    request(url, { encoding: null }, (err, data) => {
-      if (err) {
+    axios.get(url)
+      .then((response) => {
+        res.status(response.status).end(response.data);
+      })
+      .catch((err) => {
         next(err);
-        return;
-      }
-
-      const utf8Body = iconv.decode(data.body, 'ISO-8859-1');
-
-      res.status(data.statusCode).end(utf8Body);
-    });
+      });
   });
 });
 
