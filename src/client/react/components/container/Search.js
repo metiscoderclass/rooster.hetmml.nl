@@ -27,7 +27,6 @@ import { withRouter } from 'react-router-dom';
 import SearchIcon from 'react-icons/lib/md/search';
 
 import { userFromMatch } from '../../lib/url';
-import { setUser, inputChange, changeSelectedResult } from '../../actions/search';
 
 import users from '../../users';
 import Results from './Results';
@@ -65,13 +64,13 @@ class Search extends React.Component {
 
   componentDidMount() {
     const urlUser = userFromMatch(this.props.match);
-    this.props.dispatch(setUser(urlUser));
+    this.props.dispatch({ type: 'SEARCH/SET_USERS', urlUser });
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.match !== this.props.match) {
       const urlUser = userFromMatch(nextProps.match);
-      this.props.dispatch(setUser(urlUser));
+      this.props.dispatch({ type: 'SEARCH/SET_USERS', urlUser });
     }
   }
 
@@ -94,17 +93,17 @@ class Search extends React.Component {
     switch (event.key) {
       case 'ArrowUp':
         event.preventDefault();
-        this.props.dispatch(changeSelectedResult(-1));
+        this.props.dispatch({ type: 'SEARCH/CHANGE_SELECTED_RESULT', relativeChange: -1 });
         break;
 
       case 'ArrowDown':
         event.preventDefault();
-        this.props.dispatch(changeSelectedResult(+1));
+        this.props.dispatch({ type: 'SEARCH/CHANGE_SELECTED_RESULT', relativeChange: +1 });
         break;
 
       case 'Escape':
         event.preventDefault();
-        this.props.dispatch(setUser(urlUser));
+        this.props.dispatch({ type: 'SEARCH/SET_USERS', urlUser });
         break;
 
       case 'Enter':
@@ -113,7 +112,7 @@ class Search extends React.Component {
           // EDGE CASE: The user is set if the user changes, but it doesn't
           // change if the result is already the one we are viewing.
           // Therefor, we need to dispatch the SET_USER command manually.
-          this.props.dispatch(setUser(urlUser));
+          this.props.dispatch({ type: 'SEARCH/SET_USERS', urlUser });
         } else if (result) {
           this.props.history.push(`/${result}`);
         }
@@ -153,7 +152,7 @@ class Search extends React.Component {
             </div>
             <input
               id="search__input"
-              onChange={event => dispatch(inputChange(event.target.value))}
+              onChange={event => dispatch({ type: 'SEARCH/INPUT_CHANGE', searchText: event.target.value })}
               onKeyDown={this.onKeyDown}
               value={searchText}
               placeholder="Zoeken"

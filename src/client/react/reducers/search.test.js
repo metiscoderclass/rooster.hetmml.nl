@@ -33,21 +33,16 @@ window.USERS = [
 const deepFreeze = require('deep-freeze');
 const search = require('./search').default;
 const { _test } = require('./search');
-const {
-  setUser,
-  inputChange,
-  changeSelectedResult,
-} = require('../actions/search');
 
 describe('reducers', () => {
   describe('search', () => {
     describe('SEARCH/SET_USER', () => {
       it('Resets to the default state if the user is null', () => {
-        expect(search({ foo: 'bar' }, setUser(null))).toEqual(_test.DEFAULT_STATE);
+        expect(search({ foo: 'bar' }, { type: 'SEARCH/SET_USER', user: null })).toEqual(_test.DEFAULT_STATE);
       });
 
       it('Sets all the values of that user properly', () => {
-        expect(search(undefined, setUser('s/18561'))).toEqual({
+        expect(search(undefined, { type: 'SEARCH/SET_USER', user: 's/18561' })).toEqual({
           results: [],
           searchText: '18561',
           selectedResult: 's/18561',
@@ -57,7 +52,7 @@ describe('reducers', () => {
 
     describe('SEARCH/INPUT_CHANGE', () => {
       it('Returns no results when nothing is typed in', () => {
-        expect(search(undefined, inputChange(''))).toEqual({
+        expect(search(undefined, { type: 'SEARCH/INPUT_CHANGE', searchText: '' })).toEqual({
           results: [],
           searchText: '',
           selectedResult: null,
@@ -65,7 +60,7 @@ describe('reducers', () => {
       });
 
       it('Returns no results when a space is typed in', () => {
-        expect(search(undefined, inputChange(' '))).toEqual({
+        expect(search(undefined, { type: 'SEARCH/INPUT_CHANGE', searchText: ' ' })).toEqual({
           results: [],
           searchText: ' ',
           selectedResult: null,
@@ -73,7 +68,7 @@ describe('reducers', () => {
       });
 
       it('Preforms a basic search, only returning four results', () => {
-        expect(search(undefined, inputChange('18'))).toEqual({
+        expect(search(undefined, { type: 'SEARCH/INPUT_CHANGE', searchText: '18' })).toEqual({
           results: [
             's/18561',
             's/18562',
@@ -94,8 +89,8 @@ describe('reducers', () => {
           selectedResult: null,
         };
 
-        const actionPlus = changeSelectedResult(+1);
-        const actionMin = changeSelectedResult(-1);
+        const actionPlus = { type: 'SEARCH/CHANGE_SELECTED_RESULT', relativeChange: +1 };
+        const actionMin = { type: 'SEARCH/CHANGE_SELECTED_RESULT', relativeChange: -1 };
 
         deepFreeze([prevState, actionPlus, actionMin]);
 
@@ -112,8 +107,8 @@ describe('reducers', () => {
           selectedResult: null,
         };
 
-        const actionPlus = changeSelectedResult(+1);
-        const actionMin = changeSelectedResult(-1);
+        const actionPlus = { type: 'SEARCH/CHANGE_SELECTED_RESULT', relativeChange: +1 };
+        const actionMin = { type: 'SEARCH/CHANGE_SELECTED_RESULT', relativeChange: -1 };
 
         deepFreeze([prevState, actionPlus, actionMin]);
 
@@ -137,8 +132,8 @@ describe('reducers', () => {
           selectedResult: 's/18562',
         };
 
-        const actionPlus = changeSelectedResult(+1);
-        const actionMin = changeSelectedResult(-1);
+        const actionPlus = { type: 'SEARCH/CHANGE_SELECTED_RESULT', relativeChange: +1 };
+        const actionMin = { type: 'SEARCH/CHANGE_SELECTED_RESULT', relativeChange: -1 };
 
         deepFreeze([prevState, actionPlus, actionMin]);
 
@@ -160,7 +155,7 @@ describe('reducers', () => {
           results: ['s/18561', 's/18562', 's/18563'],
           searchText: '1856',
           selectedResult: 's/18563',
-        }, changeSelectedResult(+1))).toEqual({
+        }, { type: 'SEARCH/CHANGE_SELECTED_RESULT', relativeChange: +1 })).toEqual({
           results: ['s/18561', 's/18562', 's/18563'],
           searchText: '1856',
           selectedResult: null,
@@ -170,7 +165,7 @@ describe('reducers', () => {
           results: ['s/18561', 's/18562', 's/18563'],
           searchText: '1856',
           selectedResult: null,
-        }, changeSelectedResult(+1))).toEqual({
+        }, { type: 'SEARCH/CHANGE_SELECTED_RESULT', relativeChange: +1 })).toEqual({
           results: ['s/18561', 's/18562', 's/18563'],
           searchText: '1856',
           selectedResult: 's/18561',
@@ -182,7 +177,7 @@ describe('reducers', () => {
           results: ['s/18561', 's/18562', 's/18563'],
           searchText: '1856',
           selectedResult: 's/18561',
-        }, changeSelectedResult(-1))).toEqual({
+        }, { type: 'SEARCH/CHANGE_SELECTED_RESULT', relativeChange: -1 })).toEqual({
           results: ['s/18561', 's/18562', 's/18563'],
           searchText: '1856',
           selectedResult: null,
@@ -192,7 +187,7 @@ describe('reducers', () => {
           results: ['s/18561', 's/18562', 's/18563'],
           searchText: '1856',
           selectedResult: null,
-        }, changeSelectedResult(-1))).toEqual({
+        }, { type: 'SEARCH/CHANGE_SELECTED_RESULT', relativeChange: -1 })).toEqual({
           results: ['s/18561', 's/18562', 's/18563'],
           searchText: '1856',
           selectedResult: 's/18563',

@@ -24,7 +24,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import { userFromMatch, weekFromLocation } from '../../lib/url';
-import { fetchSchedule } from '../../actions/view';
 import extractSchedule from '../../lib/extractSchedule';
 
 import Schedule from '../presentational/Schedule';
@@ -66,7 +65,28 @@ class View extends React.Component {
     const schedule = extractSchedule(schedules, user, week);
 
     if (schedule.state === 'NOT_REQUESTED') {
-      dispatch(fetchSchedule(user, week));
+      fetch(`/get/${user}?week=${week}`).then(
+        // success
+        (r) => {
+          r.text().then((htmlStr) => {
+            dispatch({
+              type: 'VIEW/FETCH_SCHEDULE_SUCCESS',
+              user,
+              week,
+              htmlStr,
+            });
+          });
+        },
+
+        // error
+        () => {
+          dispatch({
+            type: 'VIEW/FETCH_SCHEDULE_FAILURE',
+            week,
+            user,
+          });
+        },
+      );
     }
   }
 

@@ -25,7 +25,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import users from '../../users';
-import { setUser } from '../../actions/search';
 import { userFromMatch } from '../../lib/url';
 import Result from '../presentational/Result';
 
@@ -73,7 +72,7 @@ class Results extends React.Component {
                 // EDGE CASE: The user is set if the user changes, but it doesn't
                 // change if the result is already the one we are viewing.
                 // Therefor, we need to dispatch the SET_USER command manually.
-                this.props.dispatch(setUser(user));
+                this.props.dispatch({ type: 'SEARCH/SET_USER', user });
               } else {
                 this.props.history.push(`/${userId}`);
               }
