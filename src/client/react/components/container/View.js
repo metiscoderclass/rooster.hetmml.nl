@@ -65,16 +65,14 @@ class View extends React.Component {
     const schedule = extractSchedule(schedules, user, week);
 
     if (schedule.state === 'NOT_REQUESTED') {
-      fetch(`/get/${user}?week=${week}`).then(
+      fetch(`/get/${user}?week=${week}`).then(r => r.text()).then(
         // success
-        (r) => {
-          r.text().then((htmlStr) => {
-            dispatch({
-              type: 'VIEW/FETCH_SCHEDULE_SUCCESS',
-              user,
-              week,
-              htmlStr,
-            });
+        (htmlStr) => {
+          dispatch({
+            type: 'VIEW/FETCH_SCHEDULE_SUCCESS',
+            user,
+            week,
+            htmlStr,
           });
         },
 
