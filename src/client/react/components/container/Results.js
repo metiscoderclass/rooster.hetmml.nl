@@ -86,8 +86,8 @@ class Results extends React.Component {
 
 const mapStateToProps = state => ({
   results: state.search.results,
-  searchText: state.search.searchText,
-  selectedResult: state.search.selectedResult,
+  searchText: state.search.text,
+  selectedResult: state.search.result,
 });
 
 export default withRouter(connect(mapStateToProps)(Results));

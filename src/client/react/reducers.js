@@ -18,13 +18,123 @@
  *
  */
 
-import { combineReducers } from 'redux';
-import search from './reducers/search';
-import view from './reducers/view';
+import getSearchResults from './lib/getSearchResults';
+import users from './users';
 
-const rootReducer = combineReducers({
-  search,
-  view,
-});
+const DEFAULT_STATE = {
+  // results: [
+  //   's/18562',
+  // ],
+  search: {
+    results: [],
+    text: '',
+    selected: null,
+  },
+  schedules: {},
+};
 
-export default rootReducer;
+const schedule = (state = {}, action) => {
+  switch (action.type) {
+    case 'VIEW/FETCH_SCHEDULE_REQUEST':
+      return {
+        ...state,
+        state: 'FETCHING',
+      };
+    case 'VIEW/FETCH_SCHEDULE_SUCCESS':
+      return {
+        ...state,
+        state: 'FINISHED',
+        htmlStr: action.htmlStr,
+      };
+    default:
+      return state;
+  }
+};
+
+function reducer(state = DEFAULT_STATE, action) {
+  switch (action.type) {
+    case 'SEARCH/SET_USER': {
+      const { user } = action;
+
+      if (user == null) {
+        return {
+          ...state,
+          search: DEFAULT_STATE.search,
+        };
+      }
+
+      return {
+        ...state,
+        search: {
+          results: [],
+          text: users.byId[user].value,
+          selected: user,
+        },
+      };
+    }
+
+    case 'SEARCH/INPUT_CHANGE':
+      return {
+        ...state,
+        search: {
+          results: getSearchResults(action.searchText),
+          text: action.searchText,
+          selected: null,
+        },
+      };
+
+    case 'SEARCH/CHANGE_SELECTED_RESULT': {
+      const prevSelectedResult = state.search.selected;
+      const prevSelectedResultIndex = state.search.results.indexOf(prevSelectedResult);
+      let nextSelectedResultIndex =
+        prevSelectedResultIndex + action.relativeChange;
+
+      if (nextSelectedResultIndex < -1) {
+        nextSelectedResultIndex = state.search.results.length - 1;
+      } else if (nextSelectedResultIndex > state.search.results.length - 1) {
+        nextSelectedResultIndex = -1;
+      }
+
+      const nextSelectedResult =
+        nextSelectedResultIndex === -1
+          ? null
+          : state.search.results[nextSelectedResultIndex];
+
+      return {
+        ...state,
+        search: {
+          ...state.search,
+          selected: nextSelectedResult,
+        },
+      };
+    }
+
+    case 'VIEW/FETCH_SCHEDULE_REQUEST':
+    case 'VIEW/FETCH_SCHEDULE_SUCCESS':
+      return {
+        ...state,
+        schedules: {
+          ...state.schedules,
+          [action.user]:
+            state.schedules[action.user]
+              ? {
+                // This user already exists in our state, extend it.
+                ...state.schedules[action.user],
+                [action.week]: schedule(state.schedules[action.user][action.week], action),
+              }
+              : {
+                // This user does not already exist in our state.
+                [action.week]: schedule(undefined, action),
+              },
+        },
+      };
+
+    default:
+      return state;
+  }
+}
+
+export default reducer;
+export const _test = {
+  DEFAULT_STATE,
+};

@@ -64,13 +64,13 @@ class Search extends React.Component {
 
   componentDidMount() {
     const urlUser = userFromMatch(this.props.match);
-    this.props.dispatch({ type: 'SEARCH/SET_USERS', urlUser });
+    this.props.dispatch({ type: 'SEARCH/SET_USER', user: urlUser });
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.match !== this.props.match) {
       const urlUser = userFromMatch(nextProps.match);
-      this.props.dispatch({ type: 'SEARCH/SET_USERS', urlUser });
+      this.props.dispatch({ type: 'SEARCH/SET_USER', user: urlUser });
     }
   }
 
@@ -103,7 +103,7 @@ class Search extends React.Component {
 
       case 'Escape':
         event.preventDefault();
-        this.props.dispatch({ type: 'SEARCH/SET_USERS', urlUser });
+        this.props.dispatch({ type: 'SEARCH/SET_USER', user: urlUser });
         break;
 
       case 'Enter':
@@ -112,7 +112,7 @@ class Search extends React.Component {
           // EDGE CASE: The user is set if the user changes, but it doesn't
           // change if the result is already the one we are viewing.
           // Therefor, we need to dispatch the SET_USER command manually.
-          this.props.dispatch({ type: 'SEARCH/SET_USERS', urlUser });
+          this.props.dispatch({ type: 'SEARCH/SET_USER', user: urlUser });
         } else if (result) {
           this.props.history.push(`/${result}`);
         }
@@ -170,9 +170,8 @@ class Search extends React.Component {
 
 const mapStateToProps = state => ({
   results: state.search.results,
-  searchText: state.search.searchText,
-  selectedResult: state.search.selectedResult,
-  isExactMatch: state.search.isExactMatch,
+  searchText: state.search.text,
+  selectedResult: state.search.selected,
 });
 
 export default withRouter(connect(mapStateToProps)(Search));

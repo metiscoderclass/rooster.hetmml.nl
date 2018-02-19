@@ -47,7 +47,7 @@ class HelpBox extends React.Component {
 
 const mapStateToProps = state => ({
   results: state.search.results,
-  searchText: state.search.searchText,
+  searchText: state.search.text,
 });
 
 export default connect(mapStateToProps)(HelpBox);

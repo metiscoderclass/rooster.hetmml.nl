@@ -114,7 +114,7 @@ class View extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  schedules: state.view.schedules,
+  schedules: state.schedules,
 });
 
 export default withRouter(connect(mapStateToProps)(View));
