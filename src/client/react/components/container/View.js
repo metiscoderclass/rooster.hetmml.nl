@@ -31,10 +31,10 @@ import Loading from '../presentational/Loading';
 
 class View extends React.Component {
   static propTypes = {
-    schedules: PropTypes.objectOf(PropTypes.objectOf(PropTypes.shape({
+    schedules: PropTypes.objectOf(PropTypes.shape({
       state: PropTypes.string.isRequired,
       htmlStr: PropTypes.string,
-    }))).isRequired,
+    })).isRequired,
 
     // react-router
     match: PropTypes.object.isRequired,

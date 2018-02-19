@@ -115,17 +115,8 @@ function reducer(state = DEFAULT_STATE, action) {
         ...state,
         schedules: {
           ...state.schedules,
-          [action.user]:
-            state.schedules[action.user]
-              ? {
-                // This user already exists in our state, extend it.
-                ...state.schedules[action.user],
-                [action.week]: schedule(state.schedules[action.user][action.week], action),
-              }
-              : {
-                // This user does not already exist in our state.
-                [action.week]: schedule(undefined, action),
-              },
+          [`${action.user}:${action.week}`]:
+            schedule(state.schedules[`${action.user}:${action.week}`], action),
         },
       };
 
