@@ -61,6 +61,20 @@
       font-size: 16px;
       outline: none;
     }
+
+    .mdc-button {
+      height: 100%;
+      min-width: unset;
+      color: black;
+
+      &::before, &::after {
+        background-color: black;
+      }
+
+      i {
+        font-size: 24px;
+      }
+    }
   }
 
   &__results {

@@ -18,19 +18,22 @@
  *
  */
 
-* {
-  box-sizing: border-box;
+import React from 'react';
+import { Button, ButtonIcon } from 'rmwc/Button';
+import { SimpleMenu, MenuItem } from 'rmwc/Menu';
+
+class Menu extends React.Component {
+  render() {
+    return (
+      <SimpleMenu
+        handle={<Button><ButtonIcon use="more_vert" /></Button>}
+      >
+        <MenuItem>Cookies</MenuItem>
+        <MenuItem>Pizza</MenuItem>
+        <MenuItem>Icecream</MenuItem>
+      </SimpleMenu>
+    );
+  }
 }
 
-body {
-  font-family: 'Roboto';
-  margin: 0;
-}
-
-@import "page-index";
-@import "page-user";
-
-@import "component-search";
-@import "component-help-box";
-@import "component-week-selector";
-@import "component-loading";
+export default Menu;

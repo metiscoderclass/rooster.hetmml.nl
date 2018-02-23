@@ -29,6 +29,7 @@ import SearchIcon from 'react-icons/lib/md/search';
 import { userFromMatch } from '../../lib/url';
 
 import users from '../../users';
+import Menu from './Menu';
 import Results from './Results';
 import IconFromUserType from '../presentational/IconFromUserType';
 
@@ -160,6 +161,7 @@ class Search extends React.Component {
               onBlur={this.onBlur}
               autoComplete="off"
             />
+            <Menu />
           </div>
           <Results />
         </div>
