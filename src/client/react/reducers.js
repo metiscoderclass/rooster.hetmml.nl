@@ -30,6 +30,7 @@ const DEFAULT_STATE = {
     text: '',
     selected: null,
   },
+  isRoomFinderVisible: false,
   schedules: {},
 };
 

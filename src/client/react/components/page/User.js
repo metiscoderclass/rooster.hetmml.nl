@@ -26,6 +26,7 @@ import Search from '../container/Search';
 import View from '../container/View';
 import { userFromMatch } from '../../lib/url';
 import WeekSelector from '../container/WeekSelector';
+import RoomFinder from '../container/RoomFinder';
 
 class UserPage extends React.Component {
   static propTypes = {
@@ -51,6 +52,7 @@ class UserPage extends React.Component {
         <Elevation z={2}>
           <div className="menu">
             <div className="menu-container">
+              <RoomFinder />
               <WeekSelector />
             </div>
           </div>
