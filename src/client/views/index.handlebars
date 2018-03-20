@@ -1,0 +1,39 @@
+{{!--
+ Copyright (C) 2018 Noah Loomans
+
+ This file is part of rooster.hetmml.nl.
+
+ rooster.hetmml.nl is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ rooster.hetmml.nl is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with rooster.hetmml.nl.  If not, see <http://www.gnu.org/licenses/>.
+
+--}}
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  {{> head }}
+  <title>Metis Rooster</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+  <link rel="stylesheet" href="/bundle.css">
+</head>
+<body>
+  <div id="root"></div>
+  <script>
+    {{{ flagsStr }}}
+    {{{ usersStr }}}
+    {{{ dailyScheduleWeeksStr }}}
+    {{{ basisScheduleWeeksStr }}}
+  </script>
+  <script src="/bundle.js"></script>
+</body>
+</html>

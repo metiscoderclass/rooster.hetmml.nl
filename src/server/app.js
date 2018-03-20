@@ -23,6 +23,7 @@ const path = require('path');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const compression = require('compression');
+const handlebars = require('express-handlebars');
 
 const index = require('./routes/index');
 const getSchedule = require('./routes/getSchedule');
@@ -32,8 +33,11 @@ const app = express();
 app.use(compression());
 
 // view engine setup
+app.engine('handlebars', handlebars({
+  partialsDir: path.join(__dirname, '../client/views/partials'),
+}));
 app.set('views', path.join(__dirname, '../client/views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'handlebars');
 
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
