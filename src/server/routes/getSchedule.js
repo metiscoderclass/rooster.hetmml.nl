@@ -51,7 +51,7 @@ router.get('/:type/:value', (req, res, next) => {
       users.filter(user_ => user_.type === type && user_.value === value)[0];
 
     if (!user) {
-      next(new Error(`${type}${value} is not in the user index.`));
+      next(new Error(`${type}/${value} is not in the user index.`));
     }
 
     if (!week) {
