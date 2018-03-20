@@ -30,16 +30,30 @@ class Menu extends React.Component {
     dispatch: PropTypes.func.isRequired,
   }
 
+  onItemSelected(index) {
+    switch (index) {
+      case 'room_finder':
+        this.props.dispatch({ type: 'ROOM_FINDER/SHOW' });
+        break;
+      default:
+        // No default
+    }
+  }
+
   render() {
     return (
       <SimpleMenu
         handle={<Button><ButtonIcon use="more_vert" /></Button>}
+        onSelected={(event) => {
+          // Send the `data-type` of the selected <MenuItem />
+          this.onItemSelected(event.detail.item.dataset.type);
+        }}
       >
-        <MenuItem><Icon use="bookmark_border" />Voeg label toe</MenuItem>
-        <MenuItem><Icon use="star_border" />Maak favoriet</MenuItem>
+        <MenuItem data-type="add_label"><Icon use="bookmark_border" />Voeg label toe</MenuItem>
+        <MenuItem data-type="make_favorite"><Icon use="star_border" />Maak favoriet</MenuItem>
         <div className="mdc-list-divider" role="separator" />
-        <MenuItem onClick={() => this.props.dispatch({ type: 'ROOM_FINDER/SHOW' })}><Icon use="location_searching" />Lokaal zoeken</MenuItem>
-        <MenuItem><Icon use="launch" />Oud rooster gebruiken</MenuItem>
+        <MenuItem data-type="room_finder"><Icon use="location_searching" />Lokaal zoeken</MenuItem>
+        <MenuItem data-type="use_legacy_schedule"><Icon use="launch" />Oud rooster gebruiken</MenuItem>
       </SimpleMenu>
     );
   }
