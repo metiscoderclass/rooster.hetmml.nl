@@ -19,11 +19,17 @@
  */
 
 import React from 'react';
+import { connect } from 'react-redux';
+import { PropTypes } from 'prop-types';
 import { Button, ButtonIcon } from 'rmwc/Button';
 import { SimpleMenu, MenuItem } from 'rmwc/Menu';
 import { Icon } from 'rmwc/Icon';
 
 class Menu extends React.Component {
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+  }
+
   render() {
     return (
       <SimpleMenu
@@ -32,11 +38,11 @@ class Menu extends React.Component {
         <MenuItem><Icon use="bookmark_border" />Voeg label toe</MenuItem>
         <MenuItem><Icon use="star_border" />Maak favoriet</MenuItem>
         <div className="mdc-list-divider" role="separator" />
-        <MenuItem><Icon use="location_searching" />Lokaal zoeken</MenuItem>
+        <MenuItem onClick={() => this.props.dispatch({ type: 'ROOM_FINDER/SHOW' })}><Icon use="location_searching" />Lokaal zoeken</MenuItem>
         <MenuItem><Icon use="launch" />Oud rooster gebruiken</MenuItem>
       </SimpleMenu>
     );
   }
 }
 
-export default Menu;
+export default connect()(Menu);

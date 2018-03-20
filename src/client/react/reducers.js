@@ -110,6 +110,18 @@ function reducer(state = DEFAULT_STATE, action) {
       };
     }
 
+    case 'ROOM_FINDER/SHOW':
+      return {
+        ...state,
+        isRoomFinderVisible: true,
+      };
+
+    case 'ROOM_FINDER/HIDE':
+      return {
+        ...state,
+        isRoomFinderVisible: false,
+      };
+
     case 'VIEW/FETCH_SCHEDULE_REQUEST':
     case 'VIEW/FETCH_SCHEDULE_SUCCESS':
       return {
