@@ -53,5 +53,6 @@ export function setWeek(week, location, history) {
     ...queryString.parse(location.search),
     week,
   });
-  history.push(`${location.pathname}${query}`);
+
+  history.push(`${location.pathname}?${query}`);
 }
