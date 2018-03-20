@@ -26,7 +26,7 @@ import { Button, ButtonIcon } from 'rmwc/Button';
 import users from '../../users';
 import { setUser, userFromMatch } from '../../lib/url';
 
-class HelpBox extends React.Component {
+class RoomFinder extends React.Component {
   static propTypes = {
     // redux
     isVisible: PropTypes.bool.isRequired,
@@ -46,23 +46,17 @@ class HelpBox extends React.Component {
 
   componentWillMount() {
     const user = userFromMatch(this.props.match);
-    // Have we just been mounted and are we viewing something else then a room?
     if (this.props.isVisible && users.byId[user].type !== 'r') {
+      // We are not currently viewing a room, so just hide.
       this.props.dispatch({ type: 'ROOM_FINDER/HIDE' });
     }
   }
 
   componentWillReceiveProps(nextProps) {
     const user = userFromMatch(nextProps.match);
-    // We are not currently viewing a room, correct the situation.
     if (nextProps.isVisible && users.byId[user].type !== 'r') {
-      // Did we just become visible? Set the user to a room. If not, hide.
-      if (!this.props.isVisible) {
-        // Set the room to the first room.
-        setUser(users.allRoomIds[0], nextProps.location, nextProps.history);
-      } else {
-        this.props.dispatch({ type: 'ROOM_FINDER/HIDE' });
-      }
+      // We are not currently viewing a room, so just hide.
+      this.props.dispatch({ type: 'ROOM_FINDER/HIDE' });
     }
   }
 
@@ -106,4 +100,4 @@ const mapStateToProps = state => ({
   isVisible: state.isRoomFinderVisible,
 });
 
-export default withRouter(connect(mapStateToProps)(HelpBox));
+export default withRouter(connect(mapStateToProps)(RoomFinder));

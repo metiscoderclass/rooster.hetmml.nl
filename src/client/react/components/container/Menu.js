@@ -20,21 +20,38 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import { Button, ButtonIcon } from 'rmwc/Button';
 import { SimpleMenu, MenuItem } from 'rmwc/Menu';
 import { Icon } from 'rmwc/Icon';
+import users from '../../users';
+import { setUser, userFromMatch } from '../../lib/url';
 
 class Menu extends React.Component {
   static propTypes = {
+    // redux
     dispatch: PropTypes.func.isRequired,
+
+    // react-router
+    match: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
   }
 
   onItemSelected(index) {
     switch (index) {
-      case 'room_finder':
+      case 'room_finder': {
+        const user = userFromMatch(this.props.match);
+
+        if (user == null || users.byId[user].type !== 'r') {
+          // We are not currently viewing a room, correct the situation.
+          setUser(users.allRoomIds[0], this.props.location, this.props.history);
+        }
+
         this.props.dispatch({ type: 'ROOM_FINDER/SHOW' });
         break;
+      }
       default:
         // No default
     }
@@ -59,4 +76,4 @@ class Menu extends React.Component {
   }
 }
 
-export default connect()(Menu);
+export default withRouter(connect()(Menu));
