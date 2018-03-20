@@ -45,6 +45,7 @@
     "rmwc": "^1.2.0"
   },
   "devDependencies": {
+    "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.1",
     "babel-loader": "^7.1.4",
     "babel-preset-es2015": "^6.24.1",
