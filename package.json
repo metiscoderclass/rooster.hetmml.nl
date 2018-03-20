@@ -1,11 +1,10 @@
 {
-  "name": "rooster",
+  "name": "rooster.hetmml.nl",
   "version": "0.0.0",
-  "main": "app.js",
+  "main": "./src/server/app.js",
   "private": true,
   "scripts": {
     "start": "node ./src/server/bin/www",
-    "setup": "npm install && bower install",
     "build": "webpack -p",
     "build:dev": "webpack --watch",
     "test": "jest",
@@ -67,11 +66,11 @@
   "license": "GPLv3",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nloomans/rooster-mml.git"
+    "url": "git+https://github.com/nloomans/rooster.hetmml.nl.git"
   },
   "bugs": {
-    "url": "https://github.com/nloomans/rooster-mml/issues"
+    "url": "https://github.com/nloomans/rooster.hetmml.nl/issues"
   },
-  "homepage": "https://github.com/nloomans/rooster-mml#readme",
+  "homepage": "https://github.com/nloomans/rooster.hetmml.nl#readme",
   "description": ""
 }
