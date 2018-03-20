@@ -21,14 +21,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import queryString from 'query-string';
 import { withRouter } from 'react-router-dom';
 
 import ArrowBackIcon from 'react-icons/lib/md/arrow-back';
 import ArrowForwardIcon from 'react-icons/lib/md/arrow-forward';
 
 import purifyWeek from '../../lib/purifyWeek';
-import { weekFromLocation } from '../../lib/url';
+import { setWeek, weekFromLocation } from '../../lib/url';
 
 class WeekSelector extends React.Component {
   static propTypes = {
@@ -59,10 +58,11 @@ class WeekSelector extends React.Component {
     const newWeek = purifyWeek(week + change);
     const isCurrentWeek = moment().week() === newWeek;
 
-    const query = queryString.stringify({
-      week: isCurrentWeek ? undefined : newWeek,
-    });
-    this.props.history.push(`${this.props.location.pathname}?${query}`);
+    setWeek(
+      isCurrentWeek ? undefined : newWeek,
+      this.props.location,
+      this.props.history,
+    );
   }
 
   render() {
