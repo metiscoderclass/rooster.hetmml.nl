@@ -1,0 +1,23 @@
+.room-finder {
+  display: flex;
+  margin: 8px;
+  padding: 8px;
+  border-radius: 2px;
+  background-color: #D32F2F;
+
+  .mdc-button:not(:disabled) {
+    color: white;
+
+    &::before, &::after {
+      background-color: white;
+    }
+  }
+
+  .close-button {
+    min-width: 48px;
+
+    .mdc-button__icon {
+      margin-right: 0;
+    }
+  }
+}

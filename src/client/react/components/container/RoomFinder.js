@@ -99,7 +99,13 @@ class HelpBox extends React.Component {
       <div className="room-finder">
         <Button onClick={() => this.changeRoom(-1)}>Vorige</Button>
         <Button onClick={() => this.changeRoom(+1)}>Volgende</Button>
-        <Button onClick={() => this.props.dispatch({ type: 'ROOM_FINDER/HIDE' })}><ButtonIcon use="close" /></Button>
+        <div className="grow" />
+        <Button
+          className="close-button"
+          onClick={() => this.props.dispatch({ type: 'ROOM_FINDER/HIDE' })}
+        >
+          <ButtonIcon use="close" />
+        </Button>
       </div>
     );
   }

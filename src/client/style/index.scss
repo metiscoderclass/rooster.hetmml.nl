@@ -27,6 +27,10 @@ body {
   margin: 0;
 }
 
+.grow {
+  flex-grow: 1;
+}
+
 @import "page-index";
 @import "page-user";
 
@@ -34,3 +38,4 @@ body {
 @import "component-help-box";
 @import "component-week-selector";
 @import "component-loading";
+@import "component-room-finder";
