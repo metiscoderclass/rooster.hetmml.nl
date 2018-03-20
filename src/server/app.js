@@ -55,28 +55,29 @@ app.use((req, res, next) => {
   next(err);
 });
 
-// error handlers
+function extractStatusCodeFromError(error) {
+  if (error.status) {
+    return error.status;
+  } else if (error.response) {
+    return error.response.status;
+  }
 
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-  app.use((err, req, res) => {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err,
-    });
-  });
+  return null;
 }
 
-// production error handler
-// no stacktraces leaked to user
-app.use((err, req, res) => {
-  res.status(err.status || 500);
+// error handler
+app.use((error, req, res, next) => {
+  const errorCode = extractStatusCodeFromError(error) || 500;
+  res.status(errorCode);
+
   res.render('error', {
-    message: err.message,
-    error: {},
+    message: error.message,
+    error,
   });
+
+  if (error === 500) {
+    next(error);
+  }
 });
 
 module.exports = app;
