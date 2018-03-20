@@ -21,13 +21,11 @@
 const express = require('express');
 const path = require('path');
 const logger = require('morgan');
-const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const compression = require('compression');
 
-const routes = require('./routes/index');
+const index = require('./routes/index');
 const getSchedule = require('./routes/getSchedule');
-const manifest = require('./routes/manifest');
 
 const app = express();
 
@@ -38,14 +36,11 @@ app.set('views', path.join(__dirname, '../client/views'));
 app.set('view engine', 'jade');
 
 app.use(logger('dev'));
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
 
-app.use('/manifest.webmanifest', manifest);
 app.use(express.static(path.join(__dirname, '../client/static')));
 
-app.use('/', routes);
+app.use('/', index);
 app.use('/get', getSchedule);
 
 // catch 404 and forward to error handler
