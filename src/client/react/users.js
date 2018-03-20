@@ -33,7 +33,16 @@ users.allUsers = USERS.map(user => ({
   id: getId(user),
 }));
 
+users.allRooms = users.allUsers.filter(user => user.type === 'r');
+users.allStudents = users.allUsers.filter(user => user.type === 's');
+users.allTeachers = users.allUsers.filter(user => user.type === 't');
+users.allClasses = users.allUsers.filter(user => user.type === 'c');
+
 users.allIds = users.allUsers.map(user => user.id);
+users.allRoomIds = users.allRooms.map(user => user.id);
+users.allStudentIds = users.allStudents.map(user => user.id);
+users.allTeacherIds = users.allTeachers.map(user => user.id);
+users.allClassIds = users.allClasses.map(user => user.id);
 
 users.byId = keyBy(users.allUsers, 'id');
 
