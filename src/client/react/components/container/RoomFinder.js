@@ -24,7 +24,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Button, ButtonIcon } from 'rmwc/Button';
 import users from '../../users';
-import { userFromMatch } from '../../lib/url';
+import { setUser, userFromMatch } from '../../lib/url';
 
 class HelpBox extends React.Component {
   static propTypes = {
@@ -34,12 +34,13 @@ class HelpBox extends React.Component {
 
     // react-router
     match: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
   }
 
   constructor(props) {
     super(props);
 
-    this.setRoom = this.setRoom.bind(this);
     this.changeRoom = this.changeRoom.bind(this);
   }
 
@@ -47,8 +48,7 @@ class HelpBox extends React.Component {
     const user = userFromMatch(this.props.match);
     // Have we just been mounted and are we viewing something else then a room?
     if (this.props.isVisible && users.byId[user].type !== 'r') {
-      // Set the room to the first room.
-      this.setRoom(this.getAllRooms()[0]);
+      this.props.dispatch({ type: 'ROOM_FINDER/HIDE' });
     }
   }
 
@@ -59,35 +59,26 @@ class HelpBox extends React.Component {
       // Did we just become visible? Set the user to a room. If not, hide.
       if (!this.props.isVisible) {
         // Set the room to the first room.
-        this.setRoom(this.getAllRooms()[0], nextProps);
+        setUser(users.allRoomIds[0], nextProps.location, nextProps.history);
       } else {
         this.props.dispatch({ type: 'ROOM_FINDER/HIDE' });
       }
     }
   }
 
-  getAllRooms() {
-    return users.allUsers.filter(user => user.type === 'r').map(room => room.id);
-  }
-
-  setRoom(roomId, props = this.props) {
-    const query = props.location.search;
-    props.history.push(`/${roomId}${query}`);
-  }
-
   changeRoom(change) {
+    const { allRoomIds } = users;
     const currentRoom = userFromMatch(this.props.match);
-    const allRooms = this.getAllRooms();
-    const currentRoomIndex = allRooms.indexOf(currentRoom);
+    const currentRoomIndex = allRoomIds.indexOf(currentRoom);
     let nextRoomIndex = currentRoomIndex + change;
     if (nextRoomIndex < 0) {
-      nextRoomIndex = allRooms.length - 1;
-    } else if (nextRoomIndex > allRooms.length - 1) {
+      nextRoomIndex = allRoomIds.length - 1;
+    } else if (nextRoomIndex > allRoomIds.length - 1) {
       nextRoomIndex = 0;
     }
 
-    const nextRoom = allRooms[nextRoomIndex];
-    this.setRoom(nextRoom);
+    const nextRoom = allRoomIds[nextRoomIndex];
+    setUser(nextRoom, this.props.location, this.props.history);
   }
 
   render() {
