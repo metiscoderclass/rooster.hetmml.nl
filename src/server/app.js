@@ -54,21 +54,9 @@ app.use((req, res, next) => {
   next(err);
 });
 
-function extractStatusCodeFromError(error) {
-  if (error.status) {
-    return error.status;
-  } else if (error.response) {
-    return error.response.status;
-  }
-
-  return null;
-}
-
 // error handler
 app.use((error, req, res, next) => {
-  const errorCode = extractStatusCodeFromError(error) || 500;
-  res.status(errorCode);
-
+  res.status(error.status || 500);
   res.render('error', {
     message: error.message,
     error,

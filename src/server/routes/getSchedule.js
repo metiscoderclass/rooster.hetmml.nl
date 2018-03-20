@@ -69,6 +69,10 @@ router.get('/:type/:value', (req, res, next) => {
         res.status(response.status).end(response.data);
       })
       .catch((err) => {
+        if (err.response) {
+          // eslint-disable-next-line no-param-reassign
+          err.status = err.response.status;
+        }
         next(err);
       });
   });
