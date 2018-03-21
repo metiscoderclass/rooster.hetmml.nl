@@ -1,0 +1,33 @@
+.IndexPage {
+  background-color: #ececec;
+  padding-top: calc(50vh - 310px);
+  height: 100vh;
+
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 8px;
+
+    img {
+      display: block;
+      margin: 64px auto;
+    }
+
+    .Search {
+      z-index: 1; // Position search above help-box
+    }
+  }
+}
+
+
+@media (max-height: 510px) {
+  .IndexPage {
+    padding-top: 0px;
+
+    .container {
+      img {
+        display: none;
+      }
+    }
+  }
+}
