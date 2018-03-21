@@ -1,0 +1,42 @@
+.Search {
+  height: 54px;
+  position: relative;
+
+  .overflow {
+    border-radius: 2px;
+    background-color: white;
+    position: absolute;
+    width: 100%;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+
+    &.hasFocus {
+      box-shadow: 0 3px 8px 0 rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08);
+    }
+
+    .inputWrapper {
+      display: flex;
+      height: 54px;
+
+      .iconWrapper {
+        height: 54px;
+        padding: 15px;
+
+        svg {
+          height: 24px;
+          width: 24px;
+        }
+      }
+
+      input {
+        border: 0;
+        background-color: transparent;
+        flex-grow: 1;
+        height: inherit;
+        padding: 16px;
+        padding-left: 0px;
+        font-size: 16px;
+        outline: none;
+      }
+    }
+  }
+}

@@ -33,6 +33,8 @@ import Menu from './Menu';
 import Results from './Results';
 import IconFromUserType from '../presentational/IconFromUserType';
 
+import styles from './Search.scss';
+
 class Search extends React.Component {
   static propTypes = {
     results: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -143,10 +145,10 @@ class Search extends React.Component {
       searchText === users.byId[urlUser].value;
 
     return (
-      <div className="search">
-        <div className={classnames('search-overflow', { 'search--has-focus': hasFocus })}>
-          <div className="search__input-wrapper">
-            <div className="search__icon-wrapper">
+      <div className={styles.Search}>
+        <div className={classnames(styles.overflow, { [styles.hasFocus]: hasFocus })}>
+          <div className={styles.inputWrapper}>
+            <div className={styles.iconWrapper}>
               <IconFromUserType
                 userType={isExactMatch ? users.byId[urlUser].type : null}
                 defaultIcon={<SearchIcon />}
