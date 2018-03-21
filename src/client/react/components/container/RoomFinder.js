@@ -26,6 +26,8 @@ import { Button, ButtonIcon } from 'rmwc/Button';
 import users from '../../users';
 import { setUser, userFromMatch } from '../../lib/url';
 
+import './RoomFinder.scss';
+
 class RoomFinder extends React.Component {
   static propTypes = {
     // redux
@@ -81,12 +83,12 @@ class RoomFinder extends React.Component {
     }
 
     return (
-      <div className="room-finder">
+      <div className="RoomFinder">
         <Button onClick={() => this.changeRoom(-1)}>Vorige</Button>
         <Button onClick={() => this.changeRoom(+1)}>Volgende</Button>
         <div className="grow" />
         <Button
-          className="close-button"
+          className="closeButton"
           onClick={() => this.props.dispatch({ type: 'ROOM_FINDER/HIDE' })}
         >
           <ButtonIcon use="close" />

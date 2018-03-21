@@ -1,0 +1,23 @@
+.RoomFinder {
+  display: flex;
+  margin: 8px;
+  padding: 8px;
+  border-radius: 2px;
+  background-color: #D32F2F;
+
+  .mdc-button {
+    color: white;
+
+    &::before, &::after {
+      background-color: white;
+    }
+  }
+
+  .closeButton {
+    min-width: 48px;
+
+    .mdc-button__icon {
+      margin-right: 0;
+    }
+  }
+}
