@@ -1,0 +1,25 @@
+.Menu {
+  .mdc-menu-anchor {
+    height: 100%;
+  }
+
+  .mdc-button {
+    height: 100%;
+    min-width: unset;
+    color: black;
+
+    &::before, &::after {
+      background-color: black;
+    }
+
+    i {
+      font-size: 24px;
+    }
+  }
+
+  .mdc-list-item {
+    i {
+      padding-right: 8px;
+    }
+  }
+}

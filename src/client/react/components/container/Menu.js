@@ -28,6 +28,8 @@ import { Icon } from 'rmwc/Icon';
 import users from '../../users';
 import { setUser, userFromMatch } from '../../lib/url';
 
+import './Menu.scss';
+
 class Menu extends React.Component {
   static propTypes = {
     // redux
@@ -59,19 +61,21 @@ class Menu extends React.Component {
 
   render() {
     return (
-      <SimpleMenu
-        handle={<Button><ButtonIcon use="more_vert" /></Button>}
-        onSelected={(event) => {
-          // Send the `data-type` of the selected <MenuItem />
-          this.onItemSelected(event.detail.item.dataset.type);
-        }}
-      >
-        <MenuItem data-type="add_label"><Icon use="bookmark_border" />Voeg label toe</MenuItem>
-        <MenuItem data-type="make_favorite"><Icon use="star_border" />Maak favoriet</MenuItem>
-        <div className="mdc-list-divider" role="separator" />
-        <MenuItem data-type="room_finder"><Icon use="location_searching" />Lokaal zoeken</MenuItem>
-        <MenuItem data-type="use_legacy_schedule"><Icon use="launch" />Oud rooster gebruiken</MenuItem>
-      </SimpleMenu>
+      <div className="Menu">
+        <SimpleMenu
+          handle={<Button><ButtonIcon use="more_vert" /></Button>}
+          onSelected={(event) => {
+            // Send the `data-type` of the selected <MenuItem />
+            this.onItemSelected(event.detail.item.dataset.type);
+          }}
+        >
+          <MenuItem data-type="add_label"><Icon use="bookmark_border" />Voeg label toe</MenuItem>
+          <MenuItem data-type="make_favorite"><Icon use="star_border" />Maak favoriet</MenuItem>
+          <div className="mdc-list-divider" role="separator" />
+          <MenuItem data-type="room_finder"><Icon use="location_searching" />Lokaal zoeken</MenuItem>
+          <MenuItem data-type="use_legacy_schedule"><Icon use="launch" />Oud rooster gebruiken</MenuItem>
+        </SimpleMenu>
+      </div>
     );
   }
 }
