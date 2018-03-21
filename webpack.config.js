@@ -16,7 +16,7 @@ module.exports = {
         options: { presets: ['es2015', 'react', 'stage-2'] },
       },
       {
-        test: /\.css/,
+        test: /\.scss/,
         use: [
           { loader: 'style-loader' },
           {
@@ -26,6 +26,7 @@ module.exports = {
               localIdentName: '[local]--[name]--[hash:base64:5]',
             },
           },
+          { loader: 'sass-loader' },
         ],
       },
     ],

@@ -29,7 +29,7 @@ import ArrowForwardIcon from 'react-icons/lib/md/arrow-forward';
 import purifyWeek from '../../lib/purifyWeek';
 import { setWeek, weekFromLocation } from '../../lib/url';
 
-import styles from './WeekSelector.css';
+import styles from './WeekSelector.scss';
 
 class WeekSelector extends React.Component {
   static propTypes = {
