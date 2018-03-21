@@ -1,8 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-const js = {
+module.exports = {
   entry: './src/client/react/index.js',
   output: {
     path: path.resolve(__dirname, 'src/client/static'),
@@ -11,10 +10,23 @@ const js = {
   module: {
     rules: [
       {
-        test: [/\.js$/, /\.jsx$/],
+        test: /\.js$/,
         exclude: [/node_modules/],
         loader: 'babel-loader',
         options: { presets: ['es2015', 'react', 'stage-2'] },
+      },
+      {
+        test: /\.css/,
+        use: [
+          { loader: 'style-loader' },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              localIdentName: '[local]--[name]--[hash:base64:5]',
+            },
+          },
+        ],
       },
     ],
   },
@@ -24,25 +36,3 @@ const js = {
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /nl/),
   ],
 };
-
-const style = {
-  entry: './src/client/style/index.scss',
-  output: {
-    path: path.resolve(__dirname, 'src/client/static'),
-    filename: 'bundle.css',
-  },
-  module: {
-    rules: [
-      {
-        test: [/\.scss$/],
-        exclude: [/node_modules/],
-        loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader']),
-      },
-    ],
-  },
-  plugins: [
-    new ExtractTextPlugin('bundle.css'),
-  ],
-};
-
-module.exports = [js, style];
