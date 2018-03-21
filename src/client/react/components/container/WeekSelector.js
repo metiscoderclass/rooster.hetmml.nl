@@ -29,6 +29,8 @@ import ArrowForwardIcon from 'react-icons/lib/md/arrow-forward';
 import purifyWeek from '../../lib/purifyWeek';
 import { setWeek, weekFromLocation } from '../../lib/url';
 
+import styles from './WeekSelector.css';
+
 class WeekSelector extends React.Component {
   static propTypes = {
     // react-router
@@ -67,9 +69,9 @@ class WeekSelector extends React.Component {
 
   render() {
     return (
-      <div className="week-selector">
+      <div className={styles.WeekSelector}>
         <button onClick={() => this.updateWeek(-1)}><ArrowBackIcon /></button>
-        <div className="text">{this.getWeekText()}</div>
+        <div className={styles.text}>{this.getWeekText()}</div>
         <button onClick={() => this.updateWeek(+1)}><ArrowForwardIcon /></button>
       </div>
     );

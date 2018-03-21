@@ -1,0 +1,40 @@
+.WeekSelector {
+  display: flex;
+  padding: 8px;
+  padding-bottom: 0;
+  background-color: #F44336;
+  color: white;
+  align-items: center;
+}
+
+.text {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.WeekSelector button {
+  background-color: initial;
+  border: initial;
+  color: inherit;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.WeekSelector svg {
+  font-size: 2em;
+}
+
+.WeekSelector button:focus {
+  background-color: #D32F2F;
+  outline: none;
+}
+
+.WeekSelector button:active {
+    background-color: #B81111;
+    outline: none;
+  }
+
+.WeekSelector button::-moz-focus-inner {
+  /* Remove the dotted line outline from Firefox */
+  border: 0;
+}
