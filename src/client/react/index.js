@@ -37,6 +37,8 @@ import reducer from './reducers';
 import Index from './components/page/Index';
 import User from './components/page/User';
 
+import './index.scss';
+
 moment.locale('nl');
 
 // eslint-disable-next-line no-underscore-dangle
