@@ -155,7 +155,7 @@ class Search extends React.Component {
               />
             </div>
             <input
-              id="search__input"
+              id="searchInput"
               onChange={event => dispatch({ type: 'SEARCH/INPUT_CHANGE', searchText: event.target.value })}
               onKeyDown={this.onKeyDown}
               value={searchText}
