@@ -28,6 +28,8 @@ import users from '../../users';
 import { setUser, userFromMatch } from '../../lib/url';
 import Result from '../presentational/Result';
 
+import './Results.scss';
+
 class Results extends React.Component {
   static propTypes = {
     results: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -56,8 +58,8 @@ class Results extends React.Component {
 
     return (
       <div
-        className={classnames('search__results', {
-          'search__results--has-results': !isExactMatch && this.props.results.length > 0,
+        className={classnames('Results', {
+          hasResults: !isExactMatch && this.props.results.length > 0,
         })}
         style={{
           minHeight: isExactMatch ? 0 : this.props.results.length * 54,

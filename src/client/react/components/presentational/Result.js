@@ -25,6 +25,8 @@ import users from '../../users';
 
 import IconFromUserType from './IconFromUserType';
 
+import './Result.scss';
+
 class Result extends React.Component {
   static propTypes = {
     userId: PropTypes.string.isRequired,
@@ -34,20 +36,21 @@ class Result extends React.Component {
 
   render() {
     return (
-      // eslint-disable-next-line
+      /* eslint-disable jsx-a11y/click-events-have-key-events */
+      /* eslint-disable jsx-a11y/no-static-element-interactions */
       <div
-        className={classnames('search__result', {
-          'search__result--selected': this.props.isSelected,
+        className={classnames('Result', {
+          isSelected: this.props.isSelected,
         })}
         onClick={this.props.onClick}
       >
-        <div className="search__icon-wrapper">
+        <div className="iconWrapper">
           <IconFromUserType userType={users.byId[this.props.userId].type} />
         </div>
-        <div className="search__result__text">
+        <div className="text">
           {users.byId[this.props.userId].value}
           {users.byId[this.props.userId].alt &&
-            <span className="search__result__text__alt">
+            <span className="alt">
               {` ${users.byId[this.props.userId].alt}`}
             </span>
           }
