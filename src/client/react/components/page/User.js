@@ -28,6 +28,8 @@ import { userFromMatch } from '../../lib/url';
 import WeekSelector from '../container/WeekSelector';
 import RoomFinder from '../container/RoomFinder';
 
+import './User.scss';
+
 class UserPage extends React.Component {
   static propTypes = {
     // react-router
@@ -43,15 +45,15 @@ class UserPage extends React.Component {
     }
 
     return (
-      <div className="page-user">
-        <div className="search-wrapper">
-          <div className="search-container">
+      <div className="UserPage">
+        <div className="searchWrapper">
+          <div className="searchContainer">
             <Search />
           </div>
         </div>
         <Elevation z={2}>
-          <div className="menu">
-            <div className="menu-container">
+          <div className="headerWrapper">
+            <div className="header">
               <RoomFinder />
               <WeekSelector />
             </div>

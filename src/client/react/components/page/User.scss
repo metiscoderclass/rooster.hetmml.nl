@@ -1,0 +1,24 @@
+.UserPage {
+  .searchWrapper {
+    position: fixed;
+    z-index: 1; // Position the search bar abore the schedule
+    width: 100%;
+
+    .searchContainer {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 8px;
+    }
+  }
+
+  .headerWrapper {
+    background-color: #F44336;
+    padding-top: 54px;
+
+    .header {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 8px;
+    }
+  }
+}
