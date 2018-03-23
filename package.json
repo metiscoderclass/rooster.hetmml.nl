@@ -8,11 +8,13 @@
     "build": "webpack -p",
     "build:dev": "webpack -wd",
     "test": "jest",
-    "test:dev": "jest --watch"
+    "test:dev": "jest --watch",
+    "lint": "eslint . --ignore-pattern src/client/static --ignore-pattern node_modules",
+    "lint:fix": "eslint . --ignore-pattern src/client/static --ignore-pattern node_modules --fix"
   },
   "jest": {
     "transform": {
-      "^.+\\.jsx?$": "babel-jest"
+      "^.+\\.js$": "babel-jest"
     }
   },
   "dependencies": {
