@@ -22,9 +22,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
 
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import logger from 'redux-logger';
 
 import {
   BrowserRouter as Router,
@@ -39,14 +38,18 @@ import User from './components/page/User';
 
 import './index.scss';
 
+// Set the locale for moment.js to dutch. This ensures that the correct week
+// number logic is used.
 moment.locale('nl');
 
-// eslint-disable-next-line no-underscore-dangle
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+/* eslint-disable no-underscore-dangle */
 const store = createStore(
   reducer,
-  composeEnhancers(applyMiddleware(logger)),
+  // Redux devtools extension
+  // https://github.com/zalmoxisus/redux-devtools-extension
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
 );
+/* eslint-enable no-underscore-dangle */
 
 ReactDOM.render(
   <Provider store={store}>
@@ -58,7 +61,7 @@ ReactDOM.render(
       </Switch>
     </Router>
   </Provider>,
-  document.getElementById('root'),
+  document.querySelector('#root'),
 );
 
 // We only want to focus the input on page load. NOT on a in-javascript
