@@ -40,12 +40,6 @@ class RoomFinder extends React.Component {
     history: PropTypes.object.isRequired,
   }
 
-  constructor(props) {
-    super(props);
-
-    this.changeRoom = this.changeRoom.bind(this);
-  }
-
   componentWillMount() {
     const user = userFromMatch(this.props.match);
     if (this.props.isVisible && users.byId[user].type !== 'r') {
