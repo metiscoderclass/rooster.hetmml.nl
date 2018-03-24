@@ -4,24 +4,12 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Client",
+            "name": "Google Chrome",
             "url": "http://localhost:3000",
             "webRoot": "${workspaceRoot}",
             "sourceMapPathOverrides": {
                 "webpack:///*": "${webRoot}/*"
             }
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Server",
-            "program": "${workspaceRoot}/src/server/bin/www"
         }
     ],
-    "compounds": [
-        {
-            "name": "Full-stack",
-            "configurations": ["Server", "Client"]
-        }
-    ]
 }
