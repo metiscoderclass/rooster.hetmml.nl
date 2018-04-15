@@ -25,11 +25,14 @@ const router = express.Router();
 const getScheduleData = require('../lib/schools/hetmml/getScheduleData');
 const getURLOfUser = require('../lib/schools/hetmml/getURLOfUser');
 const axios = require('../lib/schools/hetmml/axios');
+const parseSchedule = require('../lib/schools/hetmml/parseSchedule');
 
 // copied from http://www.meetingpointmco.nl/Roosters-AL/doc/dagroosters/untisscripts.js,
 // were using the same code as they do to be sure that we always get the same
 // week number.
-function getWeekNumber(target) {
+function currentWeekNumber() {
+  const target = new Date();
+
   const dayNr = (target.getDay() + 6) % 7;
   // eslint-disable-next-line
   target.setDate(target.getDate() - dayNr + 3);
@@ -43,39 +46,58 @@ function getWeekNumber(target) {
   return 1 + Math.ceil((firstThursday - target) / 604800000);
 }
 
+async function getSchedule(userType, userValue, week, scheduleType = 'dag') {
+  const { users } = await getScheduleData();
+  const user =
+    users.filter(user_ => user_.type === userType && user_.value === userValue)[0];
+
+  if (!user) {
+    throw new Error(`${userType}/${userValue} is not in the user index.`);
+  }
+
+  if (!week) {
+    week = currentWeekNumber(); // eslint-disable-line no-param-reassign
+  }
+
+  const { index } = user;
+  const url = getURLOfUser(scheduleType, userType, index, week);
+
+  return axios.get(url);
+}
+
+router.get('/:type/:value.json', (req, res, next) => {
+  const { type, value } = req.params;
+  const { week, type: scheduleType } = req.query;
+
+  getSchedule(type, value, week, scheduleType)
+    .then((response) => {
+      const schedule = parseSchedule(response);
+      res.json(schedule);
+    })
+    .catch((err) => {
+      if (err.response) {
+        // eslint-disable-next-line no-param-reassign
+        err.status = err.response.status;
+      }
+      next(err);
+    });
+});
+
 router.get('/:type/:value', (req, res, next) => {
-  getScheduleData().then(({ users }) => {
-    const { type, value } = req.params;
-    let { week } = req.query;
-    const user =
-      users.filter(user_ => user_.type === type && user_.value === value)[0];
+  const { type, value } = req.params;
+  const { week, type: scheduleType } = req.query;
 
-    if (!user) {
-      next(new Error(`${type}/${value} is not in the user index.`));
-    }
-
-    if (!week) {
-      week = getWeekNumber(new Date());
-    }
-
-    const { index } = user;
-
-    const scheduleType = req.query.type || 'dag';
-
-    const url = getURLOfUser(scheduleType, type, index, week);
-
-    axios.get(url)
-      .then((response) => {
-        res.status(response.status).end(response.data);
-      })
-      .catch((err) => {
-        if (err.response) {
-          // eslint-disable-next-line no-param-reassign
-          err.status = err.response.status;
-        }
-        next(err);
-      });
-  });
+  getSchedule(type, value, week, scheduleType)
+    .then((response) => {
+      res.status(response.status).end(response.data);
+    })
+    .catch((err) => {
+      if (err.response) {
+        // eslint-disable-next-line no-param-reassign
+        err.status = err.response.status;
+      }
+      next(err);
+    });
 });
 
 module.exports = router;

@@ -29,6 +29,7 @@
     "express-handlebars": "^3.0.0",
     "fuzzy-search": "^2.0.1",
     "iconv-lite": "^0.4.17",
+    "jsdom": "^11.6.2",
     "left-pad": "^1.1.1",
     "lodash": "^4.15.0",
     "moment": "^2.20.1",
