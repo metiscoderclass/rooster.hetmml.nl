@@ -14,3 +14,9 @@ for production, run `npm run build`. To start the server simply run
 
 This means that you probably want to open two terminal windows, in one which
 you run run `npm run build:dev`, and in another you run `npm start`.
+
+## BrowserStack
+
+Shoutout to [BrowserStack](http://browserstack.com/) for letting us test for free on mobile devices and IE/Edge!
+
+[<img src="https://www.browserstack.com/images/layout/browserstack-logo-600x315.png" alt="" width="200px">](http://browserstack.com/)
