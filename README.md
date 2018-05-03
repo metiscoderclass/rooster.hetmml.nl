@@ -19,4 +19,4 @@ you run run `npm run build:dev`, and in another you run `npm start`.
 
 Shoutout to [BrowserStack](http://browserstack.com/) for letting us test for free on mobile devices and IE/Edge!
 
-[<img src="https://www.browserstack.com/images/layout/browserstack-logo-600x315.png" alt="" width="200px">](http://browserstack.com/)
+[<img src=".github/browserstack.png" alt="" width="200px">](http://browserstack.com/)
