@@ -19,13 +19,14 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "babel-polyfill": "^6.26.0",
     "body-parser": "^1.16.0",
     "cheerio": "^0.22.0",
     "classnames": "^2.2.5",
     "compression": "^1.6.2",
     "dompurify": "^1.0.3",
     "eslint": "^4.14.0",
-    "express": "^4.13.4",
+    "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
     "fuzzy-search": "^2.0.1",
     "iconv-lite": "^0.4.17",
@@ -43,7 +44,8 @@
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
-    "rmwc": "^1.2.0"
+    "rmwc": "^1.2.0",
+    "whatwg-fetch": "^2.0.4"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
