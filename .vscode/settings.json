@@ -1,8 +1,26 @@
 {
+  "editor.rulers": [80],
+
+  // ESLint
   "eslint.enable": true,
+  
+  // Code Spell Checker
   "cSpell.language": "en,nl",
+  "cSpell.words": [
+    "decrementing",
+    "devtools",
+    "dompurify",
+    "hetmml",
+    "metis",
+    "polyfill",
+    "presentational",
+    "rmwc",
+    "unmount"
+  ],
+
+  // Licenser
   "licenser.projectName": "rooster.hetmml.nl",
   "licenser.license": "GPLv3",
   "licenser.author": "Noah Loomans",
-  "licenser.useSingleLineStyle": false
+  "licenser.useSingleLineStyle": false,
 }
