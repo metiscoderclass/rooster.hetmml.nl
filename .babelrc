@@ -1,0 +1,16 @@
+{
+  "presets": [
+    // Covert code to an older version of JavaScript. This allows us to
+    // use newer syntax (like classes) without having to working if it
+    // will work in IE9.
+    "es2015",
+    // This converts the react code syntactical surger to their "plain"
+    // javascript equivalents.
+    // See https://reactjs.org/docs/introducing-jsx.html#jsx-represents-objects
+    "react",
+    // This allows us the use newer JavaScript features that are still
+    // in the working. Examples are the spread operator (https://babeljs.io/docs/plugins/transform-object-rest-spread/),
+    // and class propreties (https://babeljs.io/docs/plugins/transform-class-properties/)
+    "stage-2"
+  ],
+}

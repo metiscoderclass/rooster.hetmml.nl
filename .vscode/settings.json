@@ -1,5 +1,11 @@
 {
   "editor.rulers": [80],
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "files.insertFinalNewline": true,
+  "files.associations": {
+    ".babelrc": "jsonc"
+  },
 
   // ESLint
   "eslint.enable": true,
@@ -23,4 +29,5 @@
   "licenser.license": "GPLv3",
   "licenser.author": "Noah Loomans",
   "licenser.useSingleLineStyle": false,
+  "eslint.workingDirectories": [ "./src" ],
 }
