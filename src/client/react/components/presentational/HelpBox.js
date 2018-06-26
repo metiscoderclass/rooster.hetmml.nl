@@ -18,11 +18,32 @@
  *
  */
 
-import { connect } from 'react-redux';
-import HelpBox from '../presentational/HelpBox';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-const mapStateToProps = state => ({
-  isVisible: state.search.results.length === 0 && state.search.text === '',
-});
+import './HelpBox.scss';
 
-export default connect(mapStateToProps)(HelpBox);
+class HelpBox extends React.Component {
+  static propTypes = {
+    isVisible: PropTypes.bool.isRequired,
+  }
+
+  render() {
+    const { isVisible } = this.props;
+
+    if (!isVisible) {
+      return <div />;
+    }
+
+    return (
+      <div className="HelpBox">
+        <div className="arrow" />
+        <div className="bubble">
+          Voer hier een docentafkorting, klas, leerlingnummer of lokaalnummer in.
+        </div>
+      </div>
+    );
+  }
+}
+
+export default HelpBox;
