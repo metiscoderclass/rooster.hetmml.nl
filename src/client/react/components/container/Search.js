@@ -26,7 +26,7 @@ import { withRouter } from 'react-router-dom';
 
 import SearchIcon from 'react-icons/lib/md/search';
 
-import { setUser, userFromMatch } from '../../lib/url';
+import { makeSetUser, userFromMatch } from '../../lib/url';
 
 import users from '../../users';
 import Menu from './Menu';
@@ -43,9 +43,7 @@ class Search extends React.Component {
 
     // react-router
     match: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired,
-
+    setUser: PropTypes.func.isRequired,
     // redux
     dispatch: PropTypes.func.isRequired,
   };
@@ -99,8 +97,7 @@ class Search extends React.Component {
       selectedResult,
       results,
       match,
-      location,
-      history,
+      setUser,
       dispatch,
     } = this.props;
 
@@ -131,7 +128,7 @@ class Search extends React.Component {
           // Therefor, we need to dispatch the SET_USER command manually.
           dispatch({ type: 'SEARCH/SET_USER', user: urlUser });
         } else if (result) {
-          setUser(result, location, history);
+          setUser(result);
         }
         break;
 
@@ -186,7 +183,8 @@ class Search extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, { location, history }) => ({
+  setUser: makeSetUser(location, history),
   results: state.search.results,
   searchText: state.search.text,
   selectedResult: state.search.selected,

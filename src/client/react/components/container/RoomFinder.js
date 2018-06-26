@@ -24,7 +24,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Button, ButtonIcon } from 'rmwc/Button';
 import users from '../../users';
-import { setUser, userFromMatch } from '../../lib/url';
+import { makeSetUser, userFromMatch } from '../../lib/url';
 
 import './RoomFinder.scss';
 
@@ -32,38 +32,36 @@ class RoomFinder extends React.Component {
   static propTypes = {
     // redux
     isVisible: PropTypes.bool.isRequired,
-    dispatch: PropTypes.func.isRequired,
+    onHide: PropTypes.func.isRequired,
 
     // react-router
-    match: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired,
+    user: PropTypes.string.isRequired,
+    setUser: PropTypes.func.isRequired,
   }
 
   componentWillMount() {
-    const { isVisible, match, dispatch } = this.props;
-    const user = userFromMatch(match);
+    const { isVisible, user, onHide } = this.props;
 
     if (isVisible && users.byId[user].type !== 'r') {
       // We are not currently viewing a room, so just hide.
-      dispatch({ type: 'ROOM_FINDER/HIDE' });
+      onHide();
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { isVisible, match, dispatch } = nextProps;
+    const { isVisible, user, onHide } = nextProps;
 
-    const user = userFromMatch(match);
     if (isVisible && users.byId[user].type !== 'r') {
       // We are not currently viewing a room, so just hide.
-      dispatch({ type: 'ROOM_FINDER/HIDE' });
+      onHide();
     }
   }
 
   changeRoom(change) {
-    const { match, location, history } = this.props;
+    const { user, setUser } = this.props;
     const { allRoomIds } = users;
-    const currentRoom = userFromMatch(match);
+
+    const currentRoom = user;
     const currentRoomIndex = allRoomIds.indexOf(currentRoom);
     let nextRoomIndex = currentRoomIndex + change;
     if (nextRoomIndex < 0) {
@@ -73,11 +71,11 @@ class RoomFinder extends React.Component {
     }
 
     const nextRoom = allRoomIds[nextRoomIndex];
-    setUser(nextRoom, location, history);
+    setUser(nextRoom);
   }
 
   render() {
-    const { isVisible, dispatch } = this.props;
+    const { isVisible, onHide } = this.props;
     if (!isVisible) {
       return <div />;
     }
@@ -93,7 +91,7 @@ class RoomFinder extends React.Component {
         <div className="grow" />
         <Button
           className="closeButton"
-          onClick={() => dispatch({ type: 'ROOM_FINDER/HIDE' })}
+          onClick={onHide}
         >
           <ButtonIcon use="close" />
         </Button>
@@ -102,8 +100,14 @@ class RoomFinder extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, { match, location, history }) => ({
+  user: userFromMatch(match),
+  setUser: makeSetUser(location, history),
   isVisible: state.isRoomFinderVisible,
 });
 
-export default withRouter(connect(mapStateToProps)(RoomFinder));
+const mapDispatchToProps = dispatch => ({
+  onHide: () => dispatch({ type: 'ROOM_FINDER/HIDE' }),
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RoomFinder));

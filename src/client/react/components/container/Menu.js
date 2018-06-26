@@ -26,38 +26,32 @@ import { Button, ButtonIcon } from 'rmwc/Button';
 import { SimpleMenu, MenuItem } from 'rmwc/Menu';
 import { Icon } from 'rmwc/Icon';
 import users from '../../users';
-import { setUser, userFromMatch } from '../../lib/url';
+import { makeSetUser, userFromMatch } from '../../lib/url';
 
 import './Menu.scss';
 
 class Menu extends React.Component {
   static propTypes = {
-    // redux
-    dispatch: PropTypes.func.isRequired,
+    setUser: PropTypes.func.isRequired,
+    user: PropTypes.string,
+    showRoomFinder: PropTypes.func.isRequired,
+  }
 
-    // react-router
-    match: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired,
+  static defaultProps = {
+    user: null,
   }
 
   onItemSelected(index) {
     switch (index) {
       case 'room_finder': {
-        const {
-          match,
-          location,
-          history,
-          dispatch,
-        } = this.props;
-        const user = userFromMatch(match);
+        const { setUser, user, showRoomFinder } = this.props;
 
         if (user == null || users.byId[user].type !== 'r') {
           // We are not currently viewing a room, correct the situation.
-          setUser(users.allRoomIds[0], location, history);
+          setUser(users.allRoomIds[0]);
         }
 
-        dispatch({ type: 'ROOM_FINDER/SHOW' });
+        showRoomFinder();
         break;
       }
       default:
@@ -73,7 +67,7 @@ class Menu extends React.Component {
             <Button>
               <ButtonIcon use="more_vert" />
             </Button>
-)}
+          )}
           onSelected={(event) => {
             // Send the `data-type` of the selected <MenuItem />
             this.onItemSelected(event.detail.item.dataset.type);
@@ -81,20 +75,20 @@ class Menu extends React.Component {
         >
           <MenuItem data-type="add_label">
             <Icon use="bookmark_border" />
-Voeg label toe
+            Voeg label toe
           </MenuItem>
           <MenuItem data-type="make_favorite">
             <Icon use="star_border" />
-Maak favoriet
+            Maak favoriet
           </MenuItem>
           <div className="mdc-list-divider" role="separator" />
           <MenuItem data-type="room_finder">
             <Icon use="location_searching" />
-Lokaal zoeken
+            Lokaal zoeken
           </MenuItem>
           <MenuItem data-type="use_legacy_schedule">
             <Icon use="launch" />
-Oud rooster gebruiken
+            Oud rooster gebruiken
           </MenuItem>
         </SimpleMenu>
       </div>
@@ -102,4 +96,13 @@ Oud rooster gebruiken
   }
 }
 
-export default withRouter(connect()(Menu));
+const mapStateToProps = (state, { match, location, history }) => ({
+  user: userFromMatch(match),
+  setUser: makeSetUser(location, history),
+});
+
+const mapDispatchToProps = dispatch => ({
+  showRoomFinder: () => dispatch({ type: 'ROOM_FINDER/SHOW' }),
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Menu));

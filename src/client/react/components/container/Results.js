@@ -25,7 +25,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import users from '../../users';
-import { setUser, userFromMatch } from '../../lib/url';
+import { makeSetUser, userFromMatch } from '../../lib/url';
 import Result from '../presentational/Result';
 
 import './Results.scss';
@@ -37,9 +37,8 @@ class Results extends React.Component {
     selectedResult: PropTypes.string,
 
     // react-router
-    match: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired,
+    user: PropTypes.string,
+    setUser: PropTypes.func.isRequired,
 
     // redux
     dispatch: PropTypes.func.isRequired,
@@ -47,6 +46,7 @@ class Results extends React.Component {
 
   static defaultProps = {
     selectedResult: null,
+    user: null,
   };
 
   render() {
@@ -54,12 +54,10 @@ class Results extends React.Component {
       searchText,
       results,
       selectedResult,
-      match,
-      location,
-      history,
+      user,
+      setUser,
       dispatch,
     } = this.props;
-    const user = userFromMatch(match);
 
     const isExactMatch = (
       user != null && searchText === users.byId[user].value
@@ -74,19 +72,19 @@ class Results extends React.Component {
           minHeight: isExactMatch ? 0 : results.length * 54,
         }}
       >
-        {!isExactMatch && results.map(userId => (
+        {!isExactMatch && results.map(resultUser => (
           <Result
-            key={userId}
-            userId={userId}
-            isSelected={userId === selectedResult}
+            key={resultUser}
+            userId={resultUser}
+            isSelected={resultUser === selectedResult}
             onClick={() => {
-              if (userId === user) {
+              if (resultUser === user) {
                 // EDGE CASE: The user is set if the user changes, but it doesn't
                 // change if the result is already the one we are viewing.
                 // Therefor, we need to dispatch the SET_USER command manually.
                 dispatch({ type: 'SEARCH/SET_USER', user });
               } else {
-                setUser(userId, location, history);
+                setUser(resultUser);
               }
             }}
           />
@@ -96,7 +94,9 @@ class Results extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, { match, location, history }) => ({
+  user: userFromMatch(match),
+  setUser: makeSetUser(location, history),
   results: state.search.results,
   searchText: state.search.text,
   selectedResult: state.search.result,

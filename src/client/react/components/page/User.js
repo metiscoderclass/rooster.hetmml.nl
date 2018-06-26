@@ -20,6 +20,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Elevation } from 'rmwc/Elevation';
 import Search from '../container/Search';
@@ -33,12 +34,15 @@ import './User.scss';
 class UserPage extends React.Component {
   static propTypes = {
     // react-router
-    match: PropTypes.object.isRequired,
+    user: PropTypes.string,
   };
 
+  static defaultProps = {
+    user: null,
+  }
+
   render() {
-    const { match } = this.props;
-    const user = userFromMatch(match);
+    const { user } = this.props;
 
     if (!user) {
       // Invalid user, redirect to index.
@@ -66,4 +70,8 @@ class UserPage extends React.Component {
   }
 }
 
-export default UserPage;
+const mapStateToProps = (state, { match }) => ({
+  user: userFromMatch(match),
+});
+
+export default connect(mapStateToProps)(UserPage);

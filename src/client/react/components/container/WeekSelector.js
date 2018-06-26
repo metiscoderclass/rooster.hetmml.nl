@@ -21,27 +21,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import ArrowBackIcon from 'react-icons/lib/md/arrow-back';
 import ArrowForwardIcon from 'react-icons/lib/md/arrow-forward';
 
 import purifyWeek from '../../lib/purifyWeek';
-import { setWeek, weekFromLocation } from '../../lib/url';
+import { makeSetWeek, weekFromLocation } from '../../lib/url';
 
 import './WeekSelector.scss';
 
 class WeekSelector extends React.Component {
   static propTypes = {
     // react-router
-    location: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired,
+    week: PropTypes.number.isRequired,
+    setWeek: PropTypes.func.isRequired,
   };
 
   getWeekText() {
-    const { location } = this.props;
+    const { week } = this.props;
 
-    const week = weekFromLocation(location);
     const currentWeek = moment().week();
 
     switch (week) {
@@ -57,17 +57,11 @@ class WeekSelector extends React.Component {
   }
 
   updateWeek(change) {
-    const { location, history } = this.props;
-    const week = weekFromLocation(location);
-
+    const { week, setWeek } = this.props;
     const newWeek = purifyWeek(week + change);
-    const isCurrentWeek = moment().week() === newWeek;
 
-    setWeek(
-      isCurrentWeek ? undefined : newWeek,
-      location,
-      history,
-    );
+    const isCurrentWeek = moment().week() === newWeek;
+    setWeek(isCurrentWeek ? undefined : newWeek);
   }
 
   render() {
@@ -87,4 +81,9 @@ class WeekSelector extends React.Component {
   }
 }
 
-export default withRouter(WeekSelector);
+const mapStateToProps = (state, { location, history }) => ({
+  week: weekFromLocation(location),
+  setWeek: makeSetWeek(location, history),
+});
+
+export default withRouter(connect(mapStateToProps)(WeekSelector));
