@@ -27,13 +27,13 @@ import './HelpBox.scss';
 class HelpBox extends React.Component {
   static propTypes = {
     // redux
-    results: PropTypes.arrayOf(PropTypes.string).isRequired,
-    searchText: PropTypes.string.isRequired,
+    isVisible: PropTypes.bool.isRequired,
   }
 
   render() {
-    const { results, searchText } = this.props;
-    if (results.length > 0 || searchText !== '') {
+    const { isVisible } = this.props;
+
+    if (!isVisible) {
       return <div />;
     }
 
@@ -49,8 +49,7 @@ class HelpBox extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  results: state.search.results,
-  searchText: state.search.text,
+  isVisible: state.search.results.length === 0 && state.search.text === '',
 });
 
 export default connect(mapStateToProps)(HelpBox);
