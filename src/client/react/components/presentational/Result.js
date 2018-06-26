@@ -35,25 +35,25 @@ class Result extends React.Component {
   };
 
   render() {
+    const { onClick, isSelected, userId } = this.props;
+
     return (
       /* eslint-disable jsx-a11y/click-events-have-key-events */
       /* eslint-disable jsx-a11y/no-static-element-interactions */
       <div
-        className={classnames('Result', {
-          isSelected: this.props.isSelected,
-        })}
-        onClick={this.props.onClick}
+        className={classnames('Result', { isSelected })}
+        onClick={onClick}
       >
         <div className="iconWrapper">
-          <IconFromUserType userType={users.byId[this.props.userId].type} />
+          <IconFromUserType userType={users.byId[userId].type} />
         </div>
         <div className="text">
-          {users.byId[this.props.userId].value}
-          {users.byId[this.props.userId].alt &&
+          {users.byId[userId].value}
+          {users.byId[userId].alt && (
             <span className="alt">
-              {` ${users.byId[this.props.userId].alt}`}
+              {` ${users.byId[userId].alt}`}
             </span>
-          }
+          )}
         </div>
       </div>
     );

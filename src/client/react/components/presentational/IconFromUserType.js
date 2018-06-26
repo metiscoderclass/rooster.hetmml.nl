@@ -37,7 +37,8 @@ class IconFromUserType extends React.Component {
   };
 
   render() {
-    switch (this.props.userType) {
+    const { userType, defaultIcon } = this.props;
+    switch (userType) {
       case 'c':
         return <ClassIcon />;
       case 't':
@@ -47,8 +48,8 @@ class IconFromUserType extends React.Component {
       case 'r':
         return <RoomIcon />;
       default:
-        if (this.props.defaultIcon) {
-          return this.props.defaultIcon;
+        if (defaultIcon) {
+          return defaultIcon;
         }
 
         throw new Error('`userType` was invalid or not given, but `defaultIcon` is not defined.');

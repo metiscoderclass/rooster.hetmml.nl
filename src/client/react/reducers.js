@@ -87,8 +87,7 @@ function reducer(state = DEFAULT_STATE, action) {
     case 'SEARCH/CHANGE_SELECTED_RESULT': {
       const prevSelectedResult = state.search.selected;
       const prevSelectedResultIndex = state.search.results.indexOf(prevSelectedResult);
-      let nextSelectedResultIndex =
-        prevSelectedResultIndex + action.relativeChange;
+      let nextSelectedResultIndex = prevSelectedResultIndex + action.relativeChange;
 
       if (nextSelectedResultIndex < -1) {
         nextSelectedResultIndex = state.search.results.length - 1;
@@ -96,10 +95,9 @@ function reducer(state = DEFAULT_STATE, action) {
         nextSelectedResultIndex = -1;
       }
 
-      const nextSelectedResult =
-        nextSelectedResultIndex === -1
-          ? null
-          : state.search.results[nextSelectedResultIndex];
+      const nextSelectedResult = nextSelectedResultIndex === -1
+        ? null
+        : state.search.results[nextSelectedResultIndex];
 
       return {
         ...state,

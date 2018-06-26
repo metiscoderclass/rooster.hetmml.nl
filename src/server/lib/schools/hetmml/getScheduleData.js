@@ -128,10 +128,14 @@ function combineUsers(usersArrays) {
  * @returns {*} [{ type: string, value: string, alt: string, index: number }, ...]
  */
 function getAlts(users) {
-  const requests = users.map(user =>
-    axios.get(getUrlOfUser('dag', user.type, user.index, 7)), { timeout: 8000 });
+  const requests = users.map(user => (
+    axios.get(
+      getUrlOfUser('dag', user.type, user.index, 7),
+      { timeout: 8000 },
+    )
+  ));
 
-  return Promise.all(requests).then(teacherResponses =>
+  return Promise.all(requests).then(teacherResponses => (
     teacherResponses.map((teacherResponse, index) => {
       const teacherName = scrapeAltText(teacherResponse.data);
 
@@ -139,7 +143,8 @@ function getAlts(users) {
         ...users[index],
         alt: teacherName,
       };
-    }));
+    })
+  ));
 }
 
 /**

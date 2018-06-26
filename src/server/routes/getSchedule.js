@@ -48,8 +48,9 @@ function currentWeekNumber() {
 
 async function getSchedule(userType, userValue, week, scheduleType = 'dag') {
   const { users } = await getScheduleData();
-  const user =
-    users.filter(user_ => user_.type === userType && user_.value === userValue)[0];
+  const user = users.filter(user_ => (
+    user_.type === userType && user_.value === userValue
+  ))[0];
 
   if (!user) {
     throw new Error(`${userType}/${userValue} is not in the user index.`);

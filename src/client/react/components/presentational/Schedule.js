@@ -66,9 +66,10 @@ class Schedule extends React.Component {
   }
 
   render() {
-    const DOMPurify = createDOMPurify(window);
+    const { htmlStr } = this.props;
 
-    const cleanHTML = DOMPurify.sanitize(this.props.htmlStr, {
+    const DOMPurify = createDOMPurify(window);
+    const cleanHTML = DOMPurify.sanitize(htmlStr, {
       ADD_ATTR: ['rules'],
     });
 

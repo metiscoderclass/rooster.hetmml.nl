@@ -32,7 +32,8 @@ class HelpBox extends React.Component {
   }
 
   render() {
-    if (this.props.results.length > 0 || this.props.searchText !== '') {
+    const { results, searchText } = this.props;
+    if (results.length > 0 || searchText !== '') {
       return <div />;
     }
 

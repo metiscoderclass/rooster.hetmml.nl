@@ -41,24 +41,29 @@ class RoomFinder extends React.Component {
   }
 
   componentWillMount() {
-    const user = userFromMatch(this.props.match);
-    if (this.props.isVisible && users.byId[user].type !== 'r') {
+    const { isVisible, match, dispatch } = this.props;
+    const user = userFromMatch(match);
+
+    if (isVisible && users.byId[user].type !== 'r') {
       // We are not currently viewing a room, so just hide.
-      this.props.dispatch({ type: 'ROOM_FINDER/HIDE' });
+      dispatch({ type: 'ROOM_FINDER/HIDE' });
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const user = userFromMatch(nextProps.match);
-    if (nextProps.isVisible && users.byId[user].type !== 'r') {
+    const { isVisible, match, dispatch } = nextProps;
+
+    const user = userFromMatch(match);
+    if (isVisible && users.byId[user].type !== 'r') {
       // We are not currently viewing a room, so just hide.
-      this.props.dispatch({ type: 'ROOM_FINDER/HIDE' });
+      dispatch({ type: 'ROOM_FINDER/HIDE' });
     }
   }
 
   changeRoom(change) {
+    const { match, location, history } = this.props;
     const { allRoomIds } = users;
-    const currentRoom = userFromMatch(this.props.match);
+    const currentRoom = userFromMatch(match);
     const currentRoomIndex = allRoomIds.indexOf(currentRoom);
     let nextRoomIndex = currentRoomIndex + change;
     if (nextRoomIndex < 0) {
@@ -68,22 +73,27 @@ class RoomFinder extends React.Component {
     }
 
     const nextRoom = allRoomIds[nextRoomIndex];
-    setUser(nextRoom, this.props.location, this.props.history);
+    setUser(nextRoom, location, history);
   }
 
   render() {
-    if (!this.props.isVisible) {
+    const { isVisible, dispatch } = this.props;
+    if (!isVisible) {
       return <div />;
     }
 
     return (
       <div className="RoomFinder">
-        <Button onClick={() => this.changeRoom(-1)}>Vorige</Button>
-        <Button onClick={() => this.changeRoom(+1)}>Volgende</Button>
+        <Button onClick={() => this.changeRoom(-1)}>
+          Vorige
+        </Button>
+        <Button onClick={() => this.changeRoom(+1)}>
+          Volgende
+        </Button>
         <div className="grow" />
         <Button
           className="closeButton"
-          onClick={() => this.props.dispatch({ type: 'ROOM_FINDER/HIDE' })}
+          onClick={() => dispatch({ type: 'ROOM_FINDER/HIDE' })}
         >
           <ButtonIcon use="close" />
         </Button>

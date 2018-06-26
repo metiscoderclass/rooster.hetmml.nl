@@ -19,4 +19,3 @@ function getSearchResults(query) {
 }
 
 export default getSearchResults;
-

@@ -39,40 +39,49 @@ class WeekSelector extends React.Component {
   };
 
   getWeekText() {
-    const week = weekFromLocation(this.props.location);
+    const { location } = this.props;
 
+    const week = weekFromLocation(location);
     const currentWeek = moment().week();
 
-    if (currentWeek === week) {
-      return `Huidige week • ${week}`;
-    } else if (currentWeek + 1 === week) {
-      return `Volgende week • ${week}`;
-    } else if (currentWeek - 1 === week) {
-      return `Vorige week • ${week}`;
+    switch (week) {
+      case currentWeek:
+        return `Huidige week • ${week}`;
+      case currentWeek + 1:
+        return `Volgende week • ${week}`;
+      case currentWeek - 1:
+        return `Vorige week • ${week}`;
+      default:
+        return `Week ${week}`;
     }
-
-    return `Week ${week}`;
   }
 
   updateWeek(change) {
-    const week = weekFromLocation(this.props.location);
+    const { location, history } = this.props;
+    const week = weekFromLocation(location);
 
     const newWeek = purifyWeek(week + change);
     const isCurrentWeek = moment().week() === newWeek;
 
     setWeek(
       isCurrentWeek ? undefined : newWeek,
-      this.props.location,
-      this.props.history,
+      location,
+      history,
     );
   }
 
   render() {
     return (
       <div className="WeekSelector">
-        <button onClick={() => this.updateWeek(-1)}><ArrowBackIcon /></button>
-        <div className="text">{this.getWeekText()}</div>
-        <button onClick={() => this.updateWeek(+1)}><ArrowForwardIcon /></button>
+        <button type="button" onClick={() => this.updateWeek(-1)}>
+          <ArrowBackIcon />
+        </button>
+        <div className="text">
+          {this.getWeekText()}
+        </div>
+        <button type="button" onClick={() => this.updateWeek(+1)}>
+          <ArrowForwardIcon />
+        </button>
       </div>
     );
   }

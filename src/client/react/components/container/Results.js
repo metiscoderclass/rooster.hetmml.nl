@@ -50,34 +50,43 @@ class Results extends React.Component {
   };
 
   render() {
-    const user = userFromMatch(this.props.match);
+    const {
+      searchText,
+      results,
+      selectedResult,
+      match,
+      location,
+      history,
+      dispatch,
+    } = this.props;
+    const user = userFromMatch(match);
 
-    const isExactMatch =
-      user != null &&
-      this.props.searchText === users.byId[user].value;
+    const isExactMatch = (
+      user != null && searchText === users.byId[user].value
+    );
 
     return (
       <div
         className={classnames('Results', {
-          hasResults: !isExactMatch && this.props.results.length > 0,
+          hasResults: !isExactMatch && results.length > 0,
         })}
         style={{
-          minHeight: isExactMatch ? 0 : this.props.results.length * 54,
+          minHeight: isExactMatch ? 0 : results.length * 54,
         }}
       >
-        {!isExactMatch && this.props.results.map(userId => (
+        {!isExactMatch && results.map(userId => (
           <Result
             key={userId}
             userId={userId}
-            isSelected={userId === this.props.selectedResult}
+            isSelected={userId === selectedResult}
             onClick={() => {
               if (userId === user) {
                 // EDGE CASE: The user is set if the user changes, but it doesn't
                 // change if the result is already the one we are viewing.
                 // Therefor, we need to dispatch the SET_USER command manually.
-                this.props.dispatch({ type: 'SEARCH/SET_USER', user });
+                dispatch({ type: 'SEARCH/SET_USER', user });
               } else {
-                setUser(userId, this.props.location, this.props.history);
+                setUser(userId, location, history);
               }
             }}
           />

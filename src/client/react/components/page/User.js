@@ -37,7 +37,8 @@ class UserPage extends React.Component {
   };
 
   render() {
-    const user = userFromMatch(this.props.match);
+    const { match } = this.props;
+    const user = userFromMatch(match);
 
     if (!user) {
       // Invalid user, redirect to index.

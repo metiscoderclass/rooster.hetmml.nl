@@ -44,14 +44,20 @@ class Menu extends React.Component {
   onItemSelected(index) {
     switch (index) {
       case 'room_finder': {
-        const user = userFromMatch(this.props.match);
+        const {
+          match,
+          location,
+          history,
+          dispatch,
+        } = this.props;
+        const user = userFromMatch(match);
 
         if (user == null || users.byId[user].type !== 'r') {
           // We are not currently viewing a room, correct the situation.
-          setUser(users.allRoomIds[0], this.props.location, this.props.history);
+          setUser(users.allRoomIds[0], location, history);
         }
 
-        this.props.dispatch({ type: 'ROOM_FINDER/SHOW' });
+        dispatch({ type: 'ROOM_FINDER/SHOW' });
         break;
       }
       default:
@@ -63,17 +69,33 @@ class Menu extends React.Component {
     return (
       <div className="Menu">
         <SimpleMenu
-          handle={<Button><ButtonIcon use="more_vert" /></Button>}
+          handle={(
+            <Button>
+              <ButtonIcon use="more_vert" />
+            </Button>
+)}
           onSelected={(event) => {
             // Send the `data-type` of the selected <MenuItem />
             this.onItemSelected(event.detail.item.dataset.type);
           }}
         >
-          <MenuItem data-type="add_label"><Icon use="bookmark_border" />Voeg label toe</MenuItem>
-          <MenuItem data-type="make_favorite"><Icon use="star_border" />Maak favoriet</MenuItem>
+          <MenuItem data-type="add_label">
+            <Icon use="bookmark_border" />
+Voeg label toe
+          </MenuItem>
+          <MenuItem data-type="make_favorite">
+            <Icon use="star_border" />
+Maak favoriet
+          </MenuItem>
           <div className="mdc-list-divider" role="separator" />
-          <MenuItem data-type="room_finder"><Icon use="location_searching" />Lokaal zoeken</MenuItem>
-          <MenuItem data-type="use_legacy_schedule"><Icon use="launch" />Oud rooster gebruiken</MenuItem>
+          <MenuItem data-type="room_finder">
+            <Icon use="location_searching" />
+Lokaal zoeken
+          </MenuItem>
+          <MenuItem data-type="use_legacy_schedule">
+            <Icon use="launch" />
+Oud rooster gebruiken
+          </MenuItem>
         </SimpleMenu>
       </div>
     );

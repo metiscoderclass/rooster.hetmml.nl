@@ -67,14 +67,18 @@ class Search extends React.Component {
   }
 
   componentDidMount() {
-    const urlUser = userFromMatch(this.props.match);
-    this.props.dispatch({ type: 'SEARCH/SET_USER', user: urlUser });
+    const { dispatch, match } = this.props;
+    const urlUser = userFromMatch(match);
+
+    dispatch({ type: 'SEARCH/SET_USER', user: urlUser });
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.match !== this.props.match) {
+    const { dispatch, match } = this.props;
+
+    if (nextProps.match !== match) {
       const urlUser = userFromMatch(nextProps.match);
-      this.props.dispatch({ type: 'SEARCH/SET_USER', user: urlUser });
+      dispatch({ type: 'SEARCH/SET_USER', user: urlUser });
     }
   }
 
@@ -91,23 +95,32 @@ class Search extends React.Component {
   }
 
   onKeyDown(event) {
-    const urlUser = userFromMatch(this.props.match);
-    const result = this.props.selectedResult || this.props.results[0];
+    const {
+      selectedResult,
+      results,
+      match,
+      location,
+      history,
+      dispatch,
+    } = this.props;
+
+    const urlUser = userFromMatch(match);
+    const result = selectedResult || results[0];
 
     switch (event.key) {
       case 'ArrowUp':
         event.preventDefault();
-        this.props.dispatch({ type: 'SEARCH/CHANGE_SELECTED_RESULT', relativeChange: -1 });
+        dispatch({ type: 'SEARCH/CHANGE_SELECTED_RESULT', relativeChange: -1 });
         break;
 
       case 'ArrowDown':
         event.preventDefault();
-        this.props.dispatch({ type: 'SEARCH/CHANGE_SELECTED_RESULT', relativeChange: +1 });
+        dispatch({ type: 'SEARCH/CHANGE_SELECTED_RESULT', relativeChange: +1 });
         break;
 
       case 'Escape':
         event.preventDefault();
-        this.props.dispatch({ type: 'SEARCH/SET_USER', user: urlUser });
+        dispatch({ type: 'SEARCH/SET_USER', user: urlUser });
         break;
 
       case 'Enter':
@@ -116,9 +129,9 @@ class Search extends React.Component {
           // EDGE CASE: The user is set if the user changes, but it doesn't
           // change if the result is already the one we are viewing.
           // Therefor, we need to dispatch the SET_USER command manually.
-          this.props.dispatch({ type: 'SEARCH/SET_USER', user: urlUser });
+          dispatch({ type: 'SEARCH/SET_USER', user: urlUser });
         } else if (result) {
-          setUser(result, this.props.location, this.props.history);
+          setUser(result, location, history);
         }
         break;
 
@@ -140,9 +153,9 @@ class Search extends React.Component {
 
     const urlUser = userFromMatch(match);
 
-    const isExactMatch =
-      urlUser != null &&
-      searchText === users.byId[urlUser].value;
+    const isExactMatch = (
+      urlUser != null && searchText === users.byId[urlUser].value
+    );
 
     return (
       <div className="Search">
