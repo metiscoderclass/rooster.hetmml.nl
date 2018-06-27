@@ -183,11 +183,15 @@ class Search extends React.Component {
   }
 }
 
-const mapStateToProps = (state, { location, history }) => ({
-  setUser: makeSetUser(location, history),
+const mapStateToProps = state => ({
   results: state.search.results,
   searchText: state.search.text,
   selectedResult: state.search.selected,
 });
 
-export default withRouter(connect(mapStateToProps)(Search));
+const mapDispatchToProps = (dispatch, { location, history }) => ({
+  setUser: makeSetUser(location, history),
+  dispatch,
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Search));

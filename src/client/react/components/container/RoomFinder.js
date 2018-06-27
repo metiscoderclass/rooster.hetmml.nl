@@ -100,13 +100,13 @@ class RoomFinder extends React.Component {
   }
 }
 
-const mapStateToProps = (state, { match, location, history }) => ({
+const mapStateToProps = (state, { match }) => ({
   user: userFromMatch(match),
-  setUser: makeSetUser(location, history),
   isVisible: state.isRoomFinderVisible,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch, { location, history }) => ({
+  setUser: makeSetUser(location, history),
   onHide: () => dispatch({ type: 'ROOM_FINDER/HIDE' }),
 });
 

@@ -81,9 +81,12 @@ class WeekSelector extends React.Component {
   }
 }
 
-const mapStateToProps = (state, { location, history }) => ({
+const mapStateToProps = (state, { location }) => ({
   week: weekFromLocation(location),
+});
+
+const mapDispatchToProps = (dispatch, { location, history }) => ({
   setWeek: makeSetWeek(location, history),
 });
 
-export default withRouter(connect(mapStateToProps)(WeekSelector));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(WeekSelector));

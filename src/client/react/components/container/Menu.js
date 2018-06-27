@@ -24,12 +24,12 @@ import { makeSetUser, userFromMatch } from '../../lib/url';
 
 import Menu from '../presentational/Menu';
 
-const mapStateToProps = (state, { match, location, history }) => ({
+const mapStateToProps = (state, { match }) => ({
   user: userFromMatch(match),
-  setUser: makeSetUser(location, history),
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch, { location, history }) => ({
+  setUser: makeSetUser(location, history),
   showRoomFinder: () => dispatch({ type: 'ROOM_FINDER/SHOW' }),
 });
 

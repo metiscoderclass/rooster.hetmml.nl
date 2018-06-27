@@ -94,12 +94,16 @@ class Results extends React.Component {
   }
 }
 
-const mapStateToProps = (state, { match, location, history }) => ({
+const mapStateToProps = (state, { match }) => ({
   user: userFromMatch(match),
-  setUser: makeSetUser(location, history),
   results: state.search.results,
   searchText: state.search.text,
   selectedResult: state.search.result,
 });
 
-export default withRouter(connect(mapStateToProps)(Results));
+const mapDispatchToProps = (dispatch, { location, history }) => ({
+  setUser: makeSetUser(location, history),
+  dispatch,
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Results));
