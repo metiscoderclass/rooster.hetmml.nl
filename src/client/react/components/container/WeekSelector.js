@@ -85,8 +85,8 @@ const mapStateToProps = (state, { location }) => ({
   week: weekFromLocation(location),
 });
 
-const mapDispatchToProps = (dispatch, { location, history }) => ({
-  setWeek: makeSetWeek(location, history),
+const mapDispatchToProps = (dispatch, { history }) => ({
+  setWeek: makeSetWeek(history),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(WeekSelector));

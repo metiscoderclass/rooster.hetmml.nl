@@ -105,8 +105,8 @@ const mapStateToProps = (state, { match }) => ({
   isVisible: state.isRoomFinderVisible,
 });
 
-const mapDispatchToProps = (dispatch, { location, history }) => ({
-  setUser: makeSetUser(location, history),
+const mapDispatchToProps = (dispatch, { history }) => ({
+  setUser: makeSetUser(history),
   onHide: () => dispatch({ type: 'ROOM_FINDER/HIDE' }),
 });
 

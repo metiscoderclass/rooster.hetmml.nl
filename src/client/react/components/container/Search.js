@@ -189,8 +189,8 @@ const mapStateToProps = state => ({
   selectedResult: state.search.selected,
 });
 
-const mapDispatchToProps = (dispatch, { location, history }) => ({
-  setUser: makeSetUser(location, history),
+const mapDispatchToProps = (dispatch, { history }) => ({
+  setUser: makeSetUser(history),
   dispatch,
 });
 

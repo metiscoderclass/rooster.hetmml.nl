@@ -28,8 +28,8 @@ const mapStateToProps = (state, { match }) => ({
   user: userFromMatch(match),
 });
 
-const mapDispatchToProps = (dispatch, { location, history }) => ({
-  setUser: makeSetUser(location, history),
+const mapDispatchToProps = (dispatch, { history }) => ({
+  setUser: makeSetUser(history),
   showRoomFinder: () => dispatch({ type: 'ROOM_FINDER/SHOW' }),
 });
 

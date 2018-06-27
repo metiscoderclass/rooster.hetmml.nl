@@ -43,20 +43,20 @@ export function weekFromLocation(location) {
   return purifyWeek(parseInt(weekStr, 10));
 }
 
-export function makeSetUser(location, history) {
+export function makeSetUser(history) {
   return (userId) => {
-    const query = location.search;
+    const query = history.location.search;
     history.push(`/${userId}${query}`);
   };
 }
 
-export function makeSetWeek(location, history) {
+export function makeSetWeek(history) {
   return (week) => {
     const query = queryString.stringify({
-      ...queryString.parse(location.search),
+      ...queryString.parse(history.location.search),
       week,
     });
 
-    history.push(`${location.pathname}?${query}`);
+    history.push(`${history.location.pathname}?${query}`);
   };
 }
