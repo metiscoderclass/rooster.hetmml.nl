@@ -32,7 +32,7 @@ class HelpBox extends React.Component {
     const { isVisible } = this.props;
 
     if (!isVisible) {
-      return <div />;
+      return null;
     }
 
     return (
