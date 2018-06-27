@@ -8,7 +8,7 @@
   },
   "rules": {
     "react/jsx-filename-extension": "off",
-    "no-underscore-dangle": ["error", { "allow": ["_test"] }],
+    "no-underscore-dangle": ["error", { "allow": ["_test", "__REDUX_DEVTOOLS_EXTENSION_COMPOSE__"] }],
     "no-prototype-builtins": "off",
     "react/forbid-prop-types": "off",
     "react/prefer-stateless-function": "off"

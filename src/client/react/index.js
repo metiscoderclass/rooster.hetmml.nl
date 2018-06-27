@@ -20,49 +20,34 @@
 
 import 'babel-polyfill';
 import 'whatwg-fetch';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createStore, applyMiddleware, compose as reduxCompose } from 'redux';
+import thunk from 'redux-thunk';
 import moment from 'moment';
 
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
-
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from 'react-router-dom';
-
 import reducer from './reducers';
-import Index from './components/page/Index';
-import User from './components/page/User';
-
+import App from './App';
 import './index.scss';
 
 // Set the locale for moment.js to dutch. This ensures that the correct week
 // number logic is used.
 moment.locale('nl');
 
-/* eslint-disable no-underscore-dangle */
+const compose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || reduxCompose;
+
 const store = createStore(
   reducer,
   // Redux devtools extension
   // https://github.com/zalmoxisus/redux-devtools-extension
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+  compose(
+    applyMiddleware(thunk),
+  ),
 );
-/* eslint-enable no-underscore-dangle */
 
 ReactDOM.render(
-  <Provider store={store}>
-    <Router>
-      <Switch>
-        <Route exact path="/" component={Index} />
-        <Route path="/:type/:value" component={User} />
-        <Redirect to="/" />
-      </Switch>
-    </Router>
-  </Provider>,
+  <App store={store} />,
   document.querySelector('#root'),
 );
 
