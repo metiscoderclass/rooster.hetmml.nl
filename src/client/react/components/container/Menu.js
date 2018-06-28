@@ -19,18 +19,12 @@
  */
 
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { makeSetUser, userFromMatch } from '../../lib/url';
+import { showRoomFinder } from '../../store/actions';
 
 import Menu from '../presentational/Menu';
 
-const mapStateToProps = (state, { match }) => ({
-  user: userFromMatch(match),
+const mapDispatchToProps = dispatch => ({
+  showRoomFinder: () => dispatch(showRoomFinder()),
 });
 
-const mapDispatchToProps = (dispatch, { history }) => ({
-  setUser: makeSetUser(history),
-  showRoomFinder: () => dispatch({ type: 'ROOM_FINDER/SHOW' }),
-});
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Menu));
+export default connect(null, mapDispatchToProps)(Menu);

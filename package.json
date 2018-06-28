@@ -28,6 +28,7 @@
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
     "fuzzy-search": "^2.0.1",
+    "history": "^4.7.2",
     "iconv-lite": "^0.4.17",
     "jsdom": "^11.6.2",
     "left-pad": "^1.1.1",

@@ -23,30 +23,18 @@ import { PropTypes } from 'prop-types';
 import { Button, ButtonIcon } from 'rmwc/Button';
 import { SimpleMenu, MenuItem } from 'rmwc/Menu';
 import { Icon } from 'rmwc/Icon';
-import users from '../../users';
 
 import './Menu.scss';
 
 class Menu extends React.Component {
   static propTypes = {
-    user: PropTypes.string,
-    setUser: PropTypes.func.isRequired,
     showRoomFinder: PropTypes.func.isRequired,
-  }
-
-  static defaultProps = {
-    user: null,
   }
 
   onItemSelected(index) {
     switch (index) {
       case 'room_finder': {
-        const { setUser, user, showRoomFinder } = this.props;
-
-        if (user == null || users.byId[user].type !== 'r') {
-          // We are not currently viewing a room, correct the situation.
-          setUser(users.allRoomIds[0]);
-        }
+        const { showRoomFinder } = this.props;
 
         showRoomFinder();
         break;

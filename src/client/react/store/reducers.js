@@ -18,8 +18,8 @@
  *
  */
 
-import getSearchResults from './lib/getSearchResults';
-import users from './users';
+import getSearchResults from '../lib/getSearchResults';
+import users from '../users';
 
 const DEFAULT_STATE = {
   // results: [

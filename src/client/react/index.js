@@ -27,13 +27,18 @@ import { createStore, applyMiddleware, compose as reduxCompose } from 'redux';
 import thunk from 'redux-thunk';
 import moment from 'moment';
 
-import reducer from './reducers';
+import createHistory from 'history/createBrowserHistory';
+
+import makeGetHistory from './lib/getHistory';
+import reducer from './store/reducers';
 import App from './App';
 import './index.scss';
 
 // Set the locale for moment.js to dutch. This ensures that the correct week
 // number logic is used.
 moment.locale('nl');
+
+const history = createHistory();
 
 const compose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || reduxCompose;
 
@@ -42,12 +47,12 @@ const store = createStore(
   // Redux devtools extension
   // https://github.com/zalmoxisus/redux-devtools-extension
   compose(
-    applyMiddleware(thunk),
+    applyMiddleware(thunk.withExtraArgument(makeGetHistory(history))),
   ),
 );
 
 ReactDOM.render(
-  <App store={store} />,
+  <App store={store} history={history} />,
   document.querySelector('#root'),
 );
 

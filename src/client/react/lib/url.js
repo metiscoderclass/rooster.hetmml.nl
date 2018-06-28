@@ -33,6 +33,16 @@ export function userFromMatch(match) {
   return user;
 }
 
+export function userFromLocation(location) {
+  const match = location.pathname.match(/^\/([stcr])\/([-0-9a-zA-Z]+)/);
+  if (!match) return null;
+
+  const user = `${match[1]}/${match[2]}`;
+  if (!users.allIds.includes(user)) return null;
+
+  return user;
+}
+
 export function weekFromLocation(location) {
   const weekStr = queryString.parse(location.search).week;
 

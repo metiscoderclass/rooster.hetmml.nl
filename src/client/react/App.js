@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  BrowserRouter,
+  Router,
   Route,
   Switch,
   Redirect,
@@ -16,20 +16,21 @@ import User from './components/page/User';
 export default class App extends React.Component {
   static propTypes = {
     store: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
   }
 
   render() {
-    const { store } = this.props;
+    const { store, history } = this.props;
 
     return (
       <Provider store={store}>
-        <BrowserRouter>
+        <Router history={history}>
           <Switch>
             <Route exact path="/" component={Index} />
             <Route path="/:type/:value" component={User} />
             <Redirect to="/" />
           </Switch>
-        </BrowserRouter>
+        </Router>
       </Provider>
     );
   }
