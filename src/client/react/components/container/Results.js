@@ -18,92 +18,28 @@
  *
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import users from '../../users';
-import { makeSetUser, userFromMatch } from '../../lib/url';
-import Result from '../presentational/Result';
+import { userFromMatch } from '../../lib/url';
+import { setUser } from '../../store/actions';
 
-import './Results.scss';
+import Results from '../presentational/Results';
 
-class Results extends React.Component {
-  static propTypes = {
-    results: PropTypes.arrayOf(PropTypes.string).isRequired,
-    searchText: PropTypes.string.isRequired,
-    selectedResult: PropTypes.string,
+const mapStateToProps = (state, { match }) => {
+  const user = userFromMatch(match);
+  const searchText = state.search.text;
 
-    // react-router
-    user: PropTypes.string,
-    setUser: PropTypes.func.isRequired,
-
-    // redux
-    dispatch: PropTypes.func.isRequired,
+  return {
+    isExactMatch: user != null && searchText === users.byId[user].value,
+    results: state.search.results,
+    selectedResult: state.search.selected,
   };
+};
 
-  static defaultProps = {
-    selectedResult: null,
-    user: null,
-  };
-
-  render() {
-    const {
-      searchText,
-      results,
-      selectedResult,
-      user,
-      setUser,
-      dispatch,
-    } = this.props;
-
-    const isExactMatch = (
-      user != null && searchText === users.byId[user].value
-    );
-
-    return (
-      <div
-        className={classnames('Results', {
-          hasResults: !isExactMatch && results.length > 0,
-        })}
-        style={{
-          minHeight: isExactMatch ? 0 : results.length * 54,
-        }}
-      >
-        {!isExactMatch && results.map(resultUser => (
-          <Result
-            key={resultUser}
-            userId={resultUser}
-            isSelected={resultUser === selectedResult}
-            onClick={() => {
-              if (resultUser === user) {
-                // EDGE CASE: The user is set if the user changes, but it doesn't
-                // change if the result is already the one we are viewing.
-                // Therefor, we need to dispatch the SET_USER command manually.
-                dispatch({ type: 'SEARCH/SET_USER', user });
-              } else {
-                setUser(resultUser);
-              }
-            }}
-          />
-        ))}
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = (state, { match }) => ({
-  user: userFromMatch(match),
-  results: state.search.results,
-  searchText: state.search.text,
-  selectedResult: state.search.result,
-});
-
-const mapDispatchToProps = (dispatch, { history }) => ({
-  setUser: makeSetUser(history),
-  dispatch,
+const mapDispatchToProps = dispatch => ({
+  setUser: user => dispatch(setUser(user)),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Results));
