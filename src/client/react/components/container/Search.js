@@ -26,7 +26,8 @@ import { withRouter } from 'react-router-dom';
 
 import SearchIcon from 'react-icons/lib/md/search';
 
-import { makeSetUser, userFromMatch } from '../../lib/url';
+import { userFromMatch } from '../../lib/url';
+import { setUser as setUserAction } from '../../store/actions';
 
 import users from '../../users';
 import Menu from './Menu';
@@ -37,15 +38,12 @@ import './Search.scss';
 
 class Search extends React.Component {
   static propTypes = {
-    results: PropTypes.arrayOf(PropTypes.string).isRequired,
     selectedResult: PropTypes.string,
     searchText: PropTypes.string.isRequired,
-
-    // react-router
     match: PropTypes.object.isRequired,
     setUser: PropTypes.func.isRequired,
-    // redux
-    dispatch: PropTypes.func.isRequired,
+    onInputChange: PropTypes.func.isRequired,
+    changeSelectedResult: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -64,22 +62,6 @@ class Search extends React.Component {
     this.onKeyDown = this.onKeyDown.bind(this);
   }
 
-  componentDidMount() {
-    const { dispatch, match } = this.props;
-    const urlUser = userFromMatch(match);
-
-    dispatch({ type: 'SEARCH/SET_USER', user: urlUser });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { dispatch, match } = this.props;
-
-    if (nextProps.match !== match) {
-      const urlUser = userFromMatch(nextProps.match);
-      dispatch({ type: 'SEARCH/SET_USER', user: urlUser });
-    }
-  }
-
   onFocus() {
     this.setState({
       hasFocus: true,
@@ -95,40 +77,33 @@ class Search extends React.Component {
   onKeyDown(event) {
     const {
       selectedResult,
-      results,
       match,
       setUser,
-      dispatch,
+      changeSelectedResult,
     } = this.props;
 
     const urlUser = userFromMatch(match);
-    const result = selectedResult || results[0];
 
     switch (event.key) {
       case 'ArrowUp':
         event.preventDefault();
-        dispatch({ type: 'SEARCH/CHANGE_SELECTED_RESULT', relativeChange: -1 });
+        changeSelectedResult(-1);
         break;
 
       case 'ArrowDown':
         event.preventDefault();
-        dispatch({ type: 'SEARCH/CHANGE_SELECTED_RESULT', relativeChange: +1 });
+        changeSelectedResult(+1);
         break;
 
       case 'Escape':
         event.preventDefault();
-        dispatch({ type: 'SEARCH/SET_USER', user: urlUser });
+        setUser(urlUser);
         break;
 
       case 'Enter':
         event.preventDefault();
-        if (result === urlUser) {
-          // EDGE CASE: The user is set if the user changes, but it doesn't
-          // change if the result is already the one we are viewing.
-          // Therefor, we need to dispatch the SET_USER command manually.
-          dispatch({ type: 'SEARCH/SET_USER', user: urlUser });
-        } else if (result) {
-          setUser(result);
+        if (selectedResult) {
+          setUser(selectedResult);
         }
         break;
 
@@ -141,7 +116,7 @@ class Search extends React.Component {
     const {
       searchText,
       match,
-      dispatch,
+      onInputChange,
     } = this.props;
 
     const {
@@ -166,7 +141,7 @@ class Search extends React.Component {
             </div>
             <input
               id="searchInput"
-              onChange={event => dispatch({ type: 'SEARCH/INPUT_CHANGE', searchText: event.target.value })}
+              onChange={event => onInputChange(event.target.value)}
               onKeyDown={this.onKeyDown}
               value={searchText}
               placeholder="Zoeken"
@@ -189,9 +164,16 @@ const mapStateToProps = state => ({
   selectedResult: state.search.selected,
 });
 
-const mapDispatchToProps = (dispatch, { history }) => ({
-  setUser: makeSetUser(history),
-  dispatch,
+const mapDispatchToProps = dispatch => ({
+  setUser: user => dispatch(setUserAction(user)),
+  onInputChange: searchText => dispatch({
+    type: 'SEARCH/INPUT_CHANGE',
+    searchText,
+  }),
+  changeSelectedResult: relativeChange => dispatch({
+    type: 'SEARCH/CHANGE_SELECTED_RESULT',
+    relativeChange,
+  }),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Search));

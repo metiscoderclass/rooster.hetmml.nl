@@ -74,30 +74,31 @@ function reducer(state = DEFAULT_STATE, action) {
       };
     }
 
-    case 'SEARCH/INPUT_CHANGE':
+    case 'SEARCH/INPUT_CHANGE': {
+      const results = getSearchResults(action.searchText);
+
       return {
         ...state,
         search: {
-          results: getSearchResults(action.searchText),
+          results,
           text: action.searchText,
-          selected: null,
+          selected: results.length > 0 ? results[0] : null,
         },
       };
+    }
 
     case 'SEARCH/CHANGE_SELECTED_RESULT': {
       const prevSelectedResult = state.search.selected;
       const prevSelectedResultIndex = state.search.results.indexOf(prevSelectedResult);
       let nextSelectedResultIndex = prevSelectedResultIndex + action.relativeChange;
 
-      if (nextSelectedResultIndex < -1) {
+      if (nextSelectedResultIndex < 0) {
         nextSelectedResultIndex = state.search.results.length - 1;
       } else if (nextSelectedResultIndex > state.search.results.length - 1) {
-        nextSelectedResultIndex = -1;
+        nextSelectedResultIndex = 0;
       }
 
-      const nextSelectedResult = nextSelectedResultIndex === -1
-        ? null
-        : state.search.results[nextSelectedResultIndex];
+      const nextSelectedResult = state.search.results[nextSelectedResultIndex];
 
       return {
         ...state,

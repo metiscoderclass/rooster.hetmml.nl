@@ -13,7 +13,7 @@ export function setUser(newUser) {
       // Therefor, we need to dispatch the SET_USER command manually.
       dispatch({ type: 'SEARCH/SET_USER', user });
     } else {
-      updatePathname(newUser);
+      updatePathname(newUser || '');
     }
   };
 }
