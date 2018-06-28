@@ -70,3 +70,21 @@ export function makeSetWeek(history) {
     history.push(`${history.location.pathname}?${query}`);
   };
 }
+
+export function makeUpdatePathname(history) {
+  return function updatePathname(pathname) {
+    const query = history.location.search;
+    history.push(`/${pathname}${query}`);
+  };
+}
+
+export function makeUpdateQuery(history) {
+  return function updateQuery(newQuery) {
+    const query = queryString.stringify({
+      ...queryString.parse(history.location.search),
+      ...newQuery,
+    });
+
+    history.push(`${history.location.pathname}?${query}`);
+  };
+}
