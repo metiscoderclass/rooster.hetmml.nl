@@ -25,8 +25,6 @@ import moment from 'moment';
 import ArrowBackIcon from 'react-icons/lib/md/arrow-back';
 import ArrowForwardIcon from 'react-icons/lib/md/arrow-forward';
 
-import purifyWeek from '../../lib/purifyWeek';
-
 import './WeekSelector.scss';
 import WeekDisplay from './WeekDisplay';
 
@@ -34,23 +32,15 @@ class WeekSelector extends React.Component {
   static propTypes = {
     // react-router
     week: PropTypes.number.isRequired,
-    setWeek: PropTypes.func.isRequired,
+    shiftWeek: PropTypes.func.isRequired,
   };
 
-  updateWeek(change) {
-    const { week, setWeek } = this.props;
-    const newWeek = purifyWeek(week + change);
-
-    const isCurrentWeek = moment().week() === newWeek;
-    setWeek(isCurrentWeek ? undefined : newWeek);
-  }
-
   render() {
-    const { week } = this.props;
+    const { week, shiftWeek } = this.props;
 
     return (
       <div className="WeekSelector">
-        <button type="button" onClick={() => this.updateWeek(-1)}>
+        <button type="button" onClick={() => shiftWeek(-1)}>
           <ArrowBackIcon />
         </button>
         <div className="text">
@@ -59,7 +49,7 @@ class WeekSelector extends React.Component {
             currentWeek={moment().week()}
           />
         </div>
-        <button type="button" onClick={() => this.updateWeek(+1)}>
+        <button type="button" onClick={() => shiftWeek(+1)}>
           <ArrowForwardIcon />
         </button>
       </div>

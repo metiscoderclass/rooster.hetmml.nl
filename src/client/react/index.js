@@ -47,7 +47,10 @@ const store = createStore(
   // Redux devtools extension
   // https://github.com/zalmoxisus/redux-devtools-extension
   compose(
-    applyMiddleware(thunk.withExtraArgument(makeGetHistory(history))),
+    applyMiddleware(thunk.withExtraArgument({
+      getHistory: makeGetHistory(history),
+      moment,
+    })),
   ),
 );
 

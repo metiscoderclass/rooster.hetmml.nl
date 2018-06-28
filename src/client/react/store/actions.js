@@ -1,7 +1,8 @@
 import users from '../users';
+import purifyWeek from '../lib/purifyWeek';
 
 export function setUser(newUser) {
-  return (dispatch, getState, getHistory) => {
+  return (dispatch, getState, { getHistory }) => {
     const { user, updatePathname } = getHistory();
 
     if (newUser === user) {
@@ -18,17 +19,26 @@ export function setUser(newUser) {
 }
 
 export function setWeek(newWeek) {
-  return (dispatchEvent, getState, getHistory) => {
+  return (dispatch, getState, { getHistory, moment }) => {
     const { updateQuery } = getHistory();
 
+    const isCurrentWeek = moment().week() === newWeek;
+
     updateQuery({
-      week: newWeek,
+      week: isCurrentWeek ? undefined : newWeek,
     });
   };
 }
 
+export function shiftWeek(shift) {
+  return (dispatch, getState, { getHistory }) => {
+    const { week } = getHistory();
+    dispatch(setWeek(purifyWeek(week + shift)));
+  };
+}
+
 export function showRoomFinder() {
-  return (dispatch, getState, getHistory) => {
+  return (dispatch, getState, { getHistory }) => {
     const { user } = getHistory();
 
     if (user == null || users.byId[user].type !== 'r') {

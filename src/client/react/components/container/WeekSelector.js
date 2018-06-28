@@ -20,7 +20,7 @@
 
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { setWeek } from '../../store/actions';
+import { shiftWeek } from '../../store/actions';
 import { weekFromLocation } from '../../lib/url';
 
 import WeekSelector from '../presentational/WeekSelector';
@@ -30,7 +30,7 @@ const mapStateToProps = (state, { location }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setWeek: newWeek => dispatch(setWeek(newWeek)),
+  shiftWeek: newWeek => dispatch(shiftWeek(newWeek)),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(WeekSelector));
