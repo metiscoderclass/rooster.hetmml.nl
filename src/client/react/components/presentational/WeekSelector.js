@@ -28,6 +28,7 @@ import ArrowForwardIcon from 'react-icons/lib/md/arrow-forward';
 import purifyWeek from '../../lib/purifyWeek';
 
 import './WeekSelector.scss';
+import WeekDisplay from './WeekDisplay';
 
 class WeekSelector extends React.Component {
   static propTypes = {
@@ -35,23 +36,6 @@ class WeekSelector extends React.Component {
     week: PropTypes.number.isRequired,
     setWeek: PropTypes.func.isRequired,
   };
-
-  getWeekText() {
-    const { week } = this.props;
-
-    const currentWeek = moment().week();
-
-    switch (week) {
-      case currentWeek:
-        return `Huidige week • ${week}`;
-      case currentWeek + 1:
-        return `Volgende week • ${week}`;
-      case currentWeek - 1:
-        return `Vorige week • ${week}`;
-      default:
-        return `Week ${week}`;
-    }
-  }
 
   updateWeek(change) {
     const { week, setWeek } = this.props;
@@ -62,13 +46,18 @@ class WeekSelector extends React.Component {
   }
 
   render() {
+    const { week } = this.props;
+
     return (
       <div className="WeekSelector">
         <button type="button" onClick={() => this.updateWeek(-1)}>
           <ArrowBackIcon />
         </button>
         <div className="text">
-          {this.getWeekText()}
+          <WeekDisplay
+            selectedWeek={week}
+            currentWeek={moment().week()}
+          />
         </div>
         <button type="button" onClick={() => this.updateWeek(+1)}>
           <ArrowForwardIcon />
