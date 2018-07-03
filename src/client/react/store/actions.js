@@ -6,11 +6,11 @@ export function setUser(newUser) {
     const { user, updatePathname } = getHistory();
 
     if (newUser === user) {
-      // EDGE CASE: The user is set if the user changes, but it doesn't
-      // change if the result is already the one we are viewing.
-      // Causing  the <Results /> object to not collapse when a user is
-      // selected.
-      // Therefor, we need to dispatch the SET_USER command manually.
+      // EDGE CASE: If the user that is being selected is equal to the user
+      // that is already selected, then updatePathname will not change
+      // anything. This results in state.search not properly being resetted.
+      // Example: If you search for 5H2 while already viewing 6-5H2, pressing
+      // enter won't do anything unless this check is present.
       dispatch({ type: 'SEARCH/SET_USER', user });
     } else {
       updatePathname(newUser || '');
