@@ -35,14 +35,20 @@ import './index.scss';
 
 // Set the locale for moment.js to dutch. This ensures that the correct week
 // number logic is used.
+// TODO: Figure out if we can pass an instance instead, just like the store
+// and history.
 moment.locale('nl');
 
+// Create the history object used throughout the application. It's used in
+// react and redux actions. Note that redux actions use a custom wrapper
+// (defined in ./lib/getHistory).
 const history = createHistory();
 
 // Redux devtools extension
 // https://github.com/zalmoxisus/redux-devtools-extension
 const compose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || reduxCompose;
 
+// Create the redux store used throughout the application.
 const store = createStore(
   reducer,
   compose(makeReduxMiddleware({ history })),
