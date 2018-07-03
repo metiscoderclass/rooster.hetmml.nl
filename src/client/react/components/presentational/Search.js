@@ -24,8 +24,6 @@ import classnames from 'classnames';
 
 import SearchIcon from 'react-icons/lib/md/search';
 
-import { userFromMatch } from '../../lib/url';
-
 import users from '../../users';
 import Menu from '../container/Menu';
 import Results from '../container/Results';
@@ -35,16 +33,18 @@ import './Search.scss';
 
 class Search extends React.Component {
   static propTypes = {
-    selectedResult: PropTypes.string,
+    currentUser: PropTypes.string,
+    selectedUser: PropTypes.string,
     searchText: PropTypes.string.isRequired,
-    match: PropTypes.object.isRequired,
-    setUser: PropTypes.func.isRequired,
+    isExactMatch: PropTypes.bool.isRequired,
     onInputChange: PropTypes.func.isRequired,
-    changeSelectedResult: PropTypes.func.isRequired,
+    setUser: PropTypes.func.isRequired,
+    changeSelectedUser: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    selectedResult: null,
+    currentUser: null,
+    selectedUser: null,
   };
 
   constructor(props) {
@@ -53,10 +53,6 @@ class Search extends React.Component {
     this.state = {
       hasFocus: false,
     };
-
-    this.onFocus = this.onFocus.bind(this);
-    this.onBlur = this.onBlur.bind(this);
-    this.onKeyDown = this.onKeyDown.bind(this);
   }
 
   onFocus() {
@@ -71,36 +67,34 @@ class Search extends React.Component {
     });
   }
 
-  onKeyDown(event) {
+  handleKeyDown(event) {
     const {
-      selectedResult,
-      match,
+      currentUser,
+      selectedUser,
       setUser,
-      changeSelectedResult,
+      changeSelectedUser,
     } = this.props;
-
-    const urlUser = userFromMatch(match);
 
     switch (event.key) {
       case 'ArrowUp':
         event.preventDefault();
-        changeSelectedResult(-1);
+        changeSelectedUser(-1);
         break;
 
       case 'ArrowDown':
         event.preventDefault();
-        changeSelectedResult(+1);
+        changeSelectedUser(+1);
         break;
 
       case 'Escape':
         event.preventDefault();
-        setUser(urlUser);
+        setUser(currentUser);
         break;
 
       case 'Enter':
         event.preventDefault();
-        if (selectedResult) {
-          setUser(selectedResult);
+        if (selectedUser) {
+          setUser(selectedUser);
         }
         break;
 
@@ -112,7 +106,8 @@ class Search extends React.Component {
   render() {
     const {
       searchText,
-      match,
+      selectedUser,
+      isExactMatch,
       onInputChange,
     } = this.props;
 
@@ -120,30 +115,24 @@ class Search extends React.Component {
       hasFocus,
     } = this.state;
 
-    const urlUser = userFromMatch(match);
-
-    const isExactMatch = (
-      urlUser != null && searchText === users.byId[urlUser].value
-    );
-
     return (
       <div className="Search">
         <div className={classnames('overflow', { hasFocus })}>
           <div className="inputWrapper">
             <div className="iconWrapper">
               <IconFromUserType
-                userType={isExactMatch ? users.byId[urlUser].type : null}
+                userType={isExactMatch ? users.byId[selectedUser].type : null}
                 defaultIcon={<SearchIcon />}
               />
             </div>
             <input
               id="searchInput"
               onChange={event => onInputChange(event.target.value)}
-              onKeyDown={this.onKeyDown}
+              onKeyDown={event => this.handleKeyDown(event)}
               value={searchText}
               placeholder="Zoeken"
-              onFocus={this.onFocus}
-              onBlur={this.onBlur}
+              onFocus={() => this.onFocus()}
+              onBlur={() => this.onBlur()}
               autoComplete="off"
             />
             <Menu />

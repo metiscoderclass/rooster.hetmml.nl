@@ -18,24 +18,35 @@
  *
  */
 
+
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Search from '../presentational/Search';
-import { setUser } from '../../store/actions';
+import { setUser as setUserAction } from '../../store/actions';
+import { userFromLocation } from '../../lib/url';
+import users from '../../users';
 
-const mapStateToProps = state => ({
-  results: state.search.results,
-  searchText: state.search.text,
-  selectedResult: state.search.selected,
-});
+const mapStateToProps = (state, { location }) => {
+  const currentUser = userFromLocation(location);
+  const searchText = state.search.text;
+  const isExactMatch = currentUser != null && searchText === users.byId[currentUser].value;
+
+  return {
+    currentUser,
+    isExactMatch,
+    selectedUser: state.search.selected,
+    results: state.search.results,
+    searchText: state.search.text,
+  };
+};
 
 const mapDispatchToProps = dispatch => ({
-  setUser: user => dispatch(setUser(user)),
+  setUser: user => dispatch(setUserAction(user)),
   onInputChange: searchText => dispatch({
     type: 'SEARCH/INPUT_CHANGE',
     searchText,
   }),
-  changeSelectedResult: relativeChange => dispatch({
+  changeSelectedUser: relativeChange => dispatch({
     type: 'SEARCH/CHANGE_SELECTED_RESULT',
     relativeChange,
   }),
