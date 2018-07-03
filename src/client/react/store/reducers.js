@@ -20,6 +20,7 @@
 
 import getSearchResults from '../lib/getSearchResults';
 import users from '../users';
+import withinRange from '../lib/withinRange';
 
 const DEFAULT_STATE = {
   search: {
@@ -91,13 +92,10 @@ function reducer(state = DEFAULT_STATE, action) {
 
       const prevSelectedResult = state.search.selected;
       const prevSelectedResultIndex = state.search.results.indexOf(prevSelectedResult);
-      let nextSelectedResultIndex = prevSelectedResultIndex + action.relativeChange;
-
-      if (nextSelectedResultIndex < 0) {
-        nextSelectedResultIndex = state.search.results.length - 1;
-      } else if (nextSelectedResultIndex > state.search.results.length - 1) {
-        nextSelectedResultIndex = 0;
-      }
+      const nextSelectedResultIndex = withinRange(
+        prevSelectedResultIndex + action.relativeChange,
+        state.search.results.length - 1,
+      );
 
       const nextSelectedResult = state.search.results[nextSelectedResultIndex];
 

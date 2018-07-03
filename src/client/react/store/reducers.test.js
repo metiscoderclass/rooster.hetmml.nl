@@ -173,22 +173,6 @@ describe('reducers', () => {
             selected: 's/18561',
           },
         });
-
-        expect(reducer({
-          ...DEFAULT_STATE,
-          search: {
-            results: ['s/18561', 's/18562', 's/18563'],
-            text: '1856',
-            selected: 's/18563',
-          },
-        }, { type: 'SEARCH/CHANGE_SELECTED_RESULT', relativeChange: +1 })).toEqual({
-          ...DEFAULT_STATE,
-          search: {
-            results: ['s/18561', 's/18562', 's/18563'],
-            text: '1856',
-            selected: 's/18561',
-          },
-        });
       });
 
       it('Properly wraps around when decrementing', () => {
@@ -198,22 +182,6 @@ describe('reducers', () => {
             results: ['s/18561', 's/18562', 's/18563'],
             text: '1856',
             selected: 's/18561',
-          },
-        }, { type: 'SEARCH/CHANGE_SELECTED_RESULT', relativeChange: -1 })).toEqual({
-          ...DEFAULT_STATE,
-          search: {
-            results: ['s/18561', 's/18562', 's/18563'],
-            text: '1856',
-            selected: 's/18563',
-          },
-        });
-
-        expect(reducer({
-          ...DEFAULT_STATE,
-          search: {
-            results: ['s/18561', 's/18562', 's/18563'],
-            text: '1856',
-            selected: null,
           },
         }, { type: 'SEARCH/CHANGE_SELECTED_RESULT', relativeChange: -1 })).toEqual({
           ...DEFAULT_STATE,
