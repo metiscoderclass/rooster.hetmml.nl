@@ -1,5 +1,6 @@
 import users from '../users';
 import purifyWeek from '../lib/purifyWeek';
+import withinRange from '../lib/withinRange';
 
 export function setUser(newUser) {
   return (dispatch, getState, { getHistory }) => {
@@ -27,16 +28,12 @@ export function shiftRoom(shift) {
 
     const currentRoom = user;
     const currentRoomIndex = allRoomIds.indexOf(currentRoom);
-
-    let nextRoomIndex = currentRoomIndex + shift;
-
-    if (nextRoomIndex < 0) {
-      nextRoomIndex = allRoomIds.length - 1;
-    } else if (nextRoomIndex > allRoomIds.length - 1) {
-      nextRoomIndex = 0;
-    }
-
+    const nextRoomIndex = withinRange(
+      currentRoomIndex + shift,
+      allRoomIds.length - 1,
+    );
     const nextRoom = allRoomIds[nextRoomIndex];
+
     dispatch(setUser(nextRoom));
   };
 }
