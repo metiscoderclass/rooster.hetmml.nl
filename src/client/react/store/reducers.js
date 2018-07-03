@@ -22,9 +22,6 @@ import getSearchResults from '../lib/getSearchResults';
 import users from '../users';
 
 const DEFAULT_STATE = {
-  // results: [
-  //   's/18562',
-  // ],
   search: {
     results: [],
     text: '',
@@ -88,6 +85,10 @@ function reducer(state = DEFAULT_STATE, action) {
     }
 
     case 'SEARCH/CHANGE_SELECTED_RESULT': {
+      if (state.search.results.length === 0) {
+        return state;
+      }
+
       const prevSelectedResult = state.search.selected;
       const prevSelectedResultIndex = state.search.results.indexOf(prevSelectedResult);
       let nextSelectedResultIndex = prevSelectedResultIndex + action.relativeChange;

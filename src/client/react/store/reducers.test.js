@@ -35,119 +35,95 @@ const reducer = require('./reducers').default;
 const { DEFAULT_STATE } = require('./reducers')._test;
 
 describe('reducers', () => {
-  describe('search', () => {
-    describe('SEARCH/SET_USER', () => {
-      it('Resets the search state if the user is null', () => {
-        const prevState = { search: { foo: 'bar' } };
-        const action = { type: 'SEARCH/SET_USER', user: null };
+  beforeAll(() => {
+    deepFreeze(DEFAULT_STATE);
+  });
 
+  describe('SEARCH/SET_USER', () => {
+    it('Resets the search state if the user is null', () => {
+      const prevState = { search: { foo: 'bar' } };
+      const action = { type: 'SEARCH/SET_USER', user: null };
+
+      deepFreeze([prevState, action]);
+
+      expect(reducer(prevState, action)).toEqual({
+        search: DEFAULT_STATE.search,
+      });
+    });
+
+    it('Sets all the values of that user properly', () => {
+      expect(reducer(undefined, { type: 'SEARCH/SET_USER', user: 's/18561' })).toEqual({
+        ...DEFAULT_STATE,
+        search: {
+          results: [],
+          text: '18561',
+          selected: 's/18561',
+        },
+      });
+    });
+  });
+
+  describe('SEARCH/INPUT_CHANGE', () => {
+    describe('searchText is empty or whitespace-only', () => {
+      it('Returns no results', () => {
+        ['', ' ', '\t'].forEach((searchText) => {
+          const prevState = undefined;
+          const action = { type: 'SEARCH/INPUT_CHANGE', searchText };
+          deepFreeze([prevState, action]);
+          const nextState = reducer(prevState, action);
+
+          expect(nextState).toEqual({
+            ...DEFAULT_STATE,
+            search: {
+              results: [],
+              text: searchText,
+              selected: null,
+            },
+          });
+        });
+      });
+    });
+
+    describe('searchText is 18', () => {
+      let nextState;
+      beforeAll(() => {
+        const prevState = undefined;
+        const action = { type: 'SEARCH/INPUT_CHANGE', searchText: '18' };
         deepFreeze([prevState, action]);
-
-        expect(reducer(prevState, action)).toEqual({
-          search: DEFAULT_STATE.search,
-        });
+        nextState = reducer(prevState, action);
       });
 
-      it('Sets all the values of that user properly', () => {
-        expect(reducer(undefined, { type: 'SEARCH/SET_USER', user: 's/18561' })).toEqual({
-          ...DEFAULT_STATE,
-          search: {
-            results: [],
-            text: '18561',
-            selected: 's/18561',
-          },
-        });
+      it('Only returns 4 results', () => {
+        expect(nextState.search.results).toHaveLength(4);
+      });
+
+      it('Selects the first result', () => {
+        expect(nextState.search.selected).toEqual('s/18561');
+      });
+
+      it('Copies the searchText over to state.search.text', () => {
+        expect(nextState.search.text).toEqual('18');
       });
     });
+  });
 
-    describe('SEARCH/INPUT_CHANGE', () => {
-      it('Returns no results when nothing is typed in', () => {
-        expect(reducer(undefined, { type: 'SEARCH/INPUT_CHANGE', searchText: '' })).toEqual({
-          ...DEFAULT_STATE,
-          search: {
-            results: [],
-            text: '',
-            selected: null,
-          },
-        });
-      });
-
-      it('Returns no results when a space is typed in', () => {
-        expect(reducer(undefined, { type: 'SEARCH/INPUT_CHANGE', searchText: ' ' })).toEqual({
-          ...DEFAULT_STATE,
-          search: {
-            results: [],
-            text: ' ',
-            selected: null,
-          },
-        });
-      });
-
-      it('Preforms a basic search, only returning four results', () => {
-        expect(reducer(undefined, { type: 'SEARCH/INPUT_CHANGE', searchText: '18' })).toEqual({
-          ...DEFAULT_STATE,
-          search: {
-            results: [
-              's/18561',
-              's/18562',
-              's/18563',
-              's/18564',
-            ],
-            text: '18',
-            selected: null,
-          },
-        });
-      });
-    });
-
-    describe('SEARCH/CHANGE_SELECTED_RESULT', () => {
-      it('Does nothing when there are no results', () => {
+  describe('SEARCH/CHANGE_SELECTED_RESULT', () => {
+    describe('State has no results', () => {
+      it('Does nothing', () => {
         const actionPlus = { type: 'SEARCH/CHANGE_SELECTED_RESULT', relativeChange: +1 };
         const actionMin = { type: 'SEARCH/CHANGE_SELECTED_RESULT', relativeChange: -1 };
 
-        deepFreeze([DEFAULT_STATE, actionPlus, actionMin]);
+        deepFreeze([actionPlus, actionMin]);
 
         const nextStatePlus = reducer(DEFAULT_STATE, actionPlus);
         const nextStateMin = reducer(DEFAULT_STATE, actionMin);
         expect(nextStatePlus).toEqual(DEFAULT_STATE);
         expect(nextStateMin).toEqual(DEFAULT_STATE);
       });
+    });
 
-      it('Switches to the correct selectedResult when no selected result is selected', () => {
-        const prevState = {
-          ...DEFAULT_STATE,
-          search: {
-            results: ['s/18561', 's/18562', 's/18563'],
-            text: '1856',
-            selected: null,
-          },
-        };
-
-        const actionPlus = { type: 'SEARCH/CHANGE_SELECTED_RESULT', relativeChange: +1 };
-        const actionMin = { type: 'SEARCH/CHANGE_SELECTED_RESULT', relativeChange: -1 };
-
-        deepFreeze([prevState, actionPlus, actionMin]);
-
-        const nextStatePlus = reducer(prevState, actionPlus);
-        const nextStateMin = reducer(prevState, actionMin);
-
-        expect(nextStatePlus).toEqual({
-          ...prevState,
-          search: {
-            ...prevState.search,
-            selected: 's/18561',
-          },
-        });
-        expect(nextStateMin).toEqual({
-          ...prevState,
-          search: {
-            ...prevState.search,
-            selected: 's/18563',
-          },
-        });
-      });
-
-      it('Switches to the correct selectedResult when there is a selected result selected', () => {
+    describe('State has many results', () => {
+      it('Switches to the correct selectedResult', () => {
         const prevState = {
           ...DEFAULT_STATE,
           search: {
@@ -194,7 +170,7 @@ describe('reducers', () => {
           search: {
             results: ['s/18561', 's/18562', 's/18563'],
             text: '1856',
-            selected: null,
+            selected: 's/18561',
           },
         });
 
@@ -203,7 +179,7 @@ describe('reducers', () => {
           search: {
             results: ['s/18561', 's/18562', 's/18563'],
             text: '1856',
-            selected: null,
+            selected: 's/18563',
           },
         }, { type: 'SEARCH/CHANGE_SELECTED_RESULT', relativeChange: +1 })).toEqual({
           ...DEFAULT_STATE,
@@ -228,7 +204,7 @@ describe('reducers', () => {
           search: {
             results: ['s/18561', 's/18562', 's/18563'],
             text: '1856',
-            selected: null,
+            selected: 's/18563',
           },
         });
 
