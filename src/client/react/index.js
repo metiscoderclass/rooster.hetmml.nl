@@ -23,13 +23,12 @@ import 'whatwg-fetch';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore, applyMiddleware, compose as reduxCompose } from 'redux';
-import thunk from 'redux-thunk';
+import { createStore, compose as reduxCompose } from 'redux';
 import moment from 'moment';
 
 import createHistory from 'history/createBrowserHistory';
 
-import makeGetHistory from './lib/getHistory';
+import makeReduxMiddleware from './lib/reduxMiddleware';
 import reducer from './store/reducers';
 import App from './App';
 import './index.scss';
@@ -40,18 +39,13 @@ moment.locale('nl');
 
 const history = createHistory();
 
+// Redux devtools extension
+// https://github.com/zalmoxisus/redux-devtools-extension
 const compose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || reduxCompose;
 
 const store = createStore(
   reducer,
-  // Redux devtools extension
-  // https://github.com/zalmoxisus/redux-devtools-extension
-  compose(
-    applyMiddleware(thunk.withExtraArgument({
-      getHistory: makeGetHistory(history),
-      moment,
-    })),
-  ),
+  compose(makeReduxMiddleware({ history })),
 );
 
 ReactDOM.render(
