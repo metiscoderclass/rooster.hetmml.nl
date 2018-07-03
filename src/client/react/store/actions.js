@@ -18,6 +18,29 @@ export function setUser(newUser) {
   };
 }
 
+export function shiftRoom(shift) {
+  return (dispatch, getState, { getHistory }) => {
+    const { user } = getHistory();
+    const { allRoomIds } = users;
+
+    if (users.byId[user].type !== 'r') throw new Error('User must be a room');
+
+    const currentRoom = user;
+    const currentRoomIndex = allRoomIds.indexOf(currentRoom);
+
+    let nextRoomIndex = currentRoomIndex + shift;
+
+    if (nextRoomIndex < 0) {
+      nextRoomIndex = allRoomIds.length - 1;
+    } else if (nextRoomIndex > allRoomIds.length - 1) {
+      nextRoomIndex = 0;
+    }
+
+    const nextRoom = allRoomIds[nextRoomIndex];
+    dispatch(setUser(nextRoom));
+  };
+}
+
 export function setWeek(newWeek) {
   return (dispatch, getState, { getHistory, moment }) => {
     const { updateQuery } = getHistory();

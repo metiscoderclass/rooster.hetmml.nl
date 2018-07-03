@@ -18,95 +18,25 @@
  *
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Button, ButtonIcon } from 'rmwc/Button';
-import users from '../../users';
-import { makeSetUser, userFromMatch } from '../../lib/url';
+import { shiftRoom } from '../../store/actions';
+import { userFromMatch } from '../../lib/url';
 
-import './RoomFinder.scss';
+import RoomFinder from '../presentational/RoomFinder';
 
-class RoomFinder extends React.Component {
-  static propTypes = {
-    // redux
-    isVisible: PropTypes.bool.isRequired,
-    onHide: PropTypes.func.isRequired,
+const mapStateToProps = (state, { match }) => {
+  const user = userFromMatch(match);
 
-    // react-router
-    user: PropTypes.string.isRequired,
-    setUser: PropTypes.func.isRequired,
-  }
+  return {
+    key: user,
+    user,
+    isVisible: state.isRoomFinderVisible,
+  };
+};
 
-  componentWillMount() {
-    const { isVisible, user, onHide } = this.props;
-
-    if (isVisible && users.byId[user].type !== 'r') {
-      // We are not currently viewing a room, so just hide.
-      onHide();
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { isVisible, user, onHide } = nextProps;
-
-    if (isVisible && users.byId[user].type !== 'r') {
-      // We are not currently viewing a room, so just hide.
-      onHide();
-    }
-  }
-
-  changeRoom(change) {
-    const { user, setUser } = this.props;
-    const { allRoomIds } = users;
-
-    const currentRoom = user;
-    const currentRoomIndex = allRoomIds.indexOf(currentRoom);
-    let nextRoomIndex = currentRoomIndex + change;
-    if (nextRoomIndex < 0) {
-      nextRoomIndex = allRoomIds.length - 1;
-    } else if (nextRoomIndex > allRoomIds.length - 1) {
-      nextRoomIndex = 0;
-    }
-
-    const nextRoom = allRoomIds[nextRoomIndex];
-    setUser(nextRoom);
-  }
-
-  render() {
-    const { isVisible, onHide } = this.props;
-    if (!isVisible) {
-      return <div />;
-    }
-
-    return (
-      <div className="RoomFinder">
-        <Button onClick={() => this.changeRoom(-1)}>
-          Vorige
-        </Button>
-        <Button onClick={() => this.changeRoom(+1)}>
-          Volgende
-        </Button>
-        <div className="grow" />
-        <Button
-          className="closeButton"
-          onClick={onHide}
-        >
-          <ButtonIcon use="close" />
-        </Button>
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = (state, { match }) => ({
-  user: userFromMatch(match),
-  isVisible: state.isRoomFinderVisible,
-});
-
-const mapDispatchToProps = (dispatch, { history }) => ({
-  setUser: makeSetUser(history),
+const mapDispatchToProps = dispatch => ({
+  shiftRoom: shift => dispatch(shiftRoom(shift)),
   onHide: () => dispatch({ type: 'ROOM_FINDER/HIDE' }),
 });
 
