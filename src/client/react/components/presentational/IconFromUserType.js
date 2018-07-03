@@ -48,11 +48,11 @@ class IconFromUserType extends React.Component {
       case 'r':
         return <RoomIcon />;
       default:
-        if (defaultIcon) {
-          return defaultIcon;
+        if (!defaultIcon) {
+          throw new Error('`userType` was invalid or not given, but `defaultIcon` is not defined.');
         }
 
-        throw new Error('`userType` was invalid or not given, but `defaultIcon` is not defined.');
+        return defaultIcon;
     }
   }
 }
