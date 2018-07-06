@@ -30,7 +30,7 @@ const DEFAULT_STATE = {
 
 const schedule = (state = {}, action) => {
   switch (action.type) {
-    case 'VIEW/FETCH_SCHEDULE_REQUEST':
+    case 'VIEW/FETCH_SCHEDULE_START':
       return {
         ...state,
         state: 'FETCHING',
@@ -103,7 +103,7 @@ function reducer(state = DEFAULT_STATE, action) {
         isRoomFinderVisible: false,
       };
 
-    case 'VIEW/FETCH_SCHEDULE_REQUEST':
+    case 'VIEW/FETCH_SCHEDULE_START':
     case 'VIEW/FETCH_SCHEDULE_SUCCESS':
       return {
         ...state,

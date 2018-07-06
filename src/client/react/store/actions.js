@@ -4,6 +4,7 @@ import users from '../users';
 import { selectUser, selectWeek, selectCurrentWeek } from './selectors';
 import purifyWeek from '../lib/purifyWeek';
 import withinRange from '../lib/withinRange';
+import extractSchedule from '../lib/extractSchedule';
 
 function updatePathname(pathname = '') {
   return (dispatch, getState) => {
@@ -81,5 +82,46 @@ export function showRoomFinder() {
     }
 
     dispatch({ type: 'ROOM_FINDER/SHOW' });
+  };
+}
+
+const fetchScheduleStart = (user, week) => ({
+  type: 'VIEW/FETCH_SCHEDULE_START', user, week,
+});
+
+const fetchScheduleSuccess = (user, week, htmlStr) => ({
+  type: 'VIEW/FETCH_SCHEDULE_SUCCESS', user, week, htmlStr,
+});
+
+const fetchScheduleError = (user, week) => ({
+  type: 'VIEW/FETCH_SCHEDULE_ERROR', user, week,
+});
+
+
+export function fetchScheduleIfNeeded(user, week) {
+  return (dispatch, getState) => {
+    const { schedules } = getState();
+    const schedule = extractSchedule(schedules, user, week);
+
+    if (schedule.state !== 'NOT_REQUESTED') {
+      return;
+    }
+
+    dispatch(fetchScheduleStart(user, week));
+
+    fetch(`/get/${user}?week=${week}`)
+      .then(r => r.text())
+      .then(
+      // success
+        (htmlStr) => {
+          dispatch(fetchScheduleSuccess(user, week, htmlStr));
+        },
+
+        // error
+        () => {
+          // TODO: Handle error status
+          dispatch(fetchScheduleError(user, week));
+        },
+      );
   };
 }

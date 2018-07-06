@@ -26,6 +26,7 @@ import extractSchedule from '../../lib/extractSchedule';
 
 import Schedule from '../presentational/Schedule';
 import Loading from '../presentational/Loading';
+import * as actions from '../../store/actions';
 
 class View extends React.Component {
   static propTypes = {
@@ -33,51 +34,15 @@ class View extends React.Component {
       state: PropTypes.string.isRequired,
       htmlStr: PropTypes.string,
     })).isRequired,
-
-    // react-router
     user: PropTypes.string.isRequired,
     week: PropTypes.number.isRequired,
 
-    // redux
-    dispatch: PropTypes.func.isRequired,
+    fetchScheduleIfNeeded: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
-    this.fetchScheduleIfNeeded();
-  }
-
-  fetchScheduleIfNeeded() {
-    const {
-      user,
-      week,
-      schedules,
-      dispatch,
-    } = this.props;
-
-    const schedule = extractSchedule(schedules, user, week);
-
-    if (schedule.state === 'NOT_REQUESTED') {
-      fetch(`/get/${user}?week=${week}`).then(r => r.text()).then(
-        // success
-        (htmlStr) => {
-          dispatch({
-            type: 'VIEW/FETCH_SCHEDULE_SUCCESS',
-            user,
-            week,
-            htmlStr,
-          });
-        },
-
-        // error
-        () => {
-          dispatch({
-            type: 'VIEW/FETCH_SCHEDULE_FAILURE',
-            week,
-            user,
-          });
-        },
-      );
-    }
+    const { fetchScheduleIfNeeded, user, week } = this.props;
+    fetchScheduleIfNeeded(user, week);
   }
 
   render() {
@@ -112,4 +77,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(View);
+const mapDispatchToProps = dispatch => ({
+  fetchScheduleIfNeeded: (user, week) => (
+    dispatch(actions.fetchScheduleIfNeeded(user, week))
+  ),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(View);
