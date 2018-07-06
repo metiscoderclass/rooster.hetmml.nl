@@ -24,12 +24,17 @@ import './ScheduleErrorDisplay.scss';
 
 class ScheduleErrorDisplay extends React.Component {
   static propTypes = {
-    statusCode: PropTypes.string.isRequired,
+    statusCode: PropTypes.string,
   };
+
+  static defaultProps = {
+    statusCode: null,
+  }
 
   render() {
     const { statusCode } = this.props;
     const errorMessage = (
+      // statusCode might be null!
       statusCode === 404
         ? 'Sorry, er is (nog) geen rooster voor deze week.'
         : 'Sorry, er is iets mis gegaan tijdens het laden van deze week.'
