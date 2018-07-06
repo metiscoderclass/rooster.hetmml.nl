@@ -39,26 +39,15 @@ describe('reducers', () => {
     deepFreeze(DEFAULT_STATE);
   });
 
-  describe('SEARCH/SET_USER', () => {
-    it('Resets the search state if the user is null', () => {
+  describe('SEARCH/RESET', () => {
+    it('Resets the search state', () => {
       const prevState = { search: { foo: 'bar' } };
-      const action = { type: 'SEARCH/SET_USER', user: null };
+      const action = { type: 'SEARCH/RESET', user: null };
 
       deepFreeze([prevState, action]);
 
       expect(reducer(prevState, action)).toEqual({
-        search: DEFAULT_STATE.search,
-      });
-    });
-
-    it('Sets all the values of that user properly', () => {
-      expect(reducer(undefined, { type: 'SEARCH/SET_USER', user: 's/18561' })).toEqual({
-        ...DEFAULT_STATE,
-        search: {
-          results: [],
-          text: '18561',
-          selected: 's/18561',
-        },
+        search: null,
       });
     });
   });
@@ -108,7 +97,7 @@ describe('reducers', () => {
   });
 
   describe('SEARCH/CHANGE_SELECTED_RESULT', () => {
-    describe('State has no results', () => {
+    describe('State is empty', () => {
       it('Does nothing', () => {
         const actionPlus = { type: 'SEARCH/CHANGE_SELECTED_RESULT', relativeChange: +1 };
         const actionMin = { type: 'SEARCH/CHANGE_SELECTED_RESULT', relativeChange: -1 };
@@ -119,6 +108,22 @@ describe('reducers', () => {
         const nextStateMin = reducer(DEFAULT_STATE, actionMin);
         expect(nextStatePlus).toEqual(DEFAULT_STATE);
         expect(nextStateMin).toEqual(DEFAULT_STATE);
+      });
+    });
+
+    describe('State has no results', () => {
+      it('Does nothing', () => {
+        const state = { ...DEFAULT_STATE, search: { results: [] } };
+
+        const actionPlus = { type: 'SEARCH/CHANGE_SELECTED_RESULT', relativeChange: +1 };
+        const actionMin = { type: 'SEARCH/CHANGE_SELECTED_RESULT', relativeChange: -1 };
+
+        deepFreeze([actionPlus, actionMin]);
+
+        const nextStatePlus = reducer(state, actionPlus);
+        const nextStateMin = reducer(state, actionMin);
+        expect(nextStatePlus).toEqual(state);
+        expect(nextStateMin).toEqual(state);
       });
     });
 

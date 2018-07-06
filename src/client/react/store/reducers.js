@@ -19,15 +19,10 @@
  */
 
 import getSearchResults from '../lib/getSearchResults';
-import users from '../users';
 import withinRange from '../lib/withinRange';
 
 const DEFAULT_STATE = {
-  search: {
-    results: [],
-    text: '',
-    selected: null,
-  },
+  search: null,
   isRoomFinderVisible: false,
   schedules: {},
 };
@@ -52,23 +47,10 @@ const schedule = (state = {}, action) => {
 
 function reducer(state = DEFAULT_STATE, action) {
   switch (action.type) {
-    case 'SEARCH/SET_USER': {
-      const { user } = action;
-
-      if (user == null) {
-        return {
-          ...state,
-          search: DEFAULT_STATE.search,
-        };
-      }
-
+    case 'SEARCH/RESET': {
       return {
         ...state,
-        search: {
-          results: [],
-          text: users.byId[user].value,
-          selected: user,
-        },
+        search: null,
       };
     }
 
@@ -86,7 +68,7 @@ function reducer(state = DEFAULT_STATE, action) {
     }
 
     case 'SEARCH/CHANGE_SELECTED_RESULT': {
-      if (state.search.results.length === 0) {
+      if (!state.search || state.search.results.length === 0) {
         return state;
       }
 

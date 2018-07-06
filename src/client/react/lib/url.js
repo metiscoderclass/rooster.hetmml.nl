@@ -74,7 +74,11 @@ export function makeSetWeek(history) {
 export function makeUpdatePathname(history) {
   return function updatePathname(pathname) {
     const query = history.location.search;
-    history.push(`/${pathname}${query}`);
+    if (pathname) {
+      history.push(`/${pathname}${query}`);
+    } else {
+      history.push(`/${query}`);
+    }
   };
 }
 

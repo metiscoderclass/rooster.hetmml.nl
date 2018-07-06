@@ -19,27 +19,17 @@
  */
 
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-
-import users from '../../users';
-import { userFromMatch } from '../../lib/url';
 import { setUser } from '../../store/actions';
 
 import Results from '../presentational/Results';
 
-const mapStateToProps = (state, { match }) => {
-  const user = userFromMatch(match);
-  const searchText = state.search.text;
-
-  return {
-    isExactMatch: user != null && searchText === users.byId[user].value,
-    results: state.search.results,
-    selectedResult: state.search.selected,
-  };
-};
+const mapStateToProps = state => ({
+  results: state.search ? state.search.results : undefined,
+  selectedResult: state.search && state.search.selected,
+});
 
 const mapDispatchToProps = dispatch => ({
   setUser: user => dispatch(setUser(user)),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Results));
+export default connect(mapStateToProps, mapDispatchToProps)(Results);

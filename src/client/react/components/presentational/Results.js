@@ -27,34 +27,35 @@ import './Results.scss';
 
 class Results extends React.Component {
   static propTypes = {
-    results: PropTypes.arrayOf(PropTypes.string).isRequired,
+    results: PropTypes.arrayOf(PropTypes.string),
     selectedResult: PropTypes.string,
-    isExactMatch: PropTypes.bool.isRequired,
     setUser: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     selectedResult: null,
+    results: [],
   };
 
   render() {
     const {
       results,
       selectedResult,
-      isExactMatch,
       setUser,
     } = this.props;
+
+    const hasResults = results.length > 0;
 
     return (
       <div
         className={classnames('Results', {
-          hasResults: !isExactMatch && results.length > 0,
+          hasResults,
         })}
         style={{
-          minHeight: isExactMatch ? 0 : results.length * 54,
+          minHeight: hasResults ? results.length * 54 : 0,
         }}
       >
-        {!isExactMatch && results.map(userId => (
+        {results.map(userId => (
           <Result
             key={userId}
             userId={userId}

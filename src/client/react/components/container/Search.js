@@ -28,21 +28,32 @@ import users from '../../users';
 
 const mapStateToProps = (state, { location }) => {
   const currentUser = userFromLocation(location);
-  const searchText = state.search.text;
-  const isExactMatch = currentUser != null && searchText === users.byId[currentUser].value;
+  const selectedUser = state.search && state.search.selected;
+  let searchText;
+  let isExactMatch;
+
+  if (state.search) {
+    searchText = state.search.text;
+    isExactMatch = false;
+  } else if (currentUser) {
+    searchText = users.byId[currentUser].value;
+    isExactMatch = true;
+  } else {
+    searchText = '';
+    isExactMatch = false;
+  }
 
   return {
     currentUser,
+    selectedUser,
+    searchText,
     isExactMatch,
-    selectedUser: state.search.selected,
-    results: state.search.results,
-    searchText: state.search.text,
   };
 };
 
 const mapDispatchToProps = dispatch => ({
   setUser: user => dispatch(setUserAction(user)),
-  onInputChange: searchText => dispatch({
+  changeInput: searchText => dispatch({
     type: 'SEARCH/INPUT_CHANGE',
     searchText,
   }),

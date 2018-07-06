@@ -37,8 +37,9 @@ class Search extends React.Component {
     selectedUser: PropTypes.string,
     searchText: PropTypes.string.isRequired,
     isExactMatch: PropTypes.bool.isRequired,
-    onInputChange: PropTypes.func.isRequired,
+
     setUser: PropTypes.func.isRequired,
+    changeInput: PropTypes.func.isRequired,
     changeSelectedUser: PropTypes.func.isRequired,
   };
 
@@ -106,9 +107,9 @@ class Search extends React.Component {
   render() {
     const {
       searchText,
-      selectedUser,
+      currentUser,
       isExactMatch,
-      onInputChange,
+      changeInput,
     } = this.props;
 
     const {
@@ -121,13 +122,13 @@ class Search extends React.Component {
           <div className="inputWrapper">
             <div className="iconWrapper">
               <IconFromUserType
-                userType={isExactMatch ? users.byId[selectedUser].type : null}
+                userType={isExactMatch ? users.byId[currentUser].type : null}
                 defaultIcon={<SearchIcon />}
               />
             </div>
             <input
               id="searchInput"
-              onChange={event => onInputChange(event.target.value)}
+              onChange={event => changeInput(event.target.value)}
               onKeyDown={event => this.handleKeyDown(event)}
               value={searchText}
               placeholder="Zoeken"
