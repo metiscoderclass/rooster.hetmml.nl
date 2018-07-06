@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "start": "node ./src/server/bin/www",
+    "dev": "npm start & npm run build:dev",
     "build": "webpack -p",
     "build:dev": "webpack -wd",
     "test": "jest",
