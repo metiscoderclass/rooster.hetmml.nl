@@ -14,7 +14,7 @@ for production, run `npm run build`. To start the server simply run
 
 This means that you probably want to open two terminal windows, in one which
 you run run `npm run build:dev`, and in another you run `npm start`.
-Alternativly, you can run `npm run dev` to run the `start` and `build:dev`
+Alternatively, you can run `npm run dev` to run the `start` and `build:dev`
 scripts at the same time.
 
 ## BrowserStack
