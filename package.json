@@ -25,6 +25,7 @@
     "cheerio": "^0.22.0",
     "classnames": "^2.2.5",
     "compression": "^1.6.2",
+    "connected-react-router": "^4.3.0",
     "dompurify": "^1.0.3",
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",

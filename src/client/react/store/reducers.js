@@ -22,6 +22,7 @@ import getSearchResults from '../lib/getSearchResults';
 import withinRange from '../lib/withinRange';
 
 const DEFAULT_STATE = {
+  timestamp: Date.now(),
   search: null,
   isRoomFinderVisible: false,
   schedules: {},

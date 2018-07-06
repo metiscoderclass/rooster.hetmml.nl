@@ -71,17 +71,6 @@ export function makeSetWeek(history) {
   };
 }
 
-export function makeUpdatePathname(history) {
-  return function updatePathname(pathname) {
-    const query = history.location.search;
-    if (pathname) {
-      history.push(`/${pathname}${query}`);
-    } else {
-      history.push(`/${query}`);
-    }
-  };
-}
-
 export function makeUpdateQuery(history) {
   return function updateQuery(newQuery) {
     const query = queryString.stringify({

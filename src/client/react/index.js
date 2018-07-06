@@ -24,12 +24,12 @@ import 'whatwg-fetch';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware, compose as reduxCompose } from 'redux';
+import { connectRouter, routerMiddleware } from 'connected-react-router';
 import thunk from 'redux-thunk';
 import moment from 'moment';
 
 import createHistory from 'history/createBrowserHistory';
 
-import makeGetHistory from './lib/getHistory';
 import reducer from './store/reducers';
 import App from './App';
 import './index.scss';
@@ -43,14 +43,14 @@ const history = createHistory();
 const compose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || reduxCompose;
 
 const store = createStore(
-  reducer,
+  connectRouter(history)(reducer),
   // Redux devtools extension
   // https://github.com/zalmoxisus/redux-devtools-extension
   compose(
-    applyMiddleware(thunk.withExtraArgument({
-      getHistory: makeGetHistory(history),
-      moment,
-    })),
+    applyMiddleware(
+      routerMiddleware(history),
+      thunk,
+    ),
   ),
 );
 

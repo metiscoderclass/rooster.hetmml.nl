@@ -1,19 +1,40 @@
+import { push } from 'connected-react-router';
+import queryString from 'query-string';
 import users from '../users';
+import { selectUser, selectWeek, selectCurrentWeek } from './selectors';
 import purifyWeek from '../lib/purifyWeek';
 import withinRange from '../lib/withinRange';
 
-export function setUser(newUser) {
-  return (dispatch, getState, { getHistory }) => {
-    const { updatePathname } = getHistory();
+function updatePathname(pathname = '') {
+  return (dispatch, getState) => {
+    const query = getState().router.location.search;
+    dispatch(push(`/${pathname}${query}`));
+  };
+}
 
+function updateQuery(newQuery) {
+  return (dispatch, getState) => {
+    const { location } = getState().router;
+    const query = queryString.stringify({
+      ...queryString.parse(location.search),
+      ...newQuery,
+    });
+
+    dispatch(push(`${location.pathname}?${query}`));
+  };
+}
+
+export function setUser(newUser) {
+  return (dispatch) => {
     dispatch({ type: 'SEARCH/RESET' });
-    updatePathname(newUser);
+    dispatch(updatePathname(newUser));
   };
 }
 
 export function shiftRoom(shift) {
-  return (dispatch, getState, { getHistory }) => {
-    const { user } = getHistory();
+  return (dispatch, getState) => {
+    const state = getState();
+    const user = selectUser(state);
     const { allRoomIds } = users;
 
     if (users.byId[user].type !== 'r') throw new Error('User must be a room');
@@ -31,27 +52,28 @@ export function shiftRoom(shift) {
 }
 
 export function setWeek(newWeek) {
-  return (dispatch, getState, { getHistory, moment }) => {
-    const { updateQuery } = getHistory();
+  return (dispatch, getState) => {
+    const state = getState();
+    const isCurrentWeek = selectCurrentWeek(state) === newWeek;
 
-    const isCurrentWeek = moment().week() === newWeek;
-
-    updateQuery({
+    dispatch(updateQuery({
       week: isCurrentWeek ? undefined : newWeek,
-    });
+    }));
   };
 }
 
 export function shiftWeek(shift) {
-  return (dispatch, getState, { getHistory }) => {
-    const { week } = getHistory();
+  return (dispatch, getState) => {
+    const state = getState();
+    const week = selectWeek(state);
     dispatch(setWeek(purifyWeek(week + shift)));
   };
 }
 
 export function showRoomFinder() {
-  return (dispatch, getState, { getHistory }) => {
-    const { user } = getHistory();
+  return (dispatch, getState) => {
+    const state = getState();
+    const user = selectUser(state);
 
     if (user == null || users.byId[user].type !== 'r') {
       // We are not currently viewing a room, correct the situation.
