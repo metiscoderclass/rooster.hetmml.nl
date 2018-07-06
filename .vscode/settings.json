@@ -23,11 +23,4 @@
     "rmwc",
     "unmount"
   ],
-
-  // Licenser
-  "licenser.projectName": "rooster.hetmml.nl",
-  "licenser.license": "GPLv3",
-  "licenser.author": "Noah Loomans",
-  "licenser.useSingleLineStyle": false,
-  "eslint.workingDirectories": [ "./src" ],
 }
