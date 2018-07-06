@@ -27,6 +27,7 @@
     "compression": "^1.6.2",
     "connected-react-router": "^4.3.0",
     "dompurify": "^1.0.3",
+    "eslint-plugin-notice": "^0.7.7",
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
     "fuzzy-search": "^2.0.1",
