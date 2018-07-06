@@ -25,9 +25,9 @@ import { Redirect } from 'react-router-dom';
 import { Elevation } from 'rmwc/Elevation';
 import Search from '../container/Search';
 import View from '../container/View';
-import { userFromMatch } from '../../lib/url';
 import WeekSelector from '../container/WeekSelector';
 import RoomFinder from '../container/RoomFinder';
+import { selectUser } from '../../store/selectors';
 
 import './User.scss';
 
@@ -70,8 +70,8 @@ class UserPage extends React.Component {
   }
 }
 
-const mapStateToProps = (state, { match }) => ({
-  user: userFromMatch(match),
+const mapStateToProps = state => ({
+  user: selectUser(state),
 });
 
 export default connect(mapStateToProps)(UserPage);

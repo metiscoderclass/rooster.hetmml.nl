@@ -19,14 +19,13 @@
  */
 
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import { shiftRoom } from '../../store/actions';
-import { userFromMatch } from '../../lib/url';
+import { selectUser } from '../../store/selectors';
 
 import RoomFinder from '../presentational/RoomFinder';
 
-const mapStateToProps = (state, { match }) => {
-  const user = userFromMatch(match);
+const mapStateToProps = (state) => {
+  const user = selectUser(state);
 
   return {
     key: user,
@@ -40,4 +39,4 @@ const mapDispatchToProps = dispatch => ({
   onHide: () => dispatch({ type: 'ROOM_FINDER/HIDE' }),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RoomFinder));
+export default connect(mapStateToProps, mapDispatchToProps)(RoomFinder);

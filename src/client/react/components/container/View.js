@@ -21,9 +21,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-
-import { userFromMatch, weekFromLocation } from '../../lib/url';
+import { selectUser, selectWeek } from '../../store/selectors';
 import extractSchedule from '../../lib/extractSchedule';
 
 import Schedule from '../presentational/Schedule';
@@ -37,8 +35,8 @@ class View extends React.Component {
     })).isRequired,
 
     // react-router
-    match: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired,
+    user: PropTypes.string.isRequired,
+    week: PropTypes.number.isRequired,
 
     // redux
     dispatch: PropTypes.func.isRequired,
@@ -48,20 +46,14 @@ class View extends React.Component {
     this.fetchScheduleIfNeeded();
   }
 
-  componentDidUpdate() {
-    this.fetchScheduleIfNeeded();
-  }
-
   fetchScheduleIfNeeded() {
     const {
+      user,
+      week,
       schedules,
-      match,
-      location,
       dispatch,
     } = this.props;
 
-    const user = userFromMatch(match);
-    const week = weekFromLocation(location);
     const schedule = extractSchedule(schedules, user, week);
 
     if (schedule.state === 'NOT_REQUESTED') {
@@ -90,13 +82,11 @@ class View extends React.Component {
 
   render() {
     const {
+      user,
+      week,
       schedules,
-      match,
-      location,
     } = this.props;
 
-    const user = userFromMatch(match);
-    const week = weekFromLocation(location);
     const schedule = extractSchedule(schedules, user, week);
 
     switch (schedule.state) {
@@ -111,8 +101,15 @@ class View extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  schedules: state.schedules,
-});
+const mapStateToProps = (state) => {
+  const user = selectUser(state);
+  const week = selectWeek(state);
+  return {
+    key: `${user}:${week}`,
+    user,
+    week,
+    schedules: state.schedules,
+  };
+};
 
-export default withRouter(connect(mapStateToProps)(View));
+export default connect(mapStateToProps)(View);

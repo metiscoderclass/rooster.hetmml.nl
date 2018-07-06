@@ -1,5 +1,6 @@
 import moment from 'moment';
 import queryString from 'query-string';
+import isNaN from 'lodash/isNaN';
 import purifyWeek from '../lib/purifyWeek';
 import users from '../users';
 
@@ -21,8 +22,9 @@ export function selectCurrentWeek(store) {
 export function selectWeek(store) {
   const { location } = store.router;
   const weekStr = queryString.parse(location.search).week;
+  const week = parseInt(weekStr, 10);
 
-  if (!weekStr) {
+  if (isNaN(week)) {
     return selectCurrentWeek(store);
   }
 

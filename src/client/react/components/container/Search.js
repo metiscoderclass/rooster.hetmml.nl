@@ -20,14 +20,13 @@
 
 
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import Search from '../presentational/Search';
 import { setUser as setUserAction } from '../../store/actions';
-import { userFromLocation } from '../../lib/url';
 import users from '../../users';
+import { selectUser } from '../../store/selectors';
 
-const mapStateToProps = (state, { location }) => {
-  const currentUser = userFromLocation(location);
+const mapStateToProps = (state) => {
+  const currentUser = selectUser(state);
   const selectedUser = state.search && state.search.selected;
   let searchText;
   let isExactMatch;
@@ -63,4 +62,4 @@ const mapDispatchToProps = dispatch => ({
   }),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Search));
+export default connect(mapStateToProps, mapDispatchToProps)(Search);
