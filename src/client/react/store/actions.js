@@ -5,6 +5,7 @@ import { selectUser, selectWeek, selectCurrentWeek } from './selectors';
 import purifyWeek from '../lib/purifyWeek';
 import withinRange from '../lib/withinRange';
 import extractSchedule from '../lib/extractSchedule';
+import rejectIfBadStatus from '../lib/rejectIfBadStatus';
 
 function updatePathname(pathname = '') {
   return (dispatch, getState) => {
@@ -93,8 +94,8 @@ const fetchScheduleSuccess = (user, week, htmlStr) => ({
   type: 'VIEW/FETCH_SCHEDULE_SUCCESS', user, week, htmlStr,
 });
 
-const fetchScheduleError = (user, week) => ({
-  type: 'VIEW/FETCH_SCHEDULE_ERROR', user, week,
+const fetchScheduleError = (user, week, statusCode) => ({
+  type: 'VIEW/FETCH_SCHEDULE_ERROR', user, week, statusCode,
 });
 
 
@@ -110,17 +111,18 @@ export function fetchScheduleIfNeeded(user, week) {
     dispatch(fetchScheduleStart(user, week));
 
     fetch(`/get/${user}?week=${week}`)
+      .then(rejectIfBadStatus)
       .then(r => r.text())
       .then(
-      // success
+        // success
         (htmlStr) => {
           dispatch(fetchScheduleSuccess(user, week, htmlStr));
         },
 
         // error
-        () => {
+        (statusCode) => {
           // TODO: Handle error status
-          dispatch(fetchScheduleError(user, week));
+          dispatch(fetchScheduleError(user, week, statusCode));
         },
       );
   };

@@ -38,8 +38,11 @@ class Schedule extends React.Component {
     this.updateScaling();
   }
 
-  componentDidUpdate() {
-    this.updateScaling();
+  componentDidUpdate(prevProps) {
+    const { htmlStr } = this.props;
+    if (prevProps.htmlStr !== htmlStr) {
+      this.updateScaling();
+    }
   }
 
   componentWillUnmount() {

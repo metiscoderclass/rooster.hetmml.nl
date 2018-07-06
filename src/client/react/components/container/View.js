@@ -26,6 +26,7 @@ import extractSchedule from '../../lib/extractSchedule';
 
 import Schedule from '../presentational/Schedule';
 import Loading from '../presentational/Loading';
+import ScheduleErrorDisplay from '../presentational/ScheduleErrorDisplay';
 import * as actions from '../../store/actions';
 
 class View extends React.Component {
@@ -45,6 +46,14 @@ class View extends React.Component {
     fetchScheduleIfNeeded(user, week);
   }
 
+  componentDidUpdate(prevProps) {
+    const { fetchScheduleIfNeeded, user, week } = this.props;
+
+    if (prevProps.user !== user || prevProps.week !== week) {
+      fetchScheduleIfNeeded(user, week);
+    }
+  }
+
   render() {
     const {
       user,
@@ -60,6 +69,8 @@ class View extends React.Component {
         return <Loading />;
       case 'FINISHED':
         return <Schedule htmlStr={schedule.htmlStr} />;
+      case 'ERROR':
+        return <ScheduleErrorDisplay error={schedule.error} />;
       default:
         throw new Error(`${schedule.state} is not a valid schedule state.`);
     }
@@ -70,7 +81,6 @@ const mapStateToProps = (state) => {
   const user = selectUser(state);
   const week = selectWeek(state);
   return {
-    key: `${user}:${week}`,
     user,
     week,
     schedules: state.schedules,

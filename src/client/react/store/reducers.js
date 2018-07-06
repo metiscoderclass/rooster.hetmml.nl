@@ -30,17 +30,25 @@ const DEFAULT_STATE = {
 
 const schedule = (state = {}, action) => {
   switch (action.type) {
-    case 'VIEW/FETCH_SCHEDULE_START':
+    case 'VIEW/FETCH_SCHEDULE_START': {
       return {
-        ...state,
         state: 'FETCHING',
       };
-    case 'VIEW/FETCH_SCHEDULE_SUCCESS':
+    }
+    case 'VIEW/FETCH_SCHEDULE_SUCCESS': {
       return {
-        ...state,
         state: 'FINISHED',
         htmlStr: action.htmlStr,
       };
+    }
+    case 'VIEW/FETCH_SCHEDULE_ERROR': {
+      const { statusCode } = action;
+
+      return {
+        state: 'ERROR',
+        statusCode,
+      };
+    }
     default:
       return state;
   }
@@ -105,6 +113,7 @@ function reducer(state = DEFAULT_STATE, action) {
 
     case 'VIEW/FETCH_SCHEDULE_START':
     case 'VIEW/FETCH_SCHEDULE_SUCCESS':
+    case 'VIEW/FETCH_SCHEDULE_ERROR':
       return {
         ...state,
         schedules: {
