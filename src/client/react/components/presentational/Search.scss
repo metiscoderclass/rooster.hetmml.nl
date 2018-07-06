@@ -32,6 +32,7 @@
         background-color: transparent;
         flex-grow: 1;
         height: inherit;
+        width: 0; // Ensure that input doesn't overflow on small screens.
         padding: 16px;
         padding-left: 0px;
         font-size: 16px;
