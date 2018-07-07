@@ -38,6 +38,7 @@
     "lodash": "^4.15.0",
     "moment": "^2.20.1",
     "morgan": "^1.9.0",
+    "pg": "^7.4.3",
     "promise-debounce": "^1.0.1",
     "prop-types": "^15.6.0",
     "query-string": "^6.1.0",

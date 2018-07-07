@@ -22,10 +22,10 @@ const express = require('express');
 
 const router = express.Router();
 
-const getScheduleData = require('../lib/schools/hetmml/getScheduleData');
-const getURLOfUser = require('../lib/schools/hetmml/getURLOfUser');
-const axios = require('../lib/schools/hetmml/axios');
-const parseSchedule = require('../lib/schools/hetmml/parseSchedule');
+const { getUsers } = require('../../shared/lib/db');
+const getURLOfUser = require('../../shared/lib/getURLOfUser');
+const axios = require('../../shared/lib/axios');
+const parseSchedule = require('../lib/parseSchedule');
 
 // copied from http://www.meetingpointmco.nl/Roosters-AL/doc/dagroosters/untisscripts.js,
 // were using the same code as they do to be sure that we always get the same
@@ -46,14 +46,14 @@ function currentWeekNumber() {
   return 1 + Math.ceil((firstThursday - target) / 604800000);
 }
 
-async function getSchedule(userType, userValue, week, scheduleType = 'dag') {
-  const { users } = await getScheduleData();
+async function getSchedule(userType, userName, week, scheduleType = 'dag') {
+  const users = await getUsers();
   const user = users.filter(user_ => (
-    user_.type === userType && user_.value === userValue
+    user_.type === userType && user_.name === userName
   ))[0];
 
   if (!user) {
-    throw new Error(`${userType}/${userValue} is not in the user index.`);
+    throw new Error(`${userType}/${userName} is not in the user index.`);
   }
 
   if (!week) {

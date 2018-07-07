@@ -21,6 +21,8 @@
 import { connect } from 'react-redux';
 import HelpBox from '../presentational/HelpBox';
 
+console.log('hi');
+
 const mapStateToProps = state => ({
   isVisible: !state.search || (state.search.results.length === 0 && state.search.text === ''),
 });

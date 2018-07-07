@@ -20,7 +20,15 @@
 
 const leftPad = require('left-pad'); // I imported this just to piss you off ;)
 
-function getURLOfUser(scheduleType, type, index, week) {
+const shortTypeOf = {
+  class: 'c',
+  teacher: 't',
+  student: 's',
+  room: 'r',
+};
+
+function getURLOfUser(scheduleType, longType, index, week) {
+  const type = shortTypeOf[longType];
   return `/${scheduleType}roosters/${leftPad(week, 2, '0')}/${type}/${type}${leftPad(index + 1, 5, '0')}.htm`;
 }
 

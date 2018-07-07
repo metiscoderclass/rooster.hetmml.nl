@@ -13,10 +13,13 @@
   // Code Spell Checker
   "cSpell.language": "en,nl",
   "cSpell.words": [
+    "PGDATABASE",
     "decrementing",
     "devtools",
     "dompurify",
     "hetmml",
+    "meetingpoint",
+    "meetingpointmco",
     "metis",
     "polyfill",
     "presentational",

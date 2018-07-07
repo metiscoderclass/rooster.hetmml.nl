@@ -21,31 +21,13 @@
 const express = require('express');
 
 const router = express.Router();
-const getScheduleData = require('../lib/schools/hetmml/getScheduleData');
+const { getUsers } = require('../../shared/lib/db');
 
 /* GET home page. */
-router.get(['/', '/s/*', '/t/*', '/r/*', '/c/*'], (req, res) => {
-  getScheduleData().then(({ users, dailyScheduleWeeks, basisScheduleWeeks }) => {
-    const isBeta = process.env.BETA === '1';
-
-    const flags = [];
-    if (isBeta) {
-      flags.push('BETA');
-      flags.push('NO_FEATURE_DETECT');
-    } else if (req.query.nfd != null) {
-      flags.push('NO_FEATURE_DETECT');
-    }
-
-    const flagsStr = `var FLAGS = ${JSON.stringify(flags)};`;
-    const usersStr = `var USERS = ${JSON.stringify(users)};`;
-    const dailyScheduleWeeksStr = `var DAGROOSTER_WEEKS = ${JSON.stringify(dailyScheduleWeeks)}`;
-    const basisScheduleWeeksStr = `var BASISROOSTER_WEEKS = ${JSON.stringify(basisScheduleWeeks)}`;
-
+router.get(['/', '/student/*', '/teacher/*', '/room/*', '/class/*'], (req, res) => {
+  getUsers().then((users) => {
     res.render('index', {
-      flagsStr,
-      usersStr,
-      dailyScheduleWeeksStr,
-      basisScheduleWeeksStr,
+      usersStr: JSON.stringify(users),
     });
   });
   // .catch(() => {
