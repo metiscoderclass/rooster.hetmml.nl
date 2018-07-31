@@ -46,7 +46,11 @@ self._handleError = function (event) {
 
 self._getURLOfUsers = function (week, type, index) {
   const id = index + 1
-  return '//' + window.location.host + '/meetingpointProxy/Roosters-AL%2Fdoc%2Fdagroosters%2F' +
+  const meetingpointProxyUrl = process.env.SCHOOL_LEVEL === 'mavo'
+    ? '/meetingpointProxy/Roosters-AL%2FTOSweb%2Fdagroosters%2F'
+    : '/meetingpointProxy/Roosters-AL%2Fdoc%2Fdagroosters%2F'
+
+  return '//' + window.location.host + meetingpointProxyUrl +
       leftPad(week, 2, '0') + '%2F' + type + '%2F' + type + leftPad(id, 5, '0') + '.htm'
 }
 

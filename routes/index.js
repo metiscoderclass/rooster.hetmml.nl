@@ -6,6 +6,10 @@ const getMeetingpointData = require('../lib/getMeetingpointData')
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
+  const baseMeetingpointUrl = process.env.SCHOOL_LEVEL === 'mavo'
+      ? 'http://www.meetingpointmco.nl/Roosters-AL/TOSweb'
+      : 'http://www.meetingpointmco.nl/Roosters-AL/doc';
+
   getMeetingpointData().then(data => {
     let flags = []
     if (req.query.nfd != null) {
@@ -15,11 +19,12 @@ router.get('/', function (req, res, next) {
     const flagsStr = `var FLAGS = ${JSON.stringify(flags)};`
     const usersStr = `var USERS = ${JSON.stringify(data.users)};`
     const validWeekNumbersStr = `var VALID_WEEK_NUMBERS = ${JSON.stringify(data.validWeekNumbers)}`
-    res.render('index', { flagsStr, usersStr, validWeekNumbersStr })
+    res.render('index', { baseMeetingpointUrl, flagsStr, usersStr, validWeekNumbersStr })
   }).catch(function () {
     console.error('Unable to get user info, emergency redirect!')
-    // res.redirect('http://www.meetingpointmco.nl/Roosters-AL/doc/')
-    res.render('redirect')
+    res.render('redirect', {
+      baseMeetingpointUrl,
+    })
   })
 })
 

@@ -5,10 +5,12 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
+    "start-mavo": "SCHOOL_LEVEL=mavo node ./bin/www",
     "setup": "npm install && bower install --allow-root",
     "build-dev": "browserify -d -t [ babelify --presets [ es2015 ] ] -e ./public/javascripts/main.js > ./public/javascripts/bundle.js",
     "watch": "watchify -v -d -t [ babelify --presets [ es2015 ] ] -e ./public/javascripts/main.js -o ./public/javascripts/bundle.js",
     "build": "browserify -t [ babelify --presets [ es2015 ] ] -e ./public/javascripts/main.js | uglifyjs -cm > ./public/javascripts/bundle.js",
+    "build-mavo": "browserify -t [ envify --SCHOOL_LEVEL mavo ] -t [ babelify --presets [ es2015 ] ] -e ./public/javascripts/main.js | uglifyjs -cm > ./public/javascripts/bundle.js",
     "postinstall": "bower install --allow-root"
   },
   "dependencies": {
@@ -21,6 +23,7 @@
     "debug": "~2.2.0",
     "diacritics": "^1.2.3",
     "encoding": "^0.1.12",
+    "envify": "^4.1.0",
     "express": "^4.13.4",
     "flexibility": "^2.0.1",
     "fuzzy": "^0.1.1",

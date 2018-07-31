@@ -12,7 +12,11 @@ self._shouldCheck = function () {
 }
 
 self._redirect = function () {
-  window.location.href = 'http://www.meetingpointmco.nl/Roosters-AL/doc/'
+  if (process.env.SCHOOL_LEVEL === 'mavo') {
+    window.location.href = 'http://www.meetingpointmco.nl/Roosters-AL/TOSweb/'
+  } else {
+    window.location.href = 'http://www.meetingpointmco.nl/Roosters-AL/doc/'
+  }
 }
 
 self.check = function () {
