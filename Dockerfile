@@ -11,6 +11,12 @@ RUN apt-get install -y nodejs yarn
 COPY . /var/www
 WORKDIR /var/www
 
+RUN npm install
+RUN if [ "$SCHOOL_LEVEL" = "mavo" ]; \
+      then npm run build-mavo; \
+      else npm run build; \
+    fi
+
 ENV PORT=80
 ENV SCHOOL_LEVEL=$SCHOOL_LEVEL
 EXPOSE 80
