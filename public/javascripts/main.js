@@ -6,7 +6,6 @@ const schedule = require('./schedule')
 const weekSelector = require('./weekSelector')
 const favorite = require('./favorite')
 const scrollSnap = require('./scrollSnap')
-const analytics = require('./analytics')
 
 const state = {}
 
@@ -20,7 +19,6 @@ scrollSnap.startListening()
 if (favorite.get() != null) {
   state.selectedItem = favorite.get()
   favorite.update(state.selectedItem)
-  analytics.send.search(state.selectedItem, true)
   schedule.viewItem(weekSelector.getSelectedWeek(), state.selectedItem)
 } else {
   search.focus()
@@ -29,12 +27,10 @@ if (favorite.get() != null) {
 search.on('search', function (selectedItem) {
   state.selectedItem = selectedItem
   favorite.update(state.selectedItem)
-  analytics.send.search(state.selectedItem)
   schedule.viewItem(weekSelector.getSelectedWeek(), state.selectedItem)
 })
 
 weekSelector.on('weekChanged', function (newWeek) {
-  analytics.send.search(state.selectedItem)
   schedule.viewItem(newWeek, state.selectedItem)
 })
 
