@@ -4,7 +4,7 @@
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ececec",
-  "description": "Een verbeterde rooster pagina voor het metis",
+  "description": "De rooster pagina van het Metis Montessori Lyceum",
   "icons": [{
     "src": "/icons/res/mipmap-mdpi/ic_launcher.png",
     "sizes": "48x48",

@@ -19,7 +19,14 @@ router.get('/', function (req, res, next) {
     const flagsStr = `var FLAGS = ${JSON.stringify(flags)};`
     const usersStr = `var USERS = ${JSON.stringify(data.users)};`
     const validWeekNumbersStr = `var VALID_WEEK_NUMBERS = ${JSON.stringify(data.validWeekNumbers)}`
-    res.render('index', { baseMeetingpointUrl, flagsStr, usersStr, validWeekNumbersStr })
+    res.render('index', {
+      school: process.env.SCHOOL === 'kiemm' ? 'kiemm' : 'metis',
+      schoolLevel: process.env.SCHOOL_LEVEL === 'mavo' ? 'mavo' : 'havo-vwo',
+      baseMeetingpointUrl,
+      flagsStr,
+      usersStr,
+      validWeekNumbersStr
+    })
   }).catch(function () {
     console.error('Unable to get user info, emergency redirect!')
     res.render('redirect', {

@@ -11,7 +11,10 @@ block content
   form#search
     .top-bar
       .title
-        .logo
+        if school === 'kiemm'
+          .logo.logo-kiemm
+        else
+          .logo.logo-metis
         .text Rooster
       .input-wrapper
         input(type='search', placeholder='Zoeken', autocomplete='off')
@@ -20,7 +23,7 @@ block content
         span Voer hier een <strong>docentafkorting</strong>, <strong>klas</strong>, <strong>leerlingnummer</strong> of <strong>lokaalnummer</strong> in.
       button#overflow-button(type='button')
         i.material-icons &#xE5D4;
-        
+
       ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='overflow-button')
         a(href='#{baseMeetingpointUrl}/basisroosters/default.htm')
           li.mdl-menu__item Basis rooster gebruiken
@@ -35,11 +38,11 @@ block content
     #search-space-filler
     .week-wrapper
       button(type='button').material-icons &#xE5C4;
-      span.current 
+      span.current
         span.no-print Loading...
         span.print
       button(type='button').material-icons &#xE5C8;
-  
+
   #schedule
 
 block scripts
