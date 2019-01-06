@@ -4,17 +4,19 @@ html(lang='nl')
     block head_top
     if school === 'kiemm'
       title Kiemm Rooster
+      meta(name='theme-color',content='#DE403B')
+      link(rel="mask-icon", href="/safari-pinned-tab.svg", color="#000000")
     else
       title Metis Rooster
-    meta(name='theme-color',content='#F44336')
+      meta(name='theme-color',content='#F44336')
+      link(rel="mask-icon", href="/safari-pinned-tab.svg", color="#f44336")
     meta(name='viewport', content='width=device-width, initial-scale=1')
     link(href='https://fonts.googleapis.com/css?family=Roboto', rel='stylesheet')
     link(rel='manifest', href='/manifest.webmanifest')
     link(rel="apple-touch-icon", sizes="120x120", href="/apple-touch-icon.png")
     link(rel="icon", type="image/png", href="/favicon-32x32.png", sizes="32x32")
     link(rel="icon", type="image/png", href="/favicon-16x16.png", sizes="16x16")
-    link(rel="mask-icon", href="/safari-pinned-tab.svg", color="#f44336")
     block head
-  body(style='opacity: 0;')
+  body(style='opacity: 0;', class=`school-${school}`)
     block content
     block scripts

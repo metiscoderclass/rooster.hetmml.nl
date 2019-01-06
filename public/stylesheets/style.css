@@ -15,11 +15,15 @@ html, body {
 
 #search {
   z-index: 2;
-  background-color: #DE403B;
+  background-color: #F44336;
   margin: 0 auto;
   width: 100%;
   position: fixed;
   box-shadow: 0 0.5px 1.5px rgba(0, 0, 0, 0.06), 0 0.5px 1px rgba(0, 0, 0, 0.12);
+}
+
+.school-kiemm #search {
+  background-color: #DE403B;
 }
 
 #search .top-bar {
@@ -149,9 +153,13 @@ body.searched #search-space-filler {
 
 #week-selector {
   z-index: 1;
-  background-color: #DE403B;
+  background-color: #F44336;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   color: white;
+}
+
+.school-kiemm #week-selector {
+  background-color: #DE403B;
 }
 
 #week-selector .week-wrapper {
