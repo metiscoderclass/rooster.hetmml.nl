@@ -1,4 +1,5 @@
 FROM ubuntu
+ARG SCHOOL=metis
 ARG SCHOOL_LEVEL=havo-vwo
 
 RUN apt-get update
@@ -12,12 +13,20 @@ COPY . /var/www
 WORKDIR /var/www
 
 RUN npm install
-RUN if [ "$SCHOOL_LEVEL" = "mavo" ]; \
-      then npm run build-mavo; \
-      else npm run build; \
+RUN if [ "$SCHOOL" = "kiemm" ]                                      ;\
+    then if [ "$SCHOOL_LEVEL" = "mavo" ]                            ;\
+         then npm run build-kiemm                                   ;\
+         else echo "SCHOOL_LEVEL must be mavo is SCHOOL is kiemm"   ;\
+              exit 1                                                ;\
+         fi                                                         ;\
+    else if [ "$SCHOOL_LEVEL" = "mavo" ]                            ;\
+         then npm run build-mavo                                    ;\
+         else npm run build                                         ;\
+         fi                                                         ;\
     fi
 
 ENV PORT=80
+ENV SCHOOL=$SCHOOL
 ENV SCHOOL_LEVEL=$SCHOOL_LEVEL
 EXPOSE 80
 
