@@ -9,6 +9,7 @@ router.get('/', function (req, res, next) {
   const baseMeetingpointUrl = process.env.SCHOOL_LEVEL === 'mavo'
       ? 'http://www.meetingpointmco.nl/Roosters-AL/TOSweb'
       : 'http://www.meetingpointmco.nl/Roosters-AL/doc';
+  const school = process.env.SCHOOL === 'kiemm' ? 'kiemm' : 'metis';
 
   getMeetingpointData().then(data => {
     let flags = []
@@ -20,7 +21,7 @@ router.get('/', function (req, res, next) {
     const usersStr = `var USERS = ${JSON.stringify(data.users)};`
     const validWeekNumbersStr = `var VALID_WEEK_NUMBERS = ${JSON.stringify(data.validWeekNumbers)}`
     res.render('index', {
-      school: process.env.SCHOOL === 'kiemm' ? 'kiemm' : 'metis',
+      school,
       schoolLevel: process.env.SCHOOL_LEVEL === 'mavo' ? 'mavo' : 'havo-vwo',
       baseMeetingpointUrl,
       flagsStr,
@@ -30,6 +31,7 @@ router.get('/', function (req, res, next) {
   }).catch(function () {
     console.error('Unable to get user info, emergency redirect!')
     res.render('redirect', {
+      school,
       baseMeetingpointUrl,
     })
   })
