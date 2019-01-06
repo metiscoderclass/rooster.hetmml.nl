@@ -1,3 +1,10 @@
+# Build command:
+# hetmml/rooster:stable
+#   docker build . --build-arg=SCHOOL=metis --build-arg=SCHOOL_LEVEL=havo-vwo -t hetmml/rooster:stable
+# hetmml/rooster:stable-mavo
+#   docker build . --build-arg=SCHOOL=metis --build-arg=SCHOOL_LEVEL=mavo -t hetmml/rooster:stable-mavo
+# hetmml/rooster:stable-kiemm
+#   docker build . --build-arg=SCHOOL=kiemm --build-arg=SCHOOL_LEVEL=mavo -t hetmml/rooster:stable-kiemm
 FROM ubuntu
 ARG SCHOOL=metis
 ARG SCHOOL_LEVEL=havo-vwo
