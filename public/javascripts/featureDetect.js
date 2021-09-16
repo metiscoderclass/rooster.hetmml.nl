@@ -1,4 +1,6 @@
 /* global FLAGS */
+/* 16-11-2021 URL Change: http://www.meetingpointmco.nl/Roosters-AL/doc/ changed to: https://mmlrooster.msa.nl */
+/* 16-11-2021 URL Change: http://www.meetingpointmco.nl/Roosters-AL/TOSweb changed to: https://kiemmrooster.msa.nl */
 
 const self = {}
 
@@ -13,9 +15,11 @@ self._shouldCheck = function () {
 
 self._redirect = function () {
   if (process.env.SCHOOL_LEVEL === 'mavo') {
-    window.location.href = 'http://www.meetingpointmco.nl/Roosters-AL/TOSweb/'
+/*    window.location.href = 'http://www.meetingpointmco.nl/Roosters-AL/TOSweb/' */
+      window.location.href = 'https://kiemmrooster.msa.nl/'
   } else {
-    window.location.href = 'http://www.meetingpointmco.nl/Roosters-AL/doc/'
+/*    window.location.href = 'http://www.meetingpointmco.nl/Roosters-AL/doc/' */
+      window.location.href = 'https://mmlrooster.msa.nl/'
   }
 }
 
