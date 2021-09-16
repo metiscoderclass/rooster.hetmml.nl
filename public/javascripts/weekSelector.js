@@ -15,6 +15,7 @@ self._weekOffset = 0
 // copied from http://www.meetingpointmco.nl/Roosters-AL/doc/dagroosters/untisscripts.js,
 // were using the same code as they do to be sure that we always get the same
 // week number.
+// 16-11-2021 URL Change: http://www.meetingpointmco.nl/Roosters-AL/doc/ changed to: https://mmlrooster.msa.nl. No effect on this script.
 self.getCurrentWeek = function (target) {
   const dayNr = (target.getDay() + 6) % 7
   target.setDate(target.getDate() - dayNr + 3)
