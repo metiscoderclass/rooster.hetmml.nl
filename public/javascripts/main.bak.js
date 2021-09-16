@@ -1,4 +1,5 @@
 /* global ga FLAGS USERS */
+/* 16-11-2021 URL Change: http://www.meetingpointmco.nl/Roosters-AL/doc/ changed to: https://mmlrooster.msa.nl */
 
 require('flexibility')
 
@@ -21,10 +22,12 @@ const favNode = document.querySelector('.fav')
 if (FLAGS.indexOf('NO_FEATURE_DETECT') === -1) {
   if (document.querySelector('#schedule').getClientRects()[0].bottom !==
       document.body.getClientRects()[0].bottom) {
-    window.location = 'http://www.meetingpointmco.nl/Roosters-AL/doc/'
+/*    window.location = 'http://www.meetingpointmco.nl/Roosters-AL/doc/' */
+    window.location = 'https://mmlrooster.msa.nl/'
   } else {
     window.onerror = function () {
-      window.location = 'http://www.meetingpointmco.nl/Roosters-AL/doc/'
+/*      window.location = 'http://www.meetingpointmco.nl/Roosters-AL/doc/' */
+      window.location = 'https://mmlrooster.msa.nl/'
     }
   }
 } else {
