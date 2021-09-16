@@ -1,3 +1,5 @@
+/* 16-11-2021 URL Change: http://www.meetingpointmco.nl/Roosters-AL/doc/ changed to: https://mmlrooster.msa.nl */
+/* 16-11-2021 URL Change: http://www.meetingpointmco.nl/Roosters-AL/TOSweb changed to: https://kiemmrooster.msa.nl */
 'use strict'
 
 const express = require('express')
@@ -7,8 +9,10 @@ const getMeetingpointData = require('../lib/getMeetingpointData')
 /* GET home page. */
 router.get('/', function (req, res, next) {
   const baseMeetingpointUrl = process.env.SCHOOL_LEVEL === 'mavo'
-      ? 'http://www.meetingpointmco.nl/Roosters-AL/TOSweb'
-      : 'http://www.meetingpointmco.nl/Roosters-AL/doc';
+/*      ? 'http://www.meetingpointmco.nl/Roosters-AL/TOSweb' */
+      ? 'https://kiemmrooster.msa.nl'
+/*      : 'http://www.meetingpointmco.nl/Roosters-AL/doc'; */
+      : 'https://mmlrooster.msa.nl';
   const school = process.env.SCHOOL === 'kiemm' ? 'kiemm' : 'metis';
 
   getMeetingpointData().then(data => {
