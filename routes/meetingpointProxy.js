@@ -4,7 +4,10 @@ const request = require('request')
 const iconv = require('iconv-lite')
 
 router.get('/:url', function (req, res, next) {
-  const url = `http://www.meetingpointmco.nl/${req.params.url}`
+  const baseURL = process.env.SCHOOL_LEVEL === 'mavo'
+      ? 'https://kiemmrooster.msa.nl'
+      : 'https://mmlrooster.msa.nl';
+  const url = `${baseURL}/${req.params.url}`
   request(url, { encoding: null }, function (err, data) {
     if (err) {
       next(err)

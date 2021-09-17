@@ -16,10 +16,10 @@ self._shouldCheck = function () {
 self._redirect = function () {
   if (process.env.SCHOOL_LEVEL === 'mavo') {
 /*    window.location.href = 'http://www.meetingpointmco.nl/Roosters-AL/TOSweb/' */
-      window.location.href = 'https://kiemmrooster.msa.nl/'
+      window.location.href = 'https://kiemmrooster.msa.nl/dagroosters/'
   } else {
 /*    window.location.href = 'http://www.meetingpointmco.nl/Roosters-AL/doc/' */
-      window.location.href = 'https://mmlrooster.msa.nl/'
+      window.location.href = 'https://mmlrooster.msa.nl/dagroosters/'
   }
 }
 
